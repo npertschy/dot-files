@@ -5,7 +5,7 @@ return { -- LSP Configuration & Plugins
     { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
-
+    'saghen/blink.cmp',
     -- Useful status updates for LSP.
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
     --[[ { 'j-hui/fidget.nvim', opts = {} }, ]]
@@ -143,7 +143,7 @@ return { -- LSP Configuration & Plugins
     --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
     --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
 
     local mason_registry = require 'mason-registry'
     local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
@@ -185,7 +185,7 @@ return { -- LSP Configuration & Plugins
           },
         },
       },
-      ts_ls = {
+      vtsls = {
         init_options = {
           plugins = {
             {
@@ -201,6 +201,13 @@ return { -- LSP Configuration & Plugins
         filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
       },
       volar = {},
+      eslint = {
+        filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+      },
+      groovyls = {
+        cmd = { 'java', '-jar', vim.fn.stdpath 'data' .. '/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar' },
+        filetypes = { 'groovy', 'Jenkinsfile' },
+      },
     }
 
     -- Ensure the servers and tools above are installed
@@ -231,6 +238,12 @@ return { -- LSP Configuration & Plugins
           -- by the server configuration above. Useful when disabling
           -- certain features of an LSP (for example, turning off formatting for tsserver)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+          server.on_attach = function(client, bufnr)
+            require('workspace-diagnostics').populate_workspace_diagnostics(client, bufnr)
+            if server_name == 'vtsls' then
+              vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
+            end
+          end
           require('lspconfig')[server_name].setup(server)
         end,
       },
