@@ -31,6 +31,7 @@ return { -- Autoformat
       typescript = { 'prettier' },
       markdown = { 'prettier' },
       xml = { 'xmlformatter' },
+      json = { 'prettier' },
 
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },

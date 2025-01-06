@@ -1,6 +1,16 @@
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+vim.g.trouble_lualine = true
+
+vim.g.node_host_prog = vim.fn.expand '$APPDATA\\npm\\node_modules\\neovim\\bin\\cli.js'
+if vim.fn.filereadable(vim.fn.fnameescape(vim.g.node_host_prog)) then
+  vim.g.node_host_prog = vim.fn.fnameescape(vim.g.node_host_prog)
+end
+
+vim.opt.shell = 'C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe'
+vim.opt.shellcmdflag = '-c'
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -82,5 +92,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.opt.spelllang = 'en'
+vim.opt.encoding = 'utf-8'
+vim.opt.spelllang = { 'en', 'de' }
 vim.opt.spell = true
+
+vim.opt.wildmode = { 'longest:full', 'full' }
+vim.opt.termguicolors = true

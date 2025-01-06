@@ -13,6 +13,8 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>w', group = '[W]orkspace' },
       { '<leader>t', group = '[T]oggle' },
       { '<leader>h', group = 'Git [H]unk' },
+      { '[', group = 'Previous' },
+      { ']', group = 'Next' },
     }
     -- visual mode
     require('which-key').add {

@@ -1,3 +1,37 @@
+local function normalize_path(path)
+  return path:gsub('\\', '/')
+end
+
+local function normalize_cwd()
+  return normalize_path(vim.loop.cwd()) .. '/'
+end
+
+local function is_subdirectory(cwd, path)
+  return string.lower(path:sub(1, #cwd)) == string.lower(cwd)
+end
+
+local function split_filepath(path)
+  local normalized_path = normalize_path(path)
+  local normalized_cwd = normalize_cwd()
+  local filename = normalized_path:match '[^/]+$'
+
+  if is_subdirectory(normalized_cwd, normalized_path) then
+    local stripped_path = normalized_path:sub(#normalized_cwd + 1, -(#filename + 1))
+    return stripped_path, filename
+  else
+    local stripped_path = normalized_path:sub(1, -(#filename + 1))
+    return stripped_path, filename
+  end
+end
+
+local function path_display(_, path)
+  local stripped_path, filename = split_filepath(path)
+  if filename == stripped_path or stripped_path == '' then
+    return filename
+  end
+  return string.format('%s ~ %s', filename, stripped_path)
+end
+
 return { -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
@@ -18,6 +52,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
       end,
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
+    { 'nvim-telescope/telescope-frecency.nvim' },
 
     -- Useful for getting pretty icons, but requires a Nerd Font.
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -49,14 +84,26 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --  All the info you're looking for is in `:help telescope.setup()`
       --
       defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        layout_strategy = 'vertical',
+        mappings = {
+          i = {
+            -- ['<c-enter>'] = 'to_fuzzy_refine',
+            ['<C-h>'] = 'which_key',
+          },
+        },
+        -- layout_strategy = 'vertical',
         layout_config = { width = 0.75 },
-        shorten_path = true,
+        path_display = path_display,
       },
-      -- pickers = {}
+      pickers = {
+        lsp_references = {
+          trim_text = true,
+          fname_width = 60,
+        },
+        lsp_definitions = {
+          trim_text = true,
+          fname_width = 60,
+        },
+      },
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
@@ -68,6 +115,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'notify')
+    pcall(require('telescope').load_extension 'frecency')
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
@@ -79,6 +127,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+    vim.keymap.set('n', '<leader>sr', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = '[S]earch [R]ecent files' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>sm', '<cmd>Telescope notify<cr>', { desc = '[S]earch recent [m]mssages' })
 
