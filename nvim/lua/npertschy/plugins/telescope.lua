@@ -114,7 +114,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
-    pcall(require('telescope').load_extension, 'notify')
+    pcall(require('telescope').load_extension, 'noice')
     pcall(require('telescope').load_extension 'frecency')
 
     -- See `:help telescope.builtin`
@@ -129,7 +129,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = '[S]earch [R]ecent files' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-    vim.keymap.set('n', '<leader>sm', '<cmd>Telescope notify<cr>', { desc = '[S]earch recent [m]mssages' })
+    vim.keymap.set('n', '<leader>sm', '<cmd>Telescope noice<cr>', { desc = '[S]earch recent [m]mssages' })
 
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
