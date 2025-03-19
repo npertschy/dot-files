@@ -8,8 +8,10 @@ if vim.fn.filereadable(vim.fn.fnameescape(vim.g.node_host_prog)) then
   vim.g.node_host_prog = vim.fn.fnameescape(vim.g.node_host_prog)
 end
 
-vim.opt.shell = 'C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe'
-vim.opt.shellcmdflag = '-c'
+if vim.fn.has 'win32' == 1 or vim.fn.has 'win64' == 1 then
+  vim.opt.shell = 'C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe'
+  vim.opt.shellcmdflag = '-c'
+end
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`

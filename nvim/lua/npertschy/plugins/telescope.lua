@@ -90,8 +90,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
             ['<C-h>'] = 'which_key',
           },
         },
-        -- layout_strategy = 'vertical',
-        layout_config = { width = 0.75 },
+        layout_strategy = 'vertical',
+        layout_config = {
+          width = 0.75,
+          -- prompt_position = 'top',
+          -- mirror = true,
+        },
         path_display = path_display,
       },
       pickers = {
