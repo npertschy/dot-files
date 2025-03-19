@@ -87,7 +87,7 @@ return { -- LSP Configuration & Plugins
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        map('<M-CR>', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
         -- Opens a popup that displays documentation about the word under your cursor
         --  See `:help K` for why this keymap.
@@ -186,16 +186,22 @@ return { -- LSP Configuration & Plugins
         },
       },
       vtsls = {
-        init_options = {
-          plugins = {
-            {
-              name = '@vue/typescript-plugin',
-              location = vue_language_server_path,
-              languages = { 'vue' },
+        settings = {
+          vtsls = {
+            tsserver = {
+              globalPlugins = {
+                {
+                  name = '@vue/typescript-plugin',
+                  location = vue_language_server_path,
+                  languages = { 'vue' },
+                  configNamespace = 'typescript',
+                  enableForWorkspaceTypeScriptVersions = true,
+                },
+              },
+              preferences = {
+                importModuleSpecifier = 'non-relative',
+              },
             },
-          },
-          preferences = {
-            importModuleSpecifierPreference = 'non-relative',
           },
         },
         filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
@@ -239,7 +245,6 @@ return { -- LSP Configuration & Plugins
           -- certain features of an LSP (for example, turning off formatting for tsserver)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
           server.on_attach = function(client, bufnr)
-            require('workspace-diagnostics').populate_workspace_diagnostics(client, bufnr)
             if server_name == 'vtsls' then
               vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
             end

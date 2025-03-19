@@ -1,11 +1,10 @@
 local wezterm = require("wezterm")
 
 local config = {}
-
 -- Styling
 config.color_scheme = "OneHalfDark"
 config.font = wezterm.font("JetBrains Mono")
-config.font_size = 10
+config.font_size = 9
 config.line_height = 1.2
 config.window_decorations = "RESIZE"
 config.initial_rows = 48
@@ -31,6 +30,9 @@ config.keys = {
 	{ key = "q", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
 	{ key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
 	{ key = "o", mods = "LEADER", action = act.RotatePanes("Clockwise") },
+
+	{ key = " ", mods = "CTRL", action = act.SendKey({ key = " ", mods = "CTRL" }) },
+	{ key = "Enter", mods = "ALT", action = act.DisableDefaultAssignment },
 
 	-- We can make separate keybindings for resizing panes
 	-- But Wezterm offers custom "mode" in the name of "KeyTable"
