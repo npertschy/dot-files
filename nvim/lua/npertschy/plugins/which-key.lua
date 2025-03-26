@@ -6,19 +6,18 @@ return { -- Useful plugin to show you pending keybinds.
 
     -- Document existing key chains
     require('which-key').add {
+      { '<leader>b', group = '[B]uffer' },
       { '<leader>c', group = '[C]ode' },
       { '<leader>d', group = '[D]ocument' },
-      { '<leader>r', group = '[R]ename' },
+      { '<leader>g', group = '[G]it' },
+      { '<leader>m', group = '[M]arkdown' },
       { '<leader>s', group = '[S]earch' },
       { '<leader>w', group = '[W]orkspace' },
       { '<leader>t', group = '[T]oggle' },
-      { '<leader>h', group = 'Git [H]unk' },
+      { '<leader>x', group = 'Trouble' },
+      { 'g', group = '[G]oto' },
       { '[', group = 'Previous' },
       { ']', group = 'Next' },
-    }
-    -- visual mode
-    require('which-key').add {
-      { '<leader>h', group = 'Git [H]unk', mode = 'v' },
     }
   end,
 }
