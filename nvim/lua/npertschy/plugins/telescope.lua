@@ -91,11 +91,11 @@ return { -- Fuzzy Finder (files, lsp, etc)
             ['<esc>'] = require('telescope.actions').close,
           },
         },
-        layout_strategy = 'vertical',
         layout_config = {
-          width = 0.75,
-          prompt_position = 'top',
-          preview_width = 0.45,
+          horizontal = {
+            prompt_position = 'top',
+            preview_width = 0.6,
+          },
         },
         sorting_strategy = 'ascending',
         path_display = path_display,
