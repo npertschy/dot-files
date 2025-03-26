@@ -61,13 +61,6 @@ return {
       desc = 'Delete Buffer',
     },
     {
-      '<leader>gb',
-      function()
-        Snacks.git.blame_line()
-      end,
-      desc = 'Git Blame Line',
-    },
-    {
       ']]',
       function()
         Snacks.words.jump(vim.v.count1)
