@@ -88,14 +88,16 @@ return { -- Fuzzy Finder (files, lsp, etc)
           i = {
             -- ['<c-enter>'] = 'to_fuzzy_refine',
             ['<C-h>'] = 'which_key',
+            ['<esc>'] = require('telescope.actions').close,
           },
         },
         layout_strategy = 'vertical',
         layout_config = {
           width = 0.75,
-          -- prompt_position = 'top',
-          -- mirror = true,
+          prompt_position = 'top',
+          preview_width = 0.45,
         },
+        sorting_strategy = 'ascending',
         path_display = path_display,
       },
       pickers = {
