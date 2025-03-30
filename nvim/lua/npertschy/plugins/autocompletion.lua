@@ -17,13 +17,19 @@ return {
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
+    cmdline = {
+      completion = {
+        menu = {
+          auto_show = true,
+        },
+      },
+    },
+
     completion = {
       list = {
         selection = {
           auto_insert = false,
-          preselect = function(ctx)
-            return ctx.mode ~= 'cmdline'
-          end,
+          preselect = false,
         },
       },
       menu = {
@@ -111,6 +117,7 @@ return {
         },
       },
     },
+
     fuzzy = {
       implementation = 'prefer_rust',
       sorts = {
@@ -126,6 +133,7 @@ return {
         'label',
       },
     },
+
     -- experimental signature help support
     signature = { enabled = true },
   },

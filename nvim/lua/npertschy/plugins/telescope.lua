@@ -3,7 +3,7 @@ local function normalize_path(path)
 end
 
 local function normalize_cwd()
-  return normalize_path(vim.loop.cwd()) .. '/'
+  return normalize_path(vim.fn.getcwd()) .. '/'
 end
 
 local function is_subdirectory(cwd, path)
@@ -38,23 +38,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
   branch = '0.1.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    { -- If encountering errors, see telescope-fzf-native README for installation instructions
-      'nvim-telescope/telescope-fzf-native.nvim',
-
-      -- `build` is used to run some command when the plugin is installed/updated.
-      -- This is only run then, not every time Neovim starts up.
-      build = 'make',
-
-      -- `cond` is a condition used to determine whether this plugin should be
-      -- installed and loaded.
-      cond = function()
-        return vim.fn.executable 'make' == 1
-      end,
-    },
     { 'nvim-telescope/telescope-ui-select.nvim' },
     { 'nvim-telescope/telescope-frecency.nvim' },
-
-    -- Useful for getting pretty icons, but requires a Nerd Font.
     { 'echasnovski/mini.icons', enabled = vim.g.have_nerd_font },
   },
   config = function()
@@ -103,11 +88,21 @@ return { -- Fuzzy Finder (files, lsp, etc)
       pickers = {
         lsp_references = {
           trim_text = true,
-          fname_width = 60,
+          fname_width = 120,
+          layout_strategy = 'vertical',
+          layout_config = {
+            prompt_position = 'top',
+            mirror = true,
+          },
         },
         lsp_definitions = {
           trim_text = true,
-          fname_width = 60,
+          fname_width = 120,
+          layout_strategy = 'vertical',
+          layout_config = {
+            prompt_position = 'top',
+            mirror = true,
+          },
         },
       },
       extensions = {
@@ -118,7 +113,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
     }
 
     -- Enable Telescope extensions if they are installed
-    pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'noice')
     pcall(require('telescope').load_extension, 'frecency')
@@ -130,12 +124,13 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = '[S]earch [P]roject files' })
     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-    vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = '[S]earch [R]ecent files' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>sm', '<cmd>Telescope noice<cr>', { desc = '[S]earch recent [m]mssages' })
+    vim.keymap.set('n', '<leader>sz', builtin.spell_suggest, { desc = '[S]earch spell suggestions' })
 
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
