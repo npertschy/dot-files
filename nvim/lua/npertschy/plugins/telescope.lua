@@ -104,6 +104,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
             mirror = true,
           },
         },
+        spell_suggest = {
+          layout_strategy = 'cursor',
+          layout_config = {
+            prompt_position = 'top',
+            height = 0.2,
+            width = 0.2,
+          },
+        },
       },
       extensions = {
         ['ui-select'] = {
