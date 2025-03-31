@@ -3,6 +3,8 @@ vim.g.have_nerd_font = true
 
 vim.g.trouble_lualine = true
 
+vim.g.health = { style = 'float' }
+
 if vim.fn.has 'win32' == 1 or vim.fn.has 'win64' == 1 then
   vim.opt.shell = 'C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe'
   vim.opt.shellcmdflag = '-c'
