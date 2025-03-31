@@ -3,11 +3,6 @@ vim.g.have_nerd_font = true
 
 vim.g.trouble_lualine = true
 
-vim.g.node_host_prog = vim.fn.expand '$APPDATA\\npm\\node_modules\\neovim\\bin\\cli.js'
-if vim.fn.filereadable(vim.fn.fnameescape(vim.g.node_host_prog)) then
-  vim.g.node_host_prog = vim.fn.fnameescape(vim.g.node_host_prog)
-end
-
 if vim.fn.has 'win32' == 1 or vim.fn.has 'win64' == 1 then
   vim.opt.shell = 'C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe'
   vim.opt.shellcmdflag = '-c'
@@ -91,6 +86,24 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.highlight.on_yank()
+  end,
+})
+
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd('BufReadPost', {
+  group = vim.api.nvim_create_augroup('last_loc', { clear = true }),
+  callback = function(event)
+    local exclude = { 'gitcommit' }
+    local buf = event.buf
+    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].lazyvim_last_loc then
+      return
+    end
+    vim.b[buf].lazyvim_last_loc = true
+    local mark = vim.api.nvim_buf_get_mark(buf, '"')
+    local lcount = vim.api.nvim_buf_line_count(buf)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
   end,
 })
 
