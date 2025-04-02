@@ -10,5 +10,8 @@ winget install Neovim.Neovim
 echo "Install fd"
 winget install sharkdp.fd
 
+echo "Install ripgrep"
+winget install BurntSushi.ripgrep.MSVC
+
 echo "Install fnm"
 winget install Schniz.fnm
