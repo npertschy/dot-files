@@ -3,7 +3,22 @@ vim.g.have_nerd_font = true
 
 vim.g.trouble_lualine = true
 
-vim.g.health = { style = 'float' }
+vim.diagnostic.config {
+  severity_sort = true,
+  float = { border = 'rounded', source = 'if_many' },
+  underline = { severity = vim.diagnostic.severity.ERROR },
+  signs = vim.g.have_nerd_font and {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '󰅚 ',
+      [vim.diagnostic.severity.WARN] = '󰀪 ',
+      [vim.diagnostic.severity.INFO] = '󰋽 ',
+      [vim.diagnostic.severity.HINT] = '󰌶 ',
+    },
+  } or {},
+  virtual_lines = {
+    current_line = true,
+  },
+}
 
 if vim.fn.has 'win32' == 1 or vim.fn.has 'win64' == 1 then
   vim.opt.shell = 'C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe'
@@ -31,7 +46,9 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.opt.clipboard = 'unnamedplus'
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -116,3 +133,4 @@ vim.opt.spell = true
 
 vim.opt.wildmode = { 'longest:full', 'full' }
 vim.opt.termguicolors = true
+vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
