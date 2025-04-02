@@ -4,7 +4,11 @@ local config = {}
 -- Styling
 config.color_scheme = "OneHalfDark"
 config.font = wezterm.font("JetBrains Mono")
-config.font_size = 9
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	config.font_size = 9
+else
+	config.font_size = 12
+end
 config.line_height = 1.2
 config.window_decorations = "RESIZE"
 config.initial_rows = 48
