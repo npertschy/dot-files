@@ -17,18 +17,34 @@ return {
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
+    cmdline = {
+      completion = {
+        menu = {
+          auto_show = true,
+        },
+      },
+    },
+
     completion = {
       list = {
         selection = {
           auto_insert = false,
-          preselect = function(ctx)
-            return ctx.mode ~= 'cmdline'
-          end,
+          preselect = false,
         },
       },
       menu = {
         draw = {
-          treesitter = { 'lsp' },
+          columns = { { 'kind_icon' }, { 'label', gap = 1 } },
+          components = {
+            label = {
+              text = function(ctx)
+                return require('colorful-menu').blink_components_text(ctx)
+              end,
+              highlight = function(ctx)
+                return require('colorful-menu').blink_components_highlight(ctx)
+              end,
+            },
+          },
         },
       },
       documentation = {
@@ -101,7 +117,9 @@ return {
         },
       },
     },
+
     fuzzy = {
+      implementation = 'prefer_rust',
       sorts = {
         function(a, b)
           local sort = require 'blink.cmp.fuzzy.sort'
@@ -115,6 +133,7 @@ return {
         'label',
       },
     },
+
     -- experimental signature help support
     signature = { enabled = true },
   },

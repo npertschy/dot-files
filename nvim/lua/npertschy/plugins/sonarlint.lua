@@ -5,16 +5,14 @@ return {
     require('sonarlint').setup {
       server = {
         cmd = {
-          'java',
-          '-jar',
-          vim.fn.expand(data_dir .. '/mason/packages/sonarlint-language-server/sonarlint-ls.jar'),
+          'sonarlint-language-server.cmd',
           '-stdio',
           '-analyzers',
-          vim.fn.expand(data_dir .. '/mason/packages/sonarlint-language-server/sonarhtml.jar'),
-          vim.fn.expand(data_dir .. '/mason/packages/sonarlint-language-server/sonarjava.jar'),
-          vim.fn.expand(data_dir .. '/mason/packages/sonarlint-language-server/sonarjs.jar'),
-          vim.fn.expand(data_dir .. '/mason/packages/sonarlint-language-server/sonartext.jar'),
-          vim.fn.expand(data_dir .. '/mason/packages/sonarlint-language-server/sonarxml.jar'),
+          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarhtml.jar'),
+          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarjava.jar'),
+          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarjs.jar'),
+          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonartext.jar'),
+          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarxml.jar'),
         },
       },
       filetypes = {
