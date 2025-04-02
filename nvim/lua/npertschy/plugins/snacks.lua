@@ -18,9 +18,23 @@ return {
           title = 'Git Status',
           section = 'terminal',
           enabled = function()
-            return Snacks.git.get_root() ~= nil
+            return Snacks.git.get_root() ~= nil and vim.fn.has 'win32' == 1
           end,
           cmd = '"git status --short --branch --renames"',
+          height = 5,
+          padding = 1,
+          ttl = 5 * 60,
+          indent = 3,
+        },
+        {
+          pane = 2,
+          icon = ' ',
+          title = 'Git Status',
+          section = 'terminal',
+          enabled = function()
+            return Snacks.git.get_root() ~= nil and vim.fn.has 'win32' == 0
+          end,
+          cmd = 'git status --short --branch --renames',
           height = 5,
           padding = 1,
           ttl = 5 * 60,

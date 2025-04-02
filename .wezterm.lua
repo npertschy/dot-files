@@ -14,7 +14,10 @@ config.initial_cols = 240
 config.inactive_pane_hsb = {
 	brightness = 0.5,
 }
-config.default_prog = { "C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe", "-i", "-l" }
+
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	config.default_prog = { "C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe", "-i", "-l" }
+end
 
 local act = wezterm.action
 config.leader = { key = "ö", mods = "CTRL", timeout_milliseconds = 1500 }
