@@ -15,6 +15,8 @@ brew install fd
 
 brew install ripgrep
 
+brew install openjdk@21
+
 brew install neovim
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
