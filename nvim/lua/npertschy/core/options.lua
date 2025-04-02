@@ -111,6 +111,7 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 vim.opt.encoding = 'utf-8'
 vim.opt.spelllang = { 'en', 'de' }
+vim.opt.spelloptions = camel
 vim.opt.spell = true
 
 vim.opt.wildmode = { 'longest:full', 'full' }
