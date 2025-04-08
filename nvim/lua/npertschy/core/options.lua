@@ -20,11 +20,6 @@ vim.diagnostic.config {
   },
 }
 
-if vim.fn.has 'win32' == 1 or vim.fn.has 'win64' == 1 then
-  vim.opt.shell = 'C:/Users/npertschy/AppData/Local/Programs/Git/bin/bash.exe'
-  vim.opt.shellcmdflag = '-c'
-end
-
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
