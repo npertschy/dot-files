@@ -25,7 +25,9 @@ return {
         'java',
         'gradle',
         'js',
+        'jsx',
         'ts',
+        'tsx',
         'vue',
       },
     }
