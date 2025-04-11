@@ -1,5 +1,6 @@
 return {
   'jiaoshijie/undotree',
+  lazy = true, -- lazy load the plugin
   dependencies = 'nvim-lua/plenary.nvim',
   config = true,
   keys = { -- load the plugin only when using it's keybinding:

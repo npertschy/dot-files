@@ -1,5 +1,6 @@
 return {
   'bloznelis/buftrack.nvim',
+  event = 'BufEnter',
   config = function()
     local buftrack = require 'buftrack'
     buftrack.setup()

@@ -1,11 +1,20 @@
 return {
-  'hedyhli/outline.nvim',
-  lazy = true,
-  cmd = { 'Outline', 'OutlineOpen' },
-  keys = { -- Example mapping to toggle outline
-    { '<leader>o', '<cmd>Outline<CR>', desc = 'Toggle outline' },
+  'stevearc/aerial.nvim',
+  event = 'VeryLazy',
+  opts = {},
+  -- Optional dependencies
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+    'echasnovski/mini.icons',
   },
-  opts = {
-    -- Your setup opts here
+  config = function()
+    require('aerial').setup()
+  end,
+  keys = {
+    {
+      '<leader>o',
+      '<cmd>AerialToggle<cr>',
+      desc = 'Toggle outline',
+    },
   },
 }
