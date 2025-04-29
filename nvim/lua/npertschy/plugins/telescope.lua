@@ -41,6 +41,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     { 'nvim-telescope/telescope-ui-select.nvim' },
     { 'nvim-telescope/telescope-frecency.nvim' },
     { 'echasnovski/mini.icons', enabled = vim.g.have_nerd_font },
+    { 'Myzel394/jsonfly.nvim' },
   },
   config = function()
     -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -74,6 +75,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
             -- ['<c-enter>'] = 'to_fuzzy_refine',
             ['<C-h>'] = 'which_key',
             ['<esc>'] = require('telescope.actions').close,
+            ['<C-y>'] = function()
+              local actions_state = require 'telescope.actions.state'
+              local selected_value = actions_state.get_selected_entry().ordinal
+              vim.fn.setreg('+', selected_value)
+              vim.notify('Copied to clipboard ' .. selected_value, vim.log.levels.INFO)
+            end,
           },
         },
         layout_config = {
@@ -124,6 +131,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'noice')
     pcall(require('telescope').load_extension, 'frecency')
+    pcall(require('telescope').load_extension, 'jsonfly')
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
@@ -139,6 +147,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>sm', '<cmd>Telescope noice<cr>', { desc = '[S]earch recent [m]mssages' })
     vim.keymap.set('n', '<leader>sz', builtin.spell_suggest, { desc = '[S]earch spell suggestions' })
+    vim.keymap.set('n', '<leader>sj', '<cmd>Telescope jsonfly<cr>', { desc = '[S]earch [J]son file' })
 
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
