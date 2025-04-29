@@ -3,7 +3,6 @@ return {
     'mfussenegger/nvim-dap',
     lazy = true,
     dependencies = {
-
       'rcarriga/nvim-dap-ui',
       'nvim-neotest/nvim-nio',
       'theHamsta/nvim-dap-virtual-text',
@@ -204,6 +203,16 @@ return {
           }
         end
       end
+
+      dap.configurations['java'] = {
+        {
+          type = 'java',
+          request = 'attach',
+          name = 'Debug (Attach) - Remote',
+          hostName = '127.0.0.1',
+          port = 5005,
+        },
+      }
 
       local dapui = require 'dapui'
       dapui.setup()

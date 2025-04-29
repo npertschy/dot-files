@@ -245,6 +245,26 @@ return { -- LSP Configuration & Plugins
         cmd = { 'java', '-jar', vim.fn.stdpath 'data' .. '/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar' },
         filetypes = { 'groovy', 'Jenkinsfile' },
       },
+      jsonls = {
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      },
+      yamlls = {
+        settings = {
+          yaml = {
+            schemaStore = {
+              enable = false,
+              url = '',
+            },
+            schemas = require('schemastore').yaml.schemas(),
+          },
+        },
+      },
+      jdtls = {},
     }
 
     -- Ensure the servers and tools above are installed
@@ -277,7 +297,11 @@ return { -- LSP Configuration & Plugins
               vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
             end
           end
-          require('lspconfig')[server_name].setup(server)
+          if server_name == 'jdtls' then
+            return true
+          else
+            require('lspconfig')[server_name].setup(server)
+          end
         end,
       },
     }
