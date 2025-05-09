@@ -6,16 +6,14 @@ return {
     },
     ft = { 'java' },
     opts = function()
-      local mason_registry = require 'mason-registry'
-
-      local jdtls_path = mason_registry.get_package('jdtls'):get_install_path()
+      local jdtls_path = vim.fn.expand '$MASON/packages/jdtls'
       local launcher_jar = vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar')
       local lombok_path = vim.fs.normalize(jdtls_path .. '/lombok.jar')
 
-      local java_debug_path = mason_registry.get_package('java-debug-adapter'):get_install_path()
+      local java_debug_path = vim.fn.expand '$MASON/packages/java-debug-adapter'
       local java_debug = vim.fn.glob(java_debug_path .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true)
 
-      local java_test_path = mason_registry.get_package('java-test'):get_install_path()
+      local java_test_path = vim.fn.expand '$MASON/packages/java-test'
 
       local bundles = {
         java_debug,
@@ -28,7 +26,6 @@ return {
           and not string.find(value, 'jacocoagent', 1, true)
           and not string.find(value, 'plugin.jar', 1, true)
         then
-          vim.notify(value)
           table.insert(relevant_test_jars, value)
         end
       end
