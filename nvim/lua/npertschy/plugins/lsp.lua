@@ -2,8 +2,8 @@ return { -- LSP Configuration & Plugins
   'neovim/nvim-lspconfig',
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
-    { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-    'williamboman/mason-lspconfig.nvim',
+    { 'mason-org/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+    'mason-org/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'saghen/blink.cmp',
     -- Useful status updates for LSP.
@@ -153,8 +153,7 @@ return { -- LSP Configuration & Plugins
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
 
-    local mason_registry = require 'mason-registry'
-    local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+    local vue_language_server_path = vim.fn.expand '$MASON/packages/vue-language-server' .. '/node_modules/@vue/language-server'
 
     -- Enable the following language servers
     --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -248,6 +247,9 @@ return { -- LSP Configuration & Plugins
       jsonls = {
         settings = {
           json = {
+            format = {
+              enable = true,
+            },
             schemas = require('schemastore').json.schemas(),
             validate = { enable = true },
           },
@@ -256,6 +258,10 @@ return { -- LSP Configuration & Plugins
       yamlls = {
         settings = {
           yaml = {
+            format = {
+              enable = true,
+            },
+            validate = true,
             schemaStore = {
               enable = false,
               url = '',
