@@ -21,19 +21,12 @@ return {
       local all_test_jars = vim.split(vim.fn.glob(java_test_path .. '/extension/server/*.jar', true), '\n')
       local relevant_test_jars = {}
       for _, value in ipairs(all_test_jars) do
-        if
-          not string.find(value, 'dependencies', 1, true)
-          and not string.find(value, 'jacocoagent', 1, true)
-          and not string.find(value, 'plugin.jar', 1, true)
-        then
-          table.insert(relevant_test_jars, value)
-        end
+        table.insert(relevant_test_jars, value)
       end
 
       vim.list_extend(bundles, relevant_test_jars)
 
-      local client_capabilities = vim.lsp.protocol.make_client_capabilities()
-      local blink_capabilities = require('blink.cmp').get_lsp_capabilities(client_capabilities)
+      local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local jdtls = require 'jdtls'
       local root_dir = jdtls.setup.find_root { 'pom.xml', 'mvnw', 'build.gradle', 'gradlew' }
@@ -77,7 +70,37 @@ return {
           bundles = bundles,
         },
         on_attach = function(client, bufnr)
-          vim.keymap.set('n', '<leader>co', jdtls.organize_imports, { desc = 'Organize imports', buffer = bufnr })
+          if root_dir ~= '' then
+            vim.keymap.set('n', '<leader>co', jdtls.organize_imports, { desc = 'Organize imports', buffer = bufnr })
+            vim.keymap.set('n', '<leader>tc', jdtls.test_class, { desc = 'Test class', buffer = bufnr })
+            vim.keymap.set('n', '<leader>tm', jdtls.test_nearest_method, { desc = 'Test method', buffer = bufnr })
+            vim.keymap.set('n', '<leader>tp', jdtls.pick_test, { desc = 'Pick and run Test', buffer = bufnr })
+
+            local builtin = require 'telescope.builtin'
+            vim.keymap.set('n', '<leader>sC', function()
+              builtin.find_files {
+                cwd = vim.fn.expand(root_dir .. '/src/main/java'),
+              }
+            end, { desc = '[S]earch [C]lasses' })
+
+            vim.keymap.set('n', '<leader>sT', function()
+              builtin.find_files {
+                cwd = vim.fn.expand(root_dir .. '/src/test/java'),
+              }
+            end, { desc = '[S]earch [T]ests' })
+
+            vim.keymap.set('n', '<leader>sr', function()
+              builtin.find_files {
+                cwd = vim.fn.expand(root_dir .. '/src/main/resources'),
+              }
+            end, { desc = '[S]earch [R]esources' })
+
+            vim.keymap.set('n', '<leader>sR', function()
+              builtin.find_files {
+                cwd = vim.fn.expand(root_dir .. '/src/test/resources'),
+              }
+            end, { desc = '[S]earch Tests [R]esources' })
+          end
         end,
         root_dir = root_dir,
         settings = {

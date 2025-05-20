@@ -143,11 +143,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sr', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = '[S]earch [R]ecent files' })
+    vim.keymap.set('n', '<leader>sl', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = '[S]earch [L]atest files' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>sm', '<cmd>Telescope noice<cr>', { desc = '[S]earch recent [m]mssages' })
     vim.keymap.set('n', '<leader>sz', builtin.spell_suggest, { desc = '[S]earch spell suggestions' })
     vim.keymap.set('n', '<leader>sj', '<cmd>Telescope jsonfly<cr>', { desc = '[S]earch [J]son file' })
+    vim.keymap.set('n', '<leader>sc', builtin.git_status, { desc = '[S]earch git [c]hanges' })
 
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
@@ -170,33 +171,5 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sn', function()
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[S]earch [N]eovim files' })
-
-    -- local root_markers = { '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' }
-    -- local root_dir = require('jdtls.setup').find_root(root_markers)
-    -- if root_dir ~= '' then
-    --   vim.keymap.set('n', '<leader>sc', function()
-    --     builtin.find_files {
-    --       cwd = vim.fn.expand(root_dir .. '/src/main/java'),
-    --     }
-    --   end, { desc = '[S]earch [C]lasses' })
-    --
-    --   vim.keymap.set('n', '<leader>st', function()
-    --     builtin.find_files {
-    --       cwd = vim.fn.expand(root_dir .. '/src/test/java'),
-    --     }
-    --   end, { desc = '[S]earch [T]ests' })
-    --
-    --   vim.keymap.set('n', '<leader>sr', function()
-    --     builtin.find_files {
-    --       cwd = vim.fn.expand(root_dir .. '/src/main/resources'),
-    --     }
-    --   end, { desc = '[S]earch [R]esources' })
-    --
-    --   vim.keymap.set('n', '<leader>sR', function()
-    --     builtin.find_files {
-    --       cwd = vim.fn.expand(root_dir .. '/src/test/resources'),
-    --     }
-    --   end, { desc = '[S]earch Tests [R]esources' })
-    -- end
   end,
 }
