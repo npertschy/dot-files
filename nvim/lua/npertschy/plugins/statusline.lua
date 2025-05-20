@@ -12,6 +12,7 @@ return {
       },
       sections = {
         lualine_x = {
+          { 'aerial', depth = 5 },
           {
             lazy_status.updates,
             cond = lazy_status.has_updates,

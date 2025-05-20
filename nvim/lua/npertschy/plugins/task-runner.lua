@@ -14,5 +14,10 @@ return {
       '<cmd>OverseerToggle<cr>',
       desc = 'View command overview',
     },
+    {
+      '<leader>ra',
+      '<cmd>OverseerQuickAction<cr>',
+      desc = 'View command overview',
+    },
   },
 }

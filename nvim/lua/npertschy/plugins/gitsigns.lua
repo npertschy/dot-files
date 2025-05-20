@@ -36,8 +36,9 @@ return {
       end)
 
       -- Git Blame for file or line
-      map('n', '<leader>gb', gitsigns.blame)
-      map('n', '<leader>gl', gitsigns.blame_line)
+      map('n', '<leader>gb', gitsigns.blame, { desc = '[G]it [b]lame file' })
+      map('n', '<leader>gl', gitsigns.blame_line, { desc = '[G]it blame [l]ine' })
+      map('n', '<leader>gh', gitsigns.preview_hunk, { desc = '[G]it preview [h]unk' })
     end,
   },
 }

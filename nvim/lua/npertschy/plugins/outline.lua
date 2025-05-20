@@ -1,15 +1,14 @@
 return {
   'stevearc/aerial.nvim',
   event = 'VeryLazy',
-  opts = {},
+  opts = {
+    filter_kind = false,
+  },
   -- Optional dependencies
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
     'echasnovski/mini.icons',
   },
-  config = function()
-    require('aerial').setup()
-  end,
   keys = {
     {
       '<leader>o',

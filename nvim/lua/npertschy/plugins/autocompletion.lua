@@ -3,7 +3,6 @@ return {
   -- optional: provides snippets for the snippet source
   dependencies = {
     'rafamadriz/friendly-snippets',
-    'fang2hou/blink-copilot',
     'ribru17/blink-cmp-spell',
   },
 
@@ -93,22 +92,12 @@ return {
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'spell', 'markdown' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'spell', 'markdown' },
       providers = {
         markdown = {
           name = 'RenderMarkdown',
           module = 'render-markdown.integ.blink',
           fallbacks = { 'lsp' },
-        },
-        copilot = {
-          name = 'copilot',
-          module = 'blink-copilot',
-          score_offset = 100,
-          async = true,
-          opts = {
-            max_completions = 3,
-            max_attempts = 2,
-          },
         },
         spell = {
           name = 'Spell',
