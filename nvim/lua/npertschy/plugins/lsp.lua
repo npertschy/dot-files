@@ -78,6 +78,7 @@ return {
             },
           },
         },
+        filetypes = { 'lua' },
       },
       vtsls = {
         settings = {
@@ -141,6 +142,7 @@ return {
             validate = { enable = true },
           },
         },
+        filetypes = { 'json' },
       },
       yamlls = {
         settings = {
@@ -156,6 +158,7 @@ return {
             schemas = require('schemastore').yaml.schemas(),
           },
         },
+        filetypes = { 'yaml' },
       },
       jdtls = {},
     }
@@ -171,25 +174,27 @@ return {
 
     require('mason-lspconfig').setup {
       ensure_installed = {},
-      automatic_enable = true,
+      automatic_enable = {
+        exclude = { 'jdtls' },
+      },
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          server.on_attach = function(client, bufnr)
-            if server_name == 'vtsls' then
-              vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
-            end
-          end
           if server_name == 'jdtls' then
             return true
           else
+            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            server.on_attach = function(client, bufnr)
+              if server_name == 'vtsls' then
+                vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
+              end
+            end
             vim.lsp.config(server_name, {
+              filetypes = server.filetypes,
               settings = {
-                [server_name] = server.settings or {},
+                server_name = server.settings or {},
               },
             })
-            vim.lsp.enable(server_name)
           end
         end,
       },
