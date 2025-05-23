@@ -29,6 +29,7 @@ return {
         'ts',
         'tsx',
         'vue',
+        'md',
       },
     }
   end,
