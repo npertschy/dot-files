@@ -10,8 +10,8 @@ return {
     local overseer = require 'overseer'
 
     auto_session.setup {
-      auto_restore_enabled = false,
-      auto_session_suppress_dirs = { '~/', '~/Projects/', '~/Downloads', '~/Documents', '~/Desktop/' },
+      auto_restore = false,
+      suppressed_dirs = { '~/', '~/Projects/', '~/Downloads', '~/Documents', '~/Desktop/' },
       pre_save_cmds = {
         function()
           overseer.save_task_bundle(get_cwd_as_name(), nil, { on_conflict = 'overwrite' })
@@ -33,7 +33,8 @@ return {
 
     local keymap = vim.keymap
 
-    keymap.set('n', '<leader>wr', '<cmd>SessionRestore<CR>', { desc = 'Restore session for cwd' }) -- restore last workspace session for current directory
-    keymap.set('n', '<leader>ws', '<cmd>SessionSave<CR>', { desc = 'Save session for auto session root dir' }) -- save workspace session for current working directory
+    keymap.set('n', '<leader>wp', '<cmd>SessionSearch<CR>', { desc = 'Pick sessions' })
+    keymap.set('n', '<leader>wr', '<cmd>SessionRestore<CR>', { desc = 'Restore session for cwd' })
+    keymap.set('n', '<leader>ws', '<cmd>SessionSave<CR>', { desc = 'Save session for auto session root dir' })
   end,
 }
