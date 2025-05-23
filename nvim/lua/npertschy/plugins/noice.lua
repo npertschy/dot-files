@@ -24,7 +24,6 @@ return {
         view = 'notify',
       },
     },
-    -- you can enable a preset for easier configuration
     presets = {
       bottom_search = true, -- use a classic bottom cmdline for search
       command_palette = true, -- position the cmdline and popupmenu together

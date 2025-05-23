@@ -145,51 +145,24 @@ return {
     },
     config = function()
       local dap = require 'dap'
-      -- if not dap.adapters['pwa-node'] then
       dap.adapters['pwa-node'] = {
         type = 'server',
         host = 'localhost',
         port = '${port}',
         executable = {
           command = 'node',
-          -- 💀 Make sure to update this path to point to your installation
           args = {
             vim.fn.expand '$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js',
             '${port}',
           },
         },
       }
-      -- end
-      -- if not dap.adapters['node'] then
-      --   dap.adapters['node'] = function(cb, config)
-      --     if config.type == 'node' then
-      --       config.type = 'pwa-node'
-      --     end
-      --     local nativeAdapter = dap.adapters['pwa-node']
-      --     if type(nativeAdapter) == 'function' then
-      --       nativeAdapter(cb, config)
-      --     else
-      --       cb(nativeAdapter)
-      --     end
-      --   end
-      -- end
 
       local js_filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact', 'vue' }
-
-      -- local vscode = require 'dap.ext.vscode'
-      -- vscode.type_to_filetypes['node'] = js_filetypes
-      -- vscode.type_to_filetypes['pwa-node'] = js_filetypes
 
       for _, language in ipairs(js_filetypes) do
         if not dap.configurations[language] then
           dap.configurations[language] = {
-            -- {
-            --   type = 'pwa-node',
-            --   request = 'launch',
-            --   name = 'Launch file',
-            --   program = '${file}',
-            --   cwd = vim.fn.getcwd(),
-            -- },
             {
               type = 'pwa-node',
               request = 'attach',
@@ -215,23 +188,22 @@ return {
       }
 
       local dapui = require 'dapui'
-      dapui.setup()
-      -- dapui.setup {
-      --   icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-      --   controls = {
-      --     icons = {
-      --       pause = '⏸',
-      --       play = '▶',
-      --       step_into = '⏎',
-      --       step_over = '⏭',
-      --       step_out = '⏮',
-      --       step_back = 'b',
-      --       run_last = '▶▶',
-      --       terminate = '⏹',
-      --       disconnect = '⏏',
-      --     },
-      --   },
-      -- }
+      dapui.setup {
+        icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+        controls = {
+          icons = {
+            pause = '⏸',
+            play = '▶',
+            step_into = '⏎',
+            step_over = '⏭',
+            step_out = '⏮',
+            step_back = 'b',
+            run_last = '▶▶',
+            terminate = '⏹',
+            disconnect = '⏏',
+          },
+        },
+      }
       dap.listeners.after.event_initialized['dapui_config'] = function()
         dapui.open {}
       end
@@ -241,17 +213,10 @@ return {
       dap.listeners.before.event_exited['dapui_config'] = function()
         dapui.close {}
       end
-      --
+
       vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
 
       vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
-
-      -- setup dap config by VsCode launch.json file
-      -- local vscode = require 'dap.ext.vscode'
-      -- local json = require 'plenary.json'
-      -- vscode.json_decode = function(str)
-      --   return vim.json.decode(json.json_strip_comments(str))
-      -- end
     end,
   },
 }
