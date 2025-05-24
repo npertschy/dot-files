@@ -67,7 +67,7 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
 
-    local vue_language_server_path = vim.fn.exepath 'vue-language-server' .. '/node_modules/@vue/language-server'
+    local vue_language_server_path = vim.fn.exepath 'vue-language-server'
 
     local servers = {
       lua_ls = {
@@ -172,32 +172,25 @@ return {
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-    require('mason-lspconfig').setup {
-      ensure_installed = {},
-      automatic_enable = {
-        exclude = { 'jdtls' },
-      },
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          if server_name == 'jdtls' then
-            return true
-          else
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            server.on_attach = function(client, bufnr)
-              if server_name == 'vtsls' then
-                vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
-              end
-            end
-            vim.lsp.config(server_name, {
-              filetypes = server.filetypes,
-              settings = {
-                server_name = server.settings or {},
-              },
-            })
+    for server_name, server in pairs(servers) do
+      if server_name ~= 'jdtls' then
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        server.on_attach = function(client, bufnr)
+          if server_name == 'vtsls' then
+            vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
           end
-        end,
-      },
-    }
+        end
+        vim.lsp.config(server_name, {
+          filetypes = server.filetypes,
+          settings = {
+            server_name = server.settings or {},
+          },
+        })
+        require('mason-lspconfig').setup {
+          automatic_enable = true,
+          ensure_installed = { server_name },
+        }
+      end
+    end
   end,
 }
