@@ -67,7 +67,7 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
 
-    local vue_language_server_path = vim.fn.exepath 'vue-language-server'
+    local vue_language_server_path = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server'
 
     local servers = {
       lua_ls = {
@@ -124,7 +124,11 @@ return {
         },
         filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
       },
-      vue_ls = {},
+      vue_ls = {
+        settings = {
+          hybrid_mode = true,
+        },
+      },
       eslint = {
         filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
       },
@@ -183,7 +187,7 @@ return {
         vim.lsp.config(server_name, {
           filetypes = server.filetypes,
           settings = {
-            server_name = server.settings or {},
+            [server_name] = server.settings or {},
           },
         })
         require('mason-lspconfig').setup {
