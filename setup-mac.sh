@@ -4,7 +4,7 @@ echo "Setup WezTerm config"
 ln -s -f ~/Projects/dot-files/.wezterm.lua ~/.wezterm.lua
 
 echo "Setup zsh"
-ln -s -f ~/Projects/dot-files/.zshrc ~/.zshrc
+ln -s -f ~/Projects/dot-files/.zshrc-mac ~/.zshrc
 
 echo "Setup starship config"
 if [ ! -d "$HOME/.config/" ]; then
