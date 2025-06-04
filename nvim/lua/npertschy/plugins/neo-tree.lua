@@ -11,15 +11,17 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
+    { '<leader>pt', '<cmd>Neotree filesystem toggle<CR>', desc = 'NeoTree reveal' },
+    { '<leader>pb', '<cmd>Neotree buffers toggle<CR>', desc = 'NeoTree buffers' },
   },
   opts = {
-    filesystem = {
-      window = {
-        mappings = {
-          ['\\'] = 'close_window',
-        },
-      },
-    },
+    -- filesystem = {
+    --   window = {
+    --     mappings = {
+    --       ['<leader>pt'] = 'close_window',
+    --       ['<leader>pb'] = 'close_window',
+    --     },
+    --   },
+    -- },
   },
 }
