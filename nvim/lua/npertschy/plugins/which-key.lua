@@ -3,6 +3,7 @@ return {
   event = 'VimEnter',
   opts = {
     delay = 0,
+    preset = 'modern',
     spec = {
       { '<leader>b', group = '[B]uffer' },
       { '<leader>c', group = '[C]ode' },
