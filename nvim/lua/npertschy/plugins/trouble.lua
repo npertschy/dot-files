@@ -50,5 +50,10 @@ return {
       '<cmd>Trouble symbols toggle focus=false win.size=80<cr>',
       desc = 'Symbols outline (Trouble)',
     },
+    {
+      '<leader>q',
+      '<cmd>Trouble qflist toggle<cr>',
+      desc = 'Quickfix list (Trouble)',
+    },
   },
 }
