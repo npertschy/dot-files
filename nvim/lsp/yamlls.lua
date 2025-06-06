@@ -4,9 +4,6 @@ return {
   root_markers = { '.git' },
   settings = {
     yaml = {
-      format = {
-        enable = true,
-      },
       validate = true,
       schemaStore = {
         enable = false,
