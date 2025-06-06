@@ -39,6 +39,7 @@ return {
       map('n', '<leader>gb', gitsigns.blame, { desc = '[G]it [b]lame file' })
       map('n', '<leader>gl', gitsigns.blame_line, { desc = '[G]it blame [l]ine' })
       map('n', '<leader>gh', gitsigns.preview_hunk, { desc = '[G]it preview [h]unk' })
+      map('n', '<leader>gr', gitsigns.reset_hunk, { desc = '[G]it [r]eset hunk' })
     end,
   },
 }
