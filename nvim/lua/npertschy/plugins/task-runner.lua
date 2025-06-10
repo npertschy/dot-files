@@ -3,6 +3,11 @@ return {
   config = function()
     require('overseer').setup()
   end,
+  opts = {
+    bundles = {
+      autostart_on_load = false,
+    },
+  },
   keys = {
     {
       '<leader>rr',
@@ -17,7 +22,7 @@ return {
     {
       '<leader>ra',
       '<cmd>OverseerQuickAction<cr>',
-      desc = 'View command overview',
+      desc = 'Run quick action for last task',
     },
   },
 }
