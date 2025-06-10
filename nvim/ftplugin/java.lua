@@ -13,7 +13,9 @@ local bundles = {
 local all_test_jars = vim.split(vim.fn.glob(java_test_path .. '/extension/server/*.jar', true), '\n')
 local relevant_test_jars = {}
 for _, value in ipairs(all_test_jars) do
-  table.insert(relevant_test_jars, value)
+  if not string.match(value, 'jacoco') and not string.match(value, 'dependencies') then
+    table.insert(relevant_test_jars, value)
+  end
 end
 
 vim.list_extend(bundles, relevant_test_jars)
@@ -55,7 +57,7 @@ local config = {
     '-configuration',
     vim.fs.normalize(jdtls_path .. '/' .. get_config_dir()),
     '-data',
-    vim.fn.expand '~/.cache/jdtls-workspace/' .. workspace_dir,
+    vim.fn.expand '$HOME/.cache/jdtls-workspace/' .. workspace_dir,
   },
   init_options = {
     extendedClientCapabilities = jdtls.extendedClientCapabilities,
