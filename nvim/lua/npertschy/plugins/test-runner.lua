@@ -17,7 +17,6 @@ return {
     },
     {
       'marilari88/neotest-vitest',
-      ft = { 'javascript', 'typescript', 'vue' },
       keys = {
         {
           'leadertw',
@@ -36,16 +35,21 @@ return {
       },
     },
   },
-  opts = {
-    adapters = {
-      ['neotest-java'] = {},
-      ['neotest-vitest'] = {
-        filter_dir = function(name, rel_path, root)
-          return name ~= 'node_modules'
-        end,
+  config = function()
+    require('neotest').setup {
+      adapters = {
+        require 'neotest-java' {},
+        require 'neotest-vitest' {
+          filter_dir = function(name, rel_path, root)
+            return name ~= 'node_modules'
+          end,
+          is_test_file = function(file_path)
+            return string.match(file_path, 'spec')
+          end,
+        },
       },
-    },
-  },
+    }
+  end,
   keys = {
     {
       '<leader>tr',
@@ -93,7 +97,7 @@ return {
       desc = 'Open test output',
     },
     {
-      '<leader>tp',
+      '<leader>tO',
       function()
         require('neotest').output_panel.toggle()
       end,
