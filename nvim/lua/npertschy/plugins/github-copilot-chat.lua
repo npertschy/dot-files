@@ -2,7 +2,7 @@ return {
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     lazy = true,
-    branch = 'canary',
+    version = '*',
     dependencies = {
       { 'github/copilot.vim' },
       { 'nvim-lua/plenary.nvim' },
