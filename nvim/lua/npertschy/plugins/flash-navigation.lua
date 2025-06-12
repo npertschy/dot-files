@@ -1,7 +1,12 @@
 return {
   'folke/flash.nvim',
-  lazy = true,
-  opts = {},
+  opts = {
+    modes = {
+      search = {
+        enabled = true,
+      },
+    },
+  },
   keys = {
     {
       '<A-s>',
@@ -10,6 +15,14 @@ return {
         require('flash').jump()
       end,
       desc = 'Flash',
+    },
+    {
+      '<A-r>',
+      mode = { 'o' },
+      function()
+        require('flash').remote()
+      end,
+      desc = 'Flash Remote',
     },
   },
 }
