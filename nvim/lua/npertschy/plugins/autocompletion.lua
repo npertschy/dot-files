@@ -10,6 +10,9 @@ return {
   ---@type blink.cmp.Config
   opts = {
     cmdline = {
+      keymap = {
+        preset = 'inherit',
+      },
       completion = {
         menu = {
           auto_show = true,
@@ -26,7 +29,7 @@ return {
       },
       menu = {
         draw = {
-          columns = { { 'kind_icon' }, { 'label', gap = 3 } },
+          columns = { { 'kind_icon' }, { 'label' }, { 'label_description', gap = 1 } },
           components = {
             label = {
               width = { fill = true, max = 60 },

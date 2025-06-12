@@ -2,6 +2,10 @@ eval "$(starship init zsh)"
 
 export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 export PATH="/opt/jdk-21.0.7/bin:$PATH"
+export JAVA_HOME="/opt/jdk-21.0.7"
+
+
+export PATH="/opt/gitleaks-8.27.2:$PATH"
 
 # fnm
 FNM_PATH="/home/npertschy/.local/share/fnm"
