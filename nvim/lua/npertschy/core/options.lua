@@ -70,3 +70,11 @@ vim.opt.spell = true
 vim.opt.wildmode = { 'longest:full', 'full' }
 vim.opt.termguicolors = true
 vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+
+-- NOTE: indention settings
+vim.opt.shiftround = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.expandtab = true
+
+vim.opt.completeopt = 'menu,menuone,noselect,popup'

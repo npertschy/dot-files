@@ -15,6 +15,11 @@ return {
       desc = 'Run command',
     },
     {
+      '<leader>rp',
+      '<cmd>OverseerTaskAction<cr>',
+      desc = 'Select task to run',
+    },
+    {
       '<leader>rt',
       '<cmd>OverseerToggle<cr>',
       desc = 'View command overview',

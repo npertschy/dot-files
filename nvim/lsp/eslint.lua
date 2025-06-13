@@ -1,21 +1,91 @@
 return {
   cmd = { 'vscode-eslint-language-server', '--stdio' },
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
-  root_markers = {
-    '.git',
-    '.eslintrc',
-    '.eslintrc.js',
-    '.eslintrc.cjs',
-    '.eslintrc.yaml',
-    '.eslintrc.yml',
-    '.eslintrc.json',
-    'eslint.config.js',
-    'eslint.config.mjs',
-    'eslint.config.cjs',
-    'eslint.config.ts',
-    'eslint.config.mts',
-    'eslint.config.cts',
+  root_dir = function(bufnr, on_dir)
+    local root_file_patterns = {
+      '.eslintrc',
+      '.eslintrc.js',
+      '.eslintrc.cjs',
+      '.eslintrc.yaml',
+      '.eslintrc.yml',
+      '.eslintrc.json',
+      'eslint.config.js',
+      'eslint.config.mjs',
+      'eslint.config.cjs',
+      'eslint.config.ts',
+      'eslint.config.mts',
+      'eslint.config.cts',
+    }
+
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    on_dir(vim.fs.dirname(vim.fs.find(root_file_patterns, { path = fname, upward = true })[1]))
+  end,
+  settings = {
+    validate = 'on',
+    packageManager = nil,
+    useESLintClass = false,
+    experimental = {
+      useFlatConfig = false,
+    },
+    codeActionOnSave = {
+      enable = false,
+      mode = 'all',
+    },
+    format = false,
+    quiet = false,
+    onIgnoredFiles = 'off',
+    rulesCustomizations = {},
+    run = 'onType',
+    problems = {
+      shortenToSingleLine = false,
+    },
+    -- nodePath configures the directory in which the eslint server should start its node_modules resolution.
+    -- This path is relative to the workspace folder (root dir) of the server instance.
+    nodePath = '',
+    -- use the workspace folder location or the file location (if no workspace folder is open) as the working directory
+    workingDirectory = { mode = 'location' },
+    codeAction = {
+      disableRuleComment = {
+        enable = true,
+        location = 'separateLine',
+      },
+      showDocumentation = {
+        enable = true,
+      },
+    },
   },
+  before_init = function(_, config)
+    -- The "workspaceFolder" is a VSCode concept. It limits how far the
+    -- server will traverse the file system when locating the ESLint config
+    -- file (e.g., .eslintrc).
+    local root_dir = config.root_dir
+
+    if root_dir then
+      config.settings = config.settings or {}
+      config.settings.workspaceFolder = {
+        uri = root_dir,
+        name = vim.fn.fnamemodify(root_dir, ':t'),
+      }
+
+      -- Support flat config
+      local flat_config_files = {
+        'eslint.config.js',
+        'eslint.config.mjs',
+        'eslint.config.cjs',
+        'eslint.config.ts',
+        'eslint.config.mts',
+        'eslint.config.cts',
+      }
+
+      for _, file in ipairs(flat_config_files) do
+        if vim.fn.filereadable(root_dir .. '/' .. file) == 1 then
+          config.settings.experimental = config.settings.experimental or {}
+          config.settings.experimental.useFlatConfig = true
+          break
+        end
+      end
+    end
+  end,
   handlers = {
     ['eslint/openDoc'] = function(_, result)
       if result then
@@ -38,4 +108,5 @@ return {
       return {}
     end,
   },
+  workspace_required = true,
 }
