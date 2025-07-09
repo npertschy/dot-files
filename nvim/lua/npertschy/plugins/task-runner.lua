@@ -1,13 +1,6 @@
 return {
   'stevearc/overseer.nvim',
-  config = function()
-    require('overseer').setup()
-  end,
-  opts = {
-    bundles = {
-      autostart_on_load = false,
-    },
-  },
+  opts = {},
   keys = {
     {
       '<leader>rr',
@@ -28,6 +21,21 @@ return {
       '<leader>ra',
       '<cmd>OverseerQuickAction<cr>',
       desc = 'Run quick action for last task',
+    },
+    {
+      '<leader>rs',
+      '<cmd>OverseerSaveBundle<cr>',
+      desc = 'Save task bundle',
+    },
+    {
+      '<leader>rl',
+      '<cmd>OverseerLoadBundle!<cr>',
+      desc = 'Load task bundle',
+    },
+    {
+      '<leader>rd',
+      '<cmd>OverseerDeleteBundle<cr>',
+      desc = 'Delete task bundle',
     },
   },
 }
