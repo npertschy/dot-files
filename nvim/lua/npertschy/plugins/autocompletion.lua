@@ -106,6 +106,9 @@ return {
           },
         },
       },
+      per_filetype = {
+        codecompanion = { 'codecompanion' },
+      },
     },
 
     fuzzy = {
