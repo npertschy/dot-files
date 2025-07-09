@@ -1,5 +1,9 @@
 #/bin/sh
 
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
 apt install starship
 
 curl -fsSL https://fnm.vercel.app/install | bash
@@ -14,5 +18,5 @@ apt install fd-find
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
-curl -LO https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.tar.gz
-sudo tar -C /opt -xzf jdk-21_linux-x64_bin.tar.gz
+apt install openjdk-21-jdk
+apt install openjdk-21-source

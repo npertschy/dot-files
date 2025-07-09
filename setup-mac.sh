@@ -1,17 +1,18 @@
 echo "Setting up Unix environment"
 
 echo "Setup WezTerm config"
-ln -s -f ~/Projects/dot-files/.wezterm.lua ~/.wezterm.lua
+ln -s ~/Projects/dot-files/.wezterm.lua ~/.wezterm.lua
 
 echo "Setup zsh"
-ln -s -f ~/Projects/dot-files/.zshrc-mac ~/.zshrc
+ln -s ~/Projects/dot-files/.zshrc-mac ~/.zshrc
 
 echo "Setup starship config"
 if [ ! -d "$HOME/.config/" ]; then
 	mkdir "$HOME/.config/"
 fi
 
-ln -s -f ~/Projects/dot-files/starship.toml ~/.config/starship.toml
+ln -s ~/Projects/dot-files/starship.toml ~/.config/starship.toml
 
 echo "Setupu Neovim"
+rm -rf ~/.config/nvim
 cp -rsf ~/Projects/dot-files/nvim/ ~/.config/nvim/
