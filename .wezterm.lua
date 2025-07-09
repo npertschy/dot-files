@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 
 local config = {}
 -- Styling
-config.color_scheme = "OneHalfDark"
+config.color_scheme = "OneDark (base16)"
 config.font = wezterm.font("JetBrains Mono")
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.font_size = 9
@@ -124,6 +124,17 @@ config.key_tables = {
 -- I don't like the look of "fancy" tab bar
 config.status_update_interval = 1000
 config.tab_bar_at_bottom = false
+
+local basename = function(s)
+	-- Nothing a little regex can't fix
+	return string.gsub(s, "(/?.*[/\\])(.*)", "%2")
+end
+
+local basenameWorkingDir = function(s)
+	local filename = s:match(".*/([^/]+)/?$")
+	return filename or s
+end
+
 wezterm.on("update-status", function(window, pane)
 	-- Workspace name
 	local stat = window:active_workspace()
@@ -139,24 +150,9 @@ wezterm.on("update-status", function(window, pane)
 		stat_color = "#bb9af7"
 	end
 
-	local basename = function(s)
-		-- Nothing a little regex can't fix
-		return string.gsub(s, "(.*[/\\])(.*)", "%2")
-	end
-
 	-- Current working directory
-	local cwd = pane:get_current_working_dir()
-	if cwd then
-		if type(cwd) == "userdata" then
-			-- Wezterm introduced the URL object in 20240127-113634-bbcac864
-			cwd = basename(cwd.file_path)
-		else
-			-- 20230712-072601-f4abf8fd or earlier version
-			cwd = basename(cwd)
-		end
-	else
-		cwd = ""
-	end
+	local cwd = pane:get_current_working_dir().file_path
+	cwd = cwd and basenameWorkingDir(cwd) or ""
 
 	-- Current command
 	local cmd = pane:get_foreground_process_name()
@@ -187,5 +183,15 @@ wezterm.on("update-status", function(window, pane)
 		{ Text = wezterm.nerdfonts.md_clock .. "  " .. time },
 		{ Text = "  " },
 	}))
+end)
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	-- This is used to format the tab title
+	local current_tab = tabs[tab.tab_index + 1]
+	local pane = current_tab.active_pane
+	local cwd = basename(pane.foreground_process_name)
+	return {
+		{ Text = " " .. cwd .. " " },
+	}
 end)
 return config
