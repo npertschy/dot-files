@@ -22,9 +22,6 @@ vim.diagnostic.config {
       [vim.diagnostic.severity.HINT] = '󰌶 ',
     },
   } or {},
-  virtual_lines = {
-    current_line = true,
-  },
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
