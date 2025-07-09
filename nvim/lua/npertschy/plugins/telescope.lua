@@ -68,6 +68,13 @@ return {
         path_display = path_display,
       },
       pickers = {
+        buffers = {
+          mappings = {
+            i = {
+              ['<C-d>'] = require('telescope.actions').delete_buffer + require('telescope.actions').move_to_top,
+            },
+          },
+        },
         lsp_references = {
           include_declaration = false,
           trim_text = true,
@@ -98,7 +105,14 @@ return {
       },
       extensions = {
         ['ui-select'] = {
-          require('telescope.themes').get_dropdown(),
+          require('telescope.themes').get_dropdown {
+            layout_strategy = 'cursor',
+            layout_config = {
+              prompt_position = 'top',
+              height = 0.4,
+              width = 0.4,
+            },
+          },
         },
       },
     }
@@ -144,7 +158,7 @@ return {
 
     -- Shortcut for searching your Neovim configuration files
     vim.keymap.set('n', '<leader>sn', function()
-      builtin.find_files { cwd = vim.fn.stdpath 'config' }
+      builtin.find_files { cwd = vim.fn.stdpath 'config', follow = true }
     end, { desc = '[S]earch [N]eovim files' })
   end,
 }

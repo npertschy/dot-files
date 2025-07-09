@@ -26,7 +26,7 @@ end, { desc = 'Go to next [W]arn message' })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- NOTE: disable arrow keys
+-- NOTE disable arrow keys
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
@@ -53,7 +53,7 @@ vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
 -- NOTE: resize splits and windows
-vim.keymap.set('n', '<C-M-l>', '<cmd>vertical resize +1<cr>', { desc = 'Increase window size vertically' })
-vim.keymap.set('n', '<C-M-h>', '<cmd>vertical resize -1<cr>', { desc = 'Decrease window size vertically' })
-vim.keymap.set('n', '<C-M-k>', '<cmd>horizontal resize +1<cr>', { desc = 'Increase window size horizontally' })
-vim.keymap.set('n', '<C-M-j>', '<cmd>horizontal resize -1<cr>', { desc = 'Decrease window size horizontally' })
+vim.keymap.set('n', '<C-M-l>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window size vertically' })
+vim.keymap.set('n', '<C-M-h>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window size vertically' })
+vim.keymap.set('n', '<C-M-k>', '<cmd>horizontal resize +2<cr>', { desc = 'Increase window size horizontally' })
+vim.keymap.set('n', '<C-M-j>', '<cmd>horizontal resize -2<cr>', { desc = 'Decrease window size horizontally' })
