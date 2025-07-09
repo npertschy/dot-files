@@ -1,31 +1,22 @@
-local jdtls_path = vim.fn.expand '$MASON/packages/jdtls'
-local launcher_jar = vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar')
+local mason_share = vim.fn.expand '$MASON/share'
+local jdtls_path = mason_share .. '/jdtls'
+local launcher_jar = vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher.jar')
 local lombok_path = vim.fs.normalize(jdtls_path .. '/lombok.jar')
 
-local java_debug_path = vim.fn.expand '$MASON/packages/java-debug-adapter'
-local java_debug = vim.fn.glob(java_debug_path .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true)
+local java_debug_path = mason_share .. '/java-debug-adapter'
+local java_debug = vim.fn.glob(java_debug_path .. '/com.microsoft.java.debug.plugin.jar', true)
 
-local java_test_path = vim.fn.expand '$MASON/packages/java-test'
+local java_test_path = mason_share .. '/java-test'
 
 local bundles = {
   java_debug,
 }
-local all_test_jars = vim.split(vim.fn.glob(java_test_path .. '/extension/server/*.jar', true), '\n')
-local relevant_test_jars = {}
-for _, value in ipairs(all_test_jars) do
-  if not string.match(value, 'jacoco') and not string.match(value, 'dependencies') then
-    table.insert(relevant_test_jars, value)
-  end
-end
-
-vim.list_extend(bundles, relevant_test_jars)
+local all_test_jars = vim.split(vim.fn.glob(java_test_path .. '/*.jar', true), '\n')
+vim.list_extend(bundles, all_test_jars)
 
 local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
-
-local jdtls = require 'jdtls'
-local root_dir = jdtls.setup.find_root { 'pom.xml', 'mvnw', 'build.gradle', 'gradlew' }
-local workspace_dir = string.match(jdtls.setup.find_root { '.git' }, '[^/\\]+$')
-
+local root_dir = vim.fs.root(0, { 'pom.xml', 'mvnw', 'build.gradle', 'gradlew' })
+local workspace_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local function get_config_dir()
   if vim.fn.has 'linux' == 1 then
     return 'config_linux'
@@ -36,6 +27,10 @@ local function get_config_dir()
   end
 end
 
+local jdtls = require 'jdtls'
+local extendedClientCapabilities = jdtls.extendedClientCapabilities or {}
+extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+
 local config = {
   capabilities = blink_capabilities,
   cmd = {
@@ -45,7 +40,7 @@ local config = {
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
     '-Dlog.protocol=true',
     '-Dlog.level=ALL',
-    '-Xmx1G',
+    '-Xmx4G',
     '-javaagent:' .. lombok_path,
     '--add-modules=ALL-SYSTEM',
     '--add-opens',
@@ -55,12 +50,12 @@ local config = {
     '-jar',
     launcher_jar,
     '-configuration',
-    vim.fs.normalize(jdtls_path .. '/' .. get_config_dir()),
+    vim.fn.expand '$MASON/packages/jdtls/' .. get_config_dir(),
     '-data',
     vim.fn.expand '$HOME/.cache/jdtls-workspace/' .. workspace_dir,
   },
   init_options = {
-    extendedClientCapabilities = jdtls.extendedClientCapabilities,
+    extendedClientCapabilities = extendedClientCapabilities,
     bundles = bundles,
   },
   on_attach = function(client, bufnr)
@@ -69,6 +64,7 @@ local config = {
       vim.keymap.set('n', '<leader>tc', jdtls.test_class, { desc = 'Test class', buffer = bufnr })
       vim.keymap.set('n', '<leader>tm', jdtls.test_nearest_method, { desc = 'Test method', buffer = bufnr })
       vim.keymap.set('n', '<leader>tp', jdtls.pick_test, { desc = 'Pick and run Test', buffer = bufnr })
+      vim.keymap.set('n', '<leader>tg', require('jdtls.tests').goto_subjects, { desc = 'Goto subject', buffer = bufnr })
 
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sC', function()
@@ -95,6 +91,16 @@ local config = {
         }
       end, { desc = '[S]earch Tests [R]esources' })
     end
+
+    vim.lsp.codelens.refresh()
+
+    -- Setup a function that automatically runs every time a java file is saved to refresh the code lens
+    vim.api.nvim_create_autocmd('BufWritePost', {
+      pattern = { '*.java' },
+      callback = function()
+        local _, _ = pcall(vim.lsp.codelens.refresh)
+      end,
+    })
   end,
   root_dir = root_dir,
   settings = {
@@ -102,6 +108,38 @@ local config = {
       inlayHints = {
         parameterNames = {
           enabled = 'all',
+        },
+      },
+      eclipse = {
+        downloadSources = true,
+      },
+      maven = {
+        downloadSources = true,
+      },
+      implementationsCodeLens = {
+        enabled = true,
+      },
+      referencesCodeLens = {
+        enabled = true,
+      },
+      references = {
+        includeDecompiledSources = true,
+      },
+      completion = {
+        favoriteStaticMembers = {
+          'org.hamcrest.MatcherAssert.assertThat',
+          'org.hamcrest.Matchers.*',
+          'org.hamcrest.CoreMatchers.*',
+          'org.junit.jupiter.api.Assertions.*',
+          'java.util.Objects.requireNonNull',
+          'java.util.Objects.requireNonNullElse',
+          'org.mockito.Mockito.*',
+        },
+        importOrder = {
+          'javax',
+          'java',
+          'com',
+          'org',
         },
       },
     },

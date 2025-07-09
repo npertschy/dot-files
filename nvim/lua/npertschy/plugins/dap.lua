@@ -5,7 +5,10 @@ return {
     dependencies = {
       'rcarriga/nvim-dap-ui',
       'nvim-neotest/nvim-nio',
-      'theHamsta/nvim-dap-virtual-text',
+      {
+        'theHamsta/nvim-dap-virtual-text',
+        opts = {},
+      },
     },
     keys = {
       {
@@ -51,7 +54,7 @@ return {
         desc = 'Go to Line (No Execute)',
       },
       {
-        '<leader>di',
+        '<M-i>',
         function()
           require('dap').step_into()
         end,
@@ -79,14 +82,14 @@ return {
         desc = 'Run Last',
       },
       {
-        '<leader>do',
+        '<M-o>',
         function()
           require('dap').step_out()
         end,
         desc = 'Step Out',
       },
       {
-        '<leader>dO',
+        '<M-p>',
         function()
           require('dap').step_over()
         end,
@@ -130,7 +133,12 @@ return {
       {
         '<leader>du',
         function()
-          require('dapui').toggle {}
+          local breakpoints = require('dap.breakpoints').get()
+          if next(breakpoints) == nil then
+            require('dapui').toggle { layout = 2 }
+          else
+            require('dapui').toggle {}
+          end
         end,
         desc = 'Dap UI',
       },
@@ -203,15 +211,53 @@ return {
             disconnect = '⏏',
           },
         },
+        layouts = {
+          {
+            elements = {
+              {
+                id = 'scopes',
+                size = 0.25,
+              },
+              {
+                id = 'breakpoints',
+                size = 0.25,
+              },
+              {
+                id = 'stacks',
+                size = 0.25,
+              },
+              {
+                id = 'watches',
+                size = 0.25,
+              },
+            },
+            position = 'left',
+            size = 40,
+          },
+          {
+            elements = {
+              {
+                id = 'repl',
+                size = 0.4,
+              },
+              {
+                id = 'console',
+                size = 0.6,
+              },
+            },
+            position = 'bottom',
+            size = 20,
+          },
+        },
       }
+
       dap.listeners.after.event_initialized['dapui_config'] = function()
-        dapui.open {}
-      end
-      dap.listeners.before.event_terminated['dapui_config'] = function()
-        dapui.close {}
-      end
-      dap.listeners.before.event_exited['dapui_config'] = function()
-        dapui.close {}
+        local breakpoints = require('dap.breakpoints').get()
+        if next(breakpoints) == nil then
+          require('dapui').open { layout = 2 }
+        else
+          require('dapui').open {}
+        end
       end
 
       vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
