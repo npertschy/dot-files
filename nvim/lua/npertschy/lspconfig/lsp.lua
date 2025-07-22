@@ -3,6 +3,8 @@ vim.lsp.enable {
   'groovyls',
   'jsonls',
   'lua_ls',
+  'pyright',
+  'ruff',
   'vtsls',
   'yamlls',
 }
