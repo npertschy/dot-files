@@ -1,6 +1,14 @@
 return {
   'stevearc/overseer.nvim',
-  opts = {},
+  opts = {
+    task_list = {
+      bindings = {
+        ['s'] = '<cmd>OverseerQuickAction start<cr>',
+        ['t'] = 'Stop',
+        ['r'] = '<cmd>OverseerQuickAction restart<cr>',
+      },
+    },
+  },
   keys = {
     {
       '<leader>rr',
@@ -13,7 +21,7 @@ return {
       desc = 'Select task to run',
     },
     {
-      '<leader>rt',
+      '<M-8>',
       '<cmd>OverseerToggle<cr>',
       desc = 'View command overview',
     },
