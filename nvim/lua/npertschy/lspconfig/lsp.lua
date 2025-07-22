@@ -43,6 +43,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
     map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+    map('<leader>lr', function()
+      vim.ui.input({ prompt = 'LSP-Name zum Neustarten: ' }, function(lsp_name)
+        if lsp_name and lsp_name ~= '' then
+          vim.lsp.enable(lsp_name, false)
+          vim.lsp.enable(lsp_name)
+          print("LSP '" .. lsp_name .. "' wurde neu gestartet.")
+        else
+          print 'Kein LSP-Name angegeben.'
+        end
+      end)
+    end, '[L]SP [R]estart')
+
     local function client_supports_method(client, method, bufnr)
       if vim.fn.has 'nvim-0.11' == 1 then
         return client:supports_method(method, bufnr)
