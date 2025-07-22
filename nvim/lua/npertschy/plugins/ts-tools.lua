@@ -2,6 +2,7 @@ return {
   {
     'yioneko/nvim-vtsls',
     lazy = true,
+    opts = {},
   },
   {
     'dmmulroy/ts-error-translator.nvim',
