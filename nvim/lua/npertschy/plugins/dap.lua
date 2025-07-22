@@ -143,7 +143,7 @@ return {
         desc = 'Dap UI',
       },
       {
-        'wleaderwde',
+        '<leader>de',
         function()
           require('dapui').eval()
         end,
@@ -249,6 +249,13 @@ return {
             size = 20,
           },
         },
+      }
+
+      require('nvim-dap-virtual-text').setup {
+        commented = true,
+        enabled = true,
+        highlight_changed_variables = true,
+        highlight_new_as_changed = true,
       }
 
       dap.listeners.after.event_initialized['dapui_config'] = function()
