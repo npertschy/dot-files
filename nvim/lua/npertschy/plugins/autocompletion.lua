@@ -11,11 +11,19 @@ return {
   opts = {
     cmdline = {
       keymap = {
-        preset = 'inherit',
+        preset = 'cmdline',
       },
       completion = {
+        list = {
+          selection = {
+            preselect = false,
+          },
+        },
         menu = {
           auto_show = true,
+        },
+        ghost_text = {
+          enabled = true,
         },
       },
     },
@@ -24,7 +32,7 @@ return {
       list = {
         selection = {
           auto_insert = true,
-          preselect = false,
+          preselect = true,
         },
       },
       menu = {
@@ -66,9 +74,9 @@ return {
     },
 
     keymap = {
-      preset = 'default',
-      ['<C-y>'] = {},
-      ['<C-z>'] = { 'select_and_accept' },
+      preset = 'enter',
+      -- ['<C-y>'] = {},
+      -- ['<C-z>'] = { 'select_and_accept' },
     },
 
     appearance = {
@@ -102,6 +110,15 @@ return {
                 end
               end
               return in_spell_capture
+            end,
+          },
+        },
+        buffer = {
+          opts = {
+            get_bufnrs = function()
+              return vim.tbl_filter(function(bufnr)
+                return vim.bo[bufnr].buftype == ''
+              end, vim.api.nvim_list_bufs())
             end,
           },
         },

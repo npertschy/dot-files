@@ -44,13 +44,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
     map('<leader>lr', function()
-      vim.ui.input({ prompt = 'LSP-Name zum Neustarten: ' }, function(lsp_name)
-        if lsp_name and lsp_name ~= '' then
-          vim.lsp.enable(lsp_name, false)
-          vim.lsp.enable(lsp_name)
-          print("LSP '" .. lsp_name .. "' wurde neu gestartet.")
+      local clients = vim.lsp.get_clients()
+      vim.ui.select(clients, {
+        prompt = 'Welchen LSP-Server möchtest du neu starten?',
+        format_item = function(client)
+          return client.name
+        end,
+      }, function(choice)
+        if choice then
+          vim.lsp.enable(choice, false)
+          vim.lsp.enable(choice)
+          print("LSP '" .. choice.name .. "' wurde neu gestartet.")
         else
-          print 'Kein LSP-Name angegeben.'
+          print 'Kein LSP-Server ausgewählt.'
         end
       end)
     end, '[L]SP [R]estart')

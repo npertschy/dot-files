@@ -11,7 +11,11 @@ return {
           accept_word = '<M-l>',
         },
       },
+      filetypes = {
+        yaml = true,
+        markdown = true,
+        codecompanion = true,
+      },
     },
   },
-  { 'AndreM222/copilot-lualine' },
 }

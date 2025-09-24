@@ -36,7 +36,7 @@ return {
       timeout = 3000,
     },
     quickfile = { enabled = true },
-    scratch = { enabled = true },
+    scratch = { enabled = false },
     statuscolumn = { enabled = true },
     styles = {
       notification = {
@@ -75,38 +75,6 @@ return {
       end,
       desc = 'Prev Reference',
       mode = { 'n', 't' },
-    },
-    {
-      '<leader>N',
-      desc = 'Neovim News',
-      function()
-        Snacks.win {
-          file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
-          width = 0.6,
-          height = 0.6,
-          wo = {
-            spell = false,
-            wrap = false,
-            signcolumn = 'yes',
-            statuscolumn = ' ',
-            conceallevel = 3,
-          },
-        }
-      end,
-    },
-    {
-      '<leader>.',
-      function()
-        Snacks.scratch()
-      end,
-      desc = 'Open Scratch Buffer',
-    },
-    {
-      '<leader>S',
-      function()
-        Snacks.scratch.select()
-      end,
-      desc = 'Select Scratch Buffer',
     },
   },
   config = function(_, opts)
