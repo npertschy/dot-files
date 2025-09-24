@@ -1,23 +1,75 @@
-return {
-  'nvim-treesitter/nvim-treesitter',
-  event = { 'BufReadPre', 'BufNewFile' },
-  build = ':TSUpdate',
-  dependencies = {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    'windwp/nvim-ts-autotag',
-  },
-  opts = {
-    ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
-    auto_install = true,
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-    indent = { enable = true, disable = { 'ruby' } },
-    autotag = { enable = true },
-  },
-  config = function(_, opts)
-    require('nvim-treesitter.install').prefer_git = true
-    require('nvim-treesitter.configs').setup(opts)
+-- on main branch, treesitter isn't started automatically
+vim.api.nvim_create_autocmd({ 'Filetype' }, {
+  callback = function(event)
+    -- make sure nvim-treesitter is loaded
+    local ok, nvim_treesitter = pcall(require, 'nvim-treesitter')
+
+    -- no nvim-treesitter, maybe fresh install
+    if not ok then
+      return
+    end
+
+    local ft = vim.bo[event.buf].ft
+    local lang = vim.treesitter.language.get_lang(ft)
+    nvim_treesitter.install({ lang }):await(function(err)
+      if err then
+        vim.notify('Treesitter install error for ft: ' .. ft .. ' err: ' .. err)
+        return
+      end
+
+      pcall(vim.treesitter.start, event.buf)
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    end)
   end,
+})
+
+return {
+  {
+    'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    branch = 'main',
+    build = ':TSUpdate',
+    opts = {},
+    config = function(_, opts)
+      local ensure_installed = {
+        'bash',
+        'css',
+        'diff',
+        'gitignore',
+        'gitattributes',
+        'html',
+        'java',
+        'javascript',
+        'typescript',
+        'json',
+        'jsonc',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'mdx',
+        'properties',
+        'tsx',
+        'vim',
+        'vimdoc',
+        'vue',
+        'yaml',
+      }
+
+      -- make sure nvim-treesitter can load
+      local ok, nvim_treesitter = pcall(require, 'nvim-treesitter')
+
+      -- no nvim-treesitter, maybe fresh install
+      if not ok then
+        return
+      end
+
+      nvim_treesitter.install(ensure_installed)
+    end,
+  },
+  {
+    'windwp/nvim-ts-autotag',
+    opts = {},
+  },
 }

@@ -14,6 +14,8 @@ local bundles = {
 local all_test_jars = vim.split(vim.fn.glob(java_test_path .. '/*.jar', true), '\n')
 vim.list_extend(bundles, all_test_jars)
 
+vim.list_extend(bundles, require('spring_boot').java_extensions())
+
 local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
 local root_dir = vim.fs.root(0, { 'pom.xml', 'mvnw', 'build.gradle', 'gradlew' })
 local workspace_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
@@ -90,6 +92,9 @@ local config = {
           cwd = vim.fn.expand(root_dir .. '/src/test/resources'),
         }
       end, { desc = '[S]earch Tests [R]esources' })
+
+      vim.keymap.set('n', '<leader>jf', '<cmd>JdtCompile full<cr>', { desc = 'Compile full project' })
+      vim.keymap.set('n', '<leader>ji', '<cmd>JdtCompile incremental<cr>', { desc = 'Complile incremental' })
     end
 
     vim.lsp.codelens.refresh()
@@ -127,19 +132,15 @@ local config = {
       },
       completion = {
         favoriteStaticMembers = {
-          'org.hamcrest.MatcherAssert.assertThat',
           'org.hamcrest.Matchers.*',
-          'org.hamcrest.CoreMatchers.*',
           'org.junit.jupiter.api.Assertions.*',
-          'java.util.Objects.requireNonNull',
-          'java.util.Objects.requireNonNullElse',
           'org.mockito.Mockito.*',
         },
         importOrder = {
-          'javax',
-          'java',
           'com',
           'org',
+          'javax',
+          'java',
         },
       },
     },

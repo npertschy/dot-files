@@ -1,98 +1,310 @@
 return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   lazy = true,
-  config = function()
-    require('nvim-treesitter.configs').setup {
-      textobjects = {
-        select = {
-          enable = true,
-
-          -- Automatically jump forward to textobj, similar to targets.vim
-          lookahead = true,
-
-          keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
-            ['a='] = { query = '@assignment.outer', desc = 'Select outer part of an assignment' },
-            ['i='] = { query = '@assignment.inner', desc = 'Select inner part of an assignment' },
-            ['l='] = { query = '@assignment.lhs', desc = 'Select left hand side of an assignment' },
-            ['r='] = { query = '@assignment.rhs', desc = 'Select right hand side of an assignment' },
-
-            -- works for javascript/typescript files (custom capture I created in after/queries/ecma/textobjects.scm)
-            ['a:'] = { query = '@property.outer', desc = 'Select outer part of an object property' },
-            ['i:'] = { query = '@property.inner', desc = 'Select inner part of an object property' },
-            ['l:'] = { query = '@property.lhs', desc = 'Select left part of an object property' },
-            ['r:'] = { query = '@property.rhs', desc = 'Select right part of an object property' },
-
-            ['aa'] = { query = '@parameter.outer', desc = 'Select outer part of a parameter/argument' },
-            ['ia'] = { query = '@parameter.inner', desc = 'Select inner part of a parameter/argument' },
-
-            ['ai'] = { query = '@conditional.outer', desc = 'Select outer part of a conditional' },
-            ['ii'] = { query = '@conditional.inner', desc = 'Select inner part of a conditional' },
-
-            ['al'] = { query = '@loop.outer', desc = 'Select outer part of a loop' },
-            ['il'] = { query = '@loop.inner', desc = 'Select inner part of a loop' },
-
-            ['af'] = { query = '@call.outer', desc = 'Select outer part of a function call' },
-            ['if'] = { query = '@call.inner', desc = 'Select inner part of a function call' },
-
-            ['am'] = { query = '@function.outer', desc = 'Select outer part of a method/function definition' },
-            ['im'] = { query = '@function.inner', desc = 'Select inner part of a method/function definition' },
-
-            ['ac'] = { query = '@class.outer', desc = 'Select outer part of a class' },
-            ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class' },
-          },
-        },
-        swap = {
-          enable = true,
-          swap_next = {
-            ['<leader>cna'] = '@parameter.inner', -- swap parameters/argument with next
-            ['<leader>cn:'] = '@property.outer', -- swap object property with next
-            ['<leader>cnm'] = '@function.outer', -- swap function with next
-          },
-          swap_previous = {
-            ['<leader>cpa'] = '@parameter.inner', -- swap parameters/argument with prev
-            ['<leader>cp:'] = '@property.outer', -- swap object property with prev
-            ['<leader>cpm'] = '@function.outer', -- swap function with previous
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            [']f'] = { query = '@call.outer', desc = 'Next function call start' },
-            [']m'] = { query = '@function.outer', desc = 'Next method/function def start' },
-            [']c'] = { query = '@class.outer', desc = 'Next class start' },
-            [']i'] = { query = '@conditional.outer', desc = 'Next conditional start' },
-            [']l'] = { query = '@loop.outer', desc = 'Next loop start' },
-
-            -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-            -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-            -- [']s'] = { query = '@scope', query_group = 'locals', desc = 'Next scope' },
-            [']z'] = { query = '@fold', query_group = 'folds', desc = 'Next fold' },
-          },
-          goto_next_end = {
-            [']F'] = { query = '@call.outer', desc = 'Next function call end' },
-            [']M'] = { query = '@function.outer', desc = 'Next method/function def end' },
-            [']C'] = { query = '@class.outer', desc = 'Next class end' },
-            [']I'] = { query = '@conditional.outer', desc = 'Next conditional end' },
-            [']L'] = { query = '@loop.outer', desc = 'Next loop end' },
-          },
-          goto_previous_start = {
-            ['[f'] = { query = '@call.outer', desc = 'Prev function call start' },
-            ['[m'] = { query = '@function.outer', desc = 'Prev method/function def start' },
-            ['[c'] = { query = '@class.outer', desc = 'Prev class start' },
-            ['[i'] = { query = '@conditional.outer', desc = 'Prev conditional start' },
-            ['[l'] = { query = '@loop.outer', desc = 'Prev loop start' },
-          },
-          goto_previous_end = {
-            ['[F'] = { query = '@call.outer', desc = 'Prev function call end' },
-            ['[M'] = { query = '@function.outer', desc = 'Prev method/function def end' },
-            ['[C'] = { query = '@class.outer', desc = 'Prev class end' },
-            ['[I'] = { query = '@conditional.outer', desc = 'Prev conditional end' },
-            ['[L'] = { query = '@loop.outer', desc = 'Prev loop end' },
-          },
-        },
+  branch = 'main',
+  opts = {},
+  keys = function()
+    local select = require 'nvim-treesitter-textobjects.select'
+    local swap = require 'nvim-treesitter-textobjects.swap'
+    local move = require 'nvim-treesitter-textobjects.move'
+    return {
+      {
+        'a=',
+        function()
+          select.select_textobject('@assignment.outer', 'textobjects')
+        end,
+        desc = 'Select outer part of an assignment',
+      },
+      {
+        'i=',
+        function()
+          select.select_textobject('@assignment.inner', 'textobjects')
+        end,
+        desc = 'Select inner part of an assignment',
+      },
+      {
+        'l=',
+        function()
+          select.select_textobject('@assignment.lhs', 'textobjects')
+        end,
+        desc = 'Select left hand side of an assignment',
+      },
+      {
+        'r=',
+        function()
+          select.select_textobject('@assignment.rhs', 'textobjects')
+        end,
+        desc = 'Select right hand side of an assignment',
+      },
+      {
+        'aa',
+        function()
+          select.select_textobject('@parameter.outer', 'textobjects')
+        end,
+        desc = 'Select outer part of a parameter/argument',
+      },
+      {
+        'ia',
+        function()
+          select.select_textobject('@parameter.inner', 'textobjects')
+        end,
+        desc = 'Select inner part of a parameter/argument',
+      },
+      {
+        'ai',
+        function()
+          select.select_textobject('@conditional.outer', 'textobjects')
+        end,
+        desc = 'Select outer part of a conditional',
+      },
+      {
+        'ii',
+        function()
+          select.select_textobject('@conditional.inner', 'textobjects')
+        end,
+        desc = 'Select inner part of a conditional',
+      },
+      {
+        'al',
+        function()
+          select.select_textobject('@loop.outer', 'textobjects')
+        end,
+        desc = 'Select outer part of a loop',
+      },
+      {
+        'il',
+        function()
+          select.select_textobject('@loop.inner', 'textobjects')
+        end,
+        desc = 'Select inner part of a loop',
+      },
+      {
+        'af',
+        function()
+          select.select_textobject('@call.outer', 'textobjects')
+        end,
+        desc = 'Select outer part of a function call',
+      },
+      {
+        'if',
+        function()
+          select.select_textobject('@call.inner', 'textobjects')
+        end,
+        desc = 'Select inner part of a function call',
+      },
+      {
+        'am',
+        function()
+          select.select_textobject('@function.outer', 'textobjects')
+        end,
+        desc = 'Select outer part of a method/function definition',
+      },
+      {
+        'im',
+        function()
+          select.select_textobject('@function.inner', 'textobjects')
+        end,
+        desc = 'Select inner part of a method/function definition',
+      },
+      {
+        'ac',
+        function()
+          select.select_textobject('@class.outer', 'textobjects')
+        end,
+        desc = 'Select outer part of a class',
+      },
+      {
+        'ic',
+        function()
+          select.select_textobject('@class.inner', 'textobjects')
+        end,
+        desc = 'Select inner part of a class',
+      },
+      {
+        '<leader>cna',
+        function()
+          swap.swap_next('@parameter.inner', 'textobjects')
+        end,
+        desc = 'Swap parameter/argument with next',
+      },
+      {
+        '<leader>cn:',
+        function()
+          swap.swap_next('@property.outer', 'textobjects')
+        end,
+        desc = 'Swap object property with next',
+      },
+      {
+        '<leader>cnm',
+        function()
+          swap.swap_next('@function.outer', 'textobjects')
+        end,
+        desc = 'Swap function with next',
+      },
+      {
+        '<leader>cpa',
+        function()
+          swap.swap_previous('@parameter.inner', 'textobjects')
+        end,
+        desc = 'Swap parameter/argument with previous',
+      },
+      {
+        '<leader>cp:',
+        function()
+          swap.swap_previous('@property.outer', 'textobjects')
+        end,
+        desc = 'Swap object property with previous',
+      },
+      {
+        '<leader>cpm',
+        function()
+          swap.swap_previous('@function.outer', 'textobjects')
+        end,
+        desc = 'Swap function with previous',
+      },
+      {
+        ']f',
+        function()
+          move.goto_next_start('@call.outer', 'textobjects')
+        end,
+        desc = 'Next function call start',
+      },
+      {
+        ']m',
+        function()
+          move.goto_next_start('@function.outer', 'textobjects')
+        end,
+        desc = 'Next method/function def start',
+      },
+      {
+        ']c',
+        function()
+          move.goto_next_start('@class.outer', 'textobjects')
+        end,
+        desc = 'Next class start',
+      },
+      {
+        ']i',
+        function()
+          move.goto_next_start('@conditional.outer', 'textobjects')
+        end,
+        desc = 'Next conditional start',
+      },
+      {
+        ']l',
+        function()
+          move.goto_next_start('@loop.outer', 'textobjects')
+        end,
+        desc = 'Next loop start',
+      },
+      {
+        '[f',
+        function()
+          move.goto_previous_start('@call.outer', 'textobjects')
+        end,
+        desc = 'Prev function call start',
+      },
+      {
+        '[m',
+        function()
+          move.goto_previous_start('@function.outer', 'textobjects')
+        end,
+        desc = 'Prev method/function def start',
+      },
+      {
+        '[c',
+        function()
+          move.goto_previous_start('@class.outer', 'textobjects')
+        end,
+        desc = 'Prev class start',
+      },
+      {
+        '[i',
+        function()
+          move.goto_previous_start('@conditional.outer', 'textobjects')
+        end,
+        desc = 'Prev conditional start',
+      },
+      {
+        '[l',
+        function()
+          move.goto_previous_start('@loop.outer', 'textobjects')
+        end,
+        desc = 'Prev loop start',
+      },
+      {
+        ']F',
+        function()
+          move.goto_next_end('@call.outer', 'textobjects')
+        end,
+        desc = 'Next function call end',
+      },
+      {
+        ']M',
+        function()
+          move.goto_next_end('@function.outer', 'textobjects')
+        end,
+        desc = 'Next method/function def end',
+      },
+      {
+        ']C',
+        function()
+          move.goto_next_end('@class.outer', 'textobjects')
+        end,
+        desc = 'Next class end',
+      },
+      {
+        ']I',
+        function()
+          move.goto_next_end('@conditional.outer', 'textobjects')
+        end,
+        desc = 'Next conditional end',
+      },
+      {
+        ']L',
+        function()
+          move.goto_next_end('@loop.outer', 'textobjects')
+        end,
+        desc = 'Next loop end',
+      },
+      {
+        '[F',
+        function()
+          move.goto_previous_end('@call.outer', 'textobjects')
+        end,
+        desc = 'Prev function call end',
+      },
+      {
+        '[M',
+        function()
+          move.goto_previous_end('@function.outer', 'textobjects')
+        end,
+        desc = 'Prev method/function def end',
+      },
+      {
+        '[C',
+        function()
+          move.goto_previous_end('@class.outer', 'textobjects')
+        end,
+        desc = 'Prev class end',
+      },
+      {
+        '[I',
+        function()
+          move.goto_previous_end('@conditional.outer', 'textobjects')
+        end,
+        desc = 'Prev conditional end',
+      },
+      {
+        '[L',
+        function()
+          move.goto_previous_end('@loop.outer', 'textobjects')
+        end,
+        desc = 'Prev loop end',
       },
     }
+  end,
+  config = function(_, opts)
+    require('nvim-treesitter-textobjects').setup(opts)
   end,
 }

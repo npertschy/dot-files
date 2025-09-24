@@ -8,7 +8,7 @@ return {
   opts = {
     file_types = { 'markdown', 'mdx', 'codecompanion' },
     completions = {
-      blink = { enabled = true },
+      lsp = { enabled = true },
     },
   },
   keys = {
