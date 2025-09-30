@@ -30,11 +30,15 @@ return {
     lazy = false,
     branch = 'main',
     build = ':TSUpdate',
+    dependencies = {
+      'LiadOz/nvim-dap-repl-highlights',
+    },
     opts = {},
     config = function(_, opts)
       local ensure_installed = {
         'bash',
         'css',
+        'dap_repl',
         'diff',
         'gitignore',
         'gitattributes',
@@ -65,6 +69,7 @@ return {
         return
       end
 
+      require('nvim-dap-repl-highlights').setup()
       nvim_treesitter.install(ensure_installed)
     end,
   },

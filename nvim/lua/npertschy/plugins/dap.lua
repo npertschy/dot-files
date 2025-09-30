@@ -3,7 +3,6 @@ return {
     'mfussenegger/nvim-dap',
     lazy = true,
     dependencies = {
-      'rcarriga/nvim-dap-ui',
       'nvim-neotest/nvim-nio',
       {
         'theHamsta/nvim-dap-virtual-text',
@@ -132,23 +131,8 @@ return {
       },
       {
         '<leader>du',
-        function()
-          local breakpoints = require('dap.breakpoints').get()
-          if next(breakpoints) == nil then
-            require('dapui').toggle { layout = 2 }
-          else
-            require('dapui').toggle {}
-          end
-        end,
+        '<cmd>DapViewToggle!<cr>',
         desc = 'Dap UI',
-      },
-      {
-        '<leader>de',
-        function()
-          require('dapui').eval()
-        end,
-        desc = 'Eval',
-        mode = { 'n', 'v' },
       },
     },
     config = function()
@@ -195,62 +179,6 @@ return {
         },
       }
 
-      local dapui = require 'dapui'
-      dapui.setup {
-        icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-        controls = {
-          icons = {
-            pause = '⏸',
-            play = '▶',
-            step_into = '⏎',
-            step_over = '⏭',
-            step_out = '⏮',
-            step_back = 'b',
-            run_last = '▶▶',
-            terminate = '⏹',
-            disconnect = '⏏',
-          },
-        },
-        layouts = {
-          {
-            elements = {
-              {
-                id = 'scopes',
-                size = 0.25,
-              },
-              {
-                id = 'breakpoints',
-                size = 0.25,
-              },
-              {
-                id = 'stacks',
-                size = 0.25,
-              },
-              {
-                id = 'watches',
-                size = 0.25,
-              },
-            },
-            position = 'left',
-            size = 40,
-          },
-          {
-            elements = {
-              {
-                id = 'repl',
-                size = 0.4,
-              },
-              {
-                id = 'console',
-                size = 0.6,
-              },
-            },
-            position = 'bottom',
-            size = 20,
-          },
-        },
-      }
-
       require('nvim-dap-virtual-text').setup {
         commented = true,
         enabled = true,
@@ -258,18 +186,33 @@ return {
         highlight_new_as_changed = true,
       }
 
-      dap.listeners.after.event_initialized['dapui_config'] = function()
-        local breakpoints = require('dap.breakpoints').get()
-        if next(breakpoints) == nil then
-          require('dapui').open { layout = 2 }
-        else
-          require('dapui').open {}
-        end
+      local dapview = require 'dap-view'
+      dap.listeners.before.attach.dapui_config = function()
+        dapview.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapview.open()
       end
 
       vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
 
       vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
     end,
+  },
+  {
+    'igorlfs/nvim-dap-view',
+    ---@module 'dap-view'
+    ---@type dapview.Config
+    opts = {
+      winbar = {
+        default_section = 'repl',
+      },
+      windows = {
+        terminal = {
+          position = 'right',
+          start_hidden = false,
+        },
+      },
+    },
   },
 }
