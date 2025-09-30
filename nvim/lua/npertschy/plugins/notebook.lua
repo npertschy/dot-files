@@ -3,9 +3,12 @@ return {
   config = function()
     require('dooing').setup {
       keymaps = {
-        toggle_window = '<leader>nt',
-        open_project_todo = '<leader>np',
-        create_nesterd_task = '<leader>nc',
+        toggle_window = '<leader>N',
+        open_project_todo = '<leader>n',
+        create_nested_task = 'a',
+      },
+      window = {
+        width = 110,
       },
     }
   end,
