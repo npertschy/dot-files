@@ -78,3 +78,6 @@ vim.opt.tabstop = 4
 vim.opt.expandtab = true
 
 vim.opt.completeopt = 'menu,menuone,noselect,popup'
+
+-- global statusline
+vim.opt.laststatus = 3
