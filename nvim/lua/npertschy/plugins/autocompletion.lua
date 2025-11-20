@@ -75,8 +75,6 @@ return {
 
     keymap = {
       preset = 'enter',
-      -- ['<C-y>'] = {},
-      -- ['<C-z>'] = { 'select_and_accept' },
     },
 
     appearance = {
@@ -85,7 +83,7 @@ return {
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'spell', 'markdown' },
+      default = { 'i18n', 'lsp', 'path', 'snippets', 'buffer', 'spell', 'markdown' },
       providers = {
         markdown = {
           name = 'RenderMarkdown',
@@ -121,6 +119,10 @@ return {
               end, vim.api.nvim_list_bufs())
             end,
           },
+        },
+        i18n = {
+          name = 'i18n',
+          module = 'i18n.integration.blink_source',
         },
       },
       per_filetype = {
