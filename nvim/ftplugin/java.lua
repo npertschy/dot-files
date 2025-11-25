@@ -69,23 +69,23 @@ local config = {
       vim.keymap.set('n', '<leader>tg', require('jdtls.tests').goto_subjects, { desc = 'Goto subject', buffer = bufnr })
 
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sC', function()
+      vim.keymap.set('n', '<leader>sc', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/main/java'),
         }
-      end, { desc = '[S]earch [C]lasses' })
+      end, { desc = '[S]earch [c]lasses' })
 
-      vim.keymap.set('n', '<leader>sT', function()
+      vim.keymap.set('n', '<leader>st', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/test/java'),
         }
-      end, { desc = '[S]earch [T]ests' })
+      end, { desc = '[S]earch [t]ests' })
 
       vim.keymap.set('n', '<leader>sr', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/main/resources'),
         }
-      end, { desc = '[S]earch [R]esources' })
+      end, { desc = '[S]earch [r]esources' })
 
       vim.keymap.set('n', '<leader>sR', function()
         builtin.find_files {
