@@ -5,6 +5,7 @@ return {
   opts = {
     highlight = {
       pattern = [[.*<(KEYWORDS)\s*:?]],
+      keyword = 'bg',
     },
   },
   keys = {
