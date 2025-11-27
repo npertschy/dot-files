@@ -14,11 +14,11 @@ return {
 
         DiagnosticUnderlineError = { fg = 'NONE', sp = colors.red, undercurl = true },
         DiagnosticUnderlineWarn = { fg = 'NONE', sp = colors.orange, undercurl = true },
-        DiagnosticUnderlineInfo = {fg = 'NONE', sp = colors.green, undercurl = true },
+        DiagnosticUnderlineInfo = { fg = 'NONE', sp = colors.green, undercurl = true },
         DiagnosticUnderlineHint = { fg = 'NONE', sp = colors.blue, undercurl = true },
 
         SpellBad = { fg = 'NONE', sp = colors.cyan, undercurl = true },
-        SpellCap = { fg = 'NONE',  sp = colors.cyan, undercurl = true },
+        SpellCap = { fg = 'NONE', sp = colors.cyan, undercurl = true },
         SpellLocal = { fg = 'NONE', sp = colors.cyan, undercurl = true },
         SpellRare = { fg = 'NONE', sp = colors.cyan, undercurl = true },
       },

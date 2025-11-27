@@ -5,6 +5,14 @@ return {
   opts = {
     highlight = {
       pattern = [[.*<(KEYWORDS)\s*:?]],
+      keyword = 'bg',
+    },
+  },
+  keys = {
+    {
+      '<leader>so',
+      '<cmd>TodoTelescope<CR>',
+      desc = '[S]earch t[o]dos and other comments',
     },
   },
 }

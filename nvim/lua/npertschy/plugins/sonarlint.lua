@@ -1,35 +1,21 @@
 return {
-  url = 'https://gitlab.com/schrieveslaach/sonarlint.nvim',
+  'iamkarasik/sonarqube.nvim',
   config = function()
-    local data_dir = vim.fn.stdpath 'data'
-    local command
-    if vim.fn.has 'win32' == 1 then
-      command = 'sonarlint-language-server.cmd'
-    else
-      command = 'sonarlint-language-server'
-    end
-    require('sonarlint').setup {
-      server = {
+    local extension_path = vim.fn.stdpath 'data' .. '/mason/packages/sonarlint-language-server/extension'
+    require('sonarqube').setup {
+      lsp = {
         cmd = {
-          command,
+          'java',
+          '-jar',
+          extension_path .. '/server/sonarlint-ls.jar',
           '-stdio',
           '-analyzers',
-          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarhtml.jar'),
-          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarjava.jar'),
-          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarjs.jar'),
-          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonartext.jar'),
-          vim.fn.expand(data_dir .. '/mason/share/sonarlint-analyzers/sonarxml.jar'),
+          extension_path .. '/analyzers/sonarhtml.jar',
+          extension_path .. '/analyzers/sonarjava.jar',
+          extension_path .. '/analyzers/sonarjs.jar',
+          extension_path .. '/analyzers/sonartext.jar',
+          extension_path .. '/analyzers/sonarxml.jar',
         },
-      },
-      filetypes = {
-        'java',
-        'gradle',
-        'js',
-        'jsx',
-        'ts',
-        'tsx',
-        'vue',
-        'md',
       },
     }
   end,

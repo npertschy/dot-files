@@ -65,16 +65,11 @@ return {
           end
 
           return {
-            { get_diagnostic_label() },
             { (ft_icon or '') .. ' ', guifg = ft_color, guibg = 'none' },
             { filename .. ' ', gui = vim.bo[props.buf].modified and 'bold,italic' or 'bold' },
+            { get_diagnostic_label() },
           }
         end,
-        window = {
-          placement = {
-            horizontal = 'center',
-          },
-        },
       }
     end,
   },
