@@ -30,14 +30,13 @@ return {
       },
     },
     indent = { enabled = true },
-    input = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
+      top_down = false,
     },
     quickfile = { enabled = true },
-    scratch = { enabled = false },
-    statuscolumn = { enabled = true },
+    rename = { enabled = true },
     styles = {
       notification = {
         wo = { wrap = true }, -- Wrap notifications

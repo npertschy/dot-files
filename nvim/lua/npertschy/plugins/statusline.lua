@@ -70,11 +70,6 @@ return {
             { get_diagnostic_label() },
           }
         end,
-        window = {
-          placement = {
-            horizontal = 'center',
-          },
-        },
       }
     end,
   },

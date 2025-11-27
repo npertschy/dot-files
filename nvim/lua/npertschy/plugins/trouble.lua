@@ -19,10 +19,5 @@ return {
       '<cmd>Trouble diagnostics toggle<cr>',
       desc = 'Diagnostics list (Trouble)',
     },
-    {
-      '<leader>q',
-      '<cmd>Trouble qflist toggle<cr>',
-      desc = 'Quickfix list (Trouble)',
-    },
   },
 }
