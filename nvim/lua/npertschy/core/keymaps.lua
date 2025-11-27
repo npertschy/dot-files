@@ -38,6 +38,10 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- NOTE  move selected line up or down in visual mode
+vim.keymap.set('v', '<A-j>', ':m .+1<CR>==gv', { desc = 'Move selected line down' })
+vim.keymap.set('v', '<A-k>', ':m .-2<CR>==gv', { desc = 'Move selected line up' })
+
 -- NOTE: preserve selection when indenting
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
@@ -53,3 +57,19 @@ vim.keymap.set('n', '<C-M-l>', '<cmd>vertical resize +2<cr>', { desc = 'Increase
 vim.keymap.set('n', '<C-M-h>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window size vertically' })
 vim.keymap.set('n', '<C-M-k>', '<cmd>horizontal resize +2<cr>', { desc = 'Increase window size horizontally' })
 vim.keymap.set('n', '<C-M-j>', '<cmd>horizontal resize -2<cr>', { desc = 'Decrease window size horizontally' })
+
+vim.keymap.set('n', '<leader>q', function()
+  local qf_open = false
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local info = vim.fn.getwininfo(win)[1]
+    if info and info.quickfix == 1 then
+      qf_open = true
+      break
+    end
+  end
+  if qf_open then
+    vim.cmd 'cclose'
+  else
+    vim.cmd 'copen'
+  end
+end, { desc = 'Open quickfix list' })

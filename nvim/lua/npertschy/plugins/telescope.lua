@@ -39,7 +39,6 @@ return {
   dependencies = {
     'nvim-lua/plenary.nvim',
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'nvim-telescope/telescope-frecency.nvim' },
     { 'echasnovski/mini.icons', enabled = vim.g.have_nerd_font },
     { 'Myzel394/jsonfly.nvim' },
   },
@@ -119,7 +118,6 @@ return {
 
     pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'noice')
-    pcall(require('telescope').load_extension, 'frecency')
     pcall(require('telescope').load_extension, 'jsonfly')
 
     local builtin = require 'telescope.builtin'
@@ -127,17 +125,13 @@ return {
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
     vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = '[S]earch [P]roject files' })
-    vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
     vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sl', '<cmd>Telescope frecency workspace=CWD<cr>', { desc = '[S]earch [L]atest files' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>sm', '<cmd>Telescope noice<cr>', { desc = '[S]earch recent [m]mssages' })
     vim.keymap.set('n', '<leader>sz', builtin.spell_suggest, { desc = '[S]earch spell suggestions' })
     vim.keymap.set('n', '<leader>sj', '<cmd>Telescope jsonfly<cr>', { desc = '[S]earch [J]son file' })
-    vim.keymap.set('n', '<leader>sc', builtin.git_status, { desc = '[S]earch git [c]hanges' })
-    vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [r]esumed' })
+    vim.keymap.set('n', '<leader>sC', builtin.git_status, { desc = '[S]earch git [C]hanges' })
 
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.

@@ -14,6 +14,7 @@ return {
           select.select_textobject('@assignment.outer', 'textobjects')
         end,
         desc = 'Select outer part of an assignment',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'i=',
@@ -21,6 +22,7 @@ return {
           select.select_textobject('@assignment.inner', 'textobjects')
         end,
         desc = 'Select inner part of an assignment',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'l=',
@@ -28,6 +30,7 @@ return {
           select.select_textobject('@assignment.lhs', 'textobjects')
         end,
         desc = 'Select left hand side of an assignment',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'r=',
@@ -35,6 +38,7 @@ return {
           select.select_textobject('@assignment.rhs', 'textobjects')
         end,
         desc = 'Select right hand side of an assignment',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'aa',
@@ -42,6 +46,7 @@ return {
           select.select_textobject('@parameter.outer', 'textobjects')
         end,
         desc = 'Select outer part of a parameter/argument',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'ia',
@@ -49,6 +54,7 @@ return {
           select.select_textobject('@parameter.inner', 'textobjects')
         end,
         desc = 'Select inner part of a parameter/argument',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'ai',
@@ -56,6 +62,7 @@ return {
           select.select_textobject('@conditional.outer', 'textobjects')
         end,
         desc = 'Select outer part of a conditional',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'ii',
@@ -63,6 +70,7 @@ return {
           select.select_textobject('@conditional.inner', 'textobjects')
         end,
         desc = 'Select inner part of a conditional',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'al',
@@ -70,6 +78,7 @@ return {
           select.select_textobject('@loop.outer', 'textobjects')
         end,
         desc = 'Select outer part of a loop',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'il',
@@ -77,6 +86,7 @@ return {
           select.select_textobject('@loop.inner', 'textobjects')
         end,
         desc = 'Select inner part of a loop',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'af',
@@ -84,6 +94,7 @@ return {
           select.select_textobject('@call.outer', 'textobjects')
         end,
         desc = 'Select outer part of a function call',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'if',
@@ -91,6 +102,7 @@ return {
           select.select_textobject('@call.inner', 'textobjects')
         end,
         desc = 'Select inner part of a function call',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'am',
@@ -98,6 +110,7 @@ return {
           select.select_textobject('@function.outer', 'textobjects')
         end,
         desc = 'Select outer part of a method/function definition',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'im',
@@ -105,6 +118,7 @@ return {
           select.select_textobject('@function.inner', 'textobjects')
         end,
         desc = 'Select inner part of a method/function definition',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'ac',
@@ -112,6 +126,7 @@ return {
           select.select_textobject('@class.outer', 'textobjects')
         end,
         desc = 'Select outer part of a class',
+        mode = { 'v', 'o', 'x' },
       },
       {
         'ic',
@@ -119,6 +134,7 @@ return {
           select.select_textobject('@class.inner', 'textobjects')
         end,
         desc = 'Select inner part of a class',
+        mode = { 'v', 'o', 'x' },
       },
       {
         '<leader>cna',
@@ -172,14 +188,14 @@ return {
       {
         ']m',
         function()
-          move.goto_next_start('@function.outer', 'textobjects')
+          move.goto_next_start('@function_name', 'textobjects')
         end,
         desc = 'Next method/function def start',
       },
       {
         ']c',
         function()
-          move.goto_next_start('@class.outer', 'textobjects')
+          move.goto_next_start('@class_name', 'textobjects')
         end,
         desc = 'Next class start',
       },
@@ -207,14 +223,14 @@ return {
       {
         '[m',
         function()
-          move.goto_previous_start('@function.outer', 'textobjects')
+          move.goto_previous_start('@function_name', 'textobjects')
         end,
         desc = 'Prev method/function def start',
       },
       {
         '[c',
         function()
-          move.goto_previous_start('@class.outer', 'textobjects')
+          move.goto_previous_start('@class_name', 'textobjects')
         end,
         desc = 'Prev class start',
       },
