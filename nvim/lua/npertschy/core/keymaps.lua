@@ -57,3 +57,19 @@ vim.keymap.set('n', '<C-M-l>', '<cmd>vertical resize +2<cr>', { desc = 'Increase
 vim.keymap.set('n', '<C-M-h>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window size vertically' })
 vim.keymap.set('n', '<C-M-k>', '<cmd>horizontal resize +2<cr>', { desc = 'Increase window size horizontally' })
 vim.keymap.set('n', '<C-M-j>', '<cmd>horizontal resize -2<cr>', { desc = 'Decrease window size horizontally' })
+
+vim.keymap.set('n', '<leader>q', function()
+  local qf_open = false
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local info = vim.fn.getwininfo(win)[1]
+    if info and info.quickfix == 1 then
+      qf_open = true
+      break
+    end
+  end
+  if qf_open then
+    vim.cmd 'cclose'
+  else
+    vim.cmd 'copen'
+  end
+end, { desc = 'Open quickfix list' })

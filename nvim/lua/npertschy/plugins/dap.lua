@@ -102,13 +102,6 @@ return {
         desc = 'Pause',
       },
       {
-        '<leader>dr',
-        function()
-          require('dap').repl.toggle()
-        end,
-        desc = 'Toggle REPL',
-      },
-      {
         '<leader>dS',
         function()
           require('dap').session()
