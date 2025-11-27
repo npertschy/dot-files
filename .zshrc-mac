@@ -15,8 +15,8 @@ eval "$(starship init zsh)"
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 
 # fnm
-FNM_PATH="/home/npertschy/.local/share/fnm"
+FNM_PATH="$HOME/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="/home/npertschy/.local/share/fnm:$PATH"
+  export PATH="$HOME/.local/share/fnm:$PATH"
   eval "$(fnm env --use-on-cd --shell zsh)"
 fi
