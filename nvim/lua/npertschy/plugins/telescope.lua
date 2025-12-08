@@ -1,37 +1,3 @@
-local function normalize_path(path)
-  return path:gsub('\\', '/')
-end
-
-local function normalize_cwd()
-  return normalize_path(vim.fn.getcwd()) .. '/'
-end
-
-local function is_subdirectory(cwd, path)
-  return string.lower(path:sub(1, #cwd)) == string.lower(cwd)
-end
-
-local function split_filepath(path)
-  local normalized_path = normalize_path(path)
-  local normalized_cwd = normalize_cwd()
-  local filename = normalized_path:match '[^/]+$'
-
-  if is_subdirectory(normalized_cwd, normalized_path) then
-    local stripped_path = normalized_path:sub(#normalized_cwd + 1, -(#filename + 1))
-    return stripped_path, filename
-  else
-    local stripped_path = normalized_path:sub(1, -(#filename + 1))
-    return stripped_path, filename
-  end
-end
-
-local function path_display(_, path)
-  local stripped_path, filename = split_filepath(path)
-  if filename == stripped_path or stripped_path == '' then
-    return filename
-  end
-  return string.format('%s ~ %s', filename, stripped_path)
-end
-
 return {
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
@@ -41,6 +7,7 @@ return {
     { 'nvim-telescope/telescope-ui-select.nvim' },
     { 'echasnovski/mini.icons', enabled = vim.g.have_nerd_font },
     { 'Myzel394/jsonfly.nvim' },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   },
   config = function()
     require('telescope').setup {
@@ -64,7 +31,7 @@ return {
           },
         },
         sorting_strategy = 'ascending',
-        path_display = path_display,
+        path_display = { 'filename_first' },
       },
       pickers = {
         buffers = {
@@ -113,12 +80,20 @@ return {
             },
           },
         },
+        fzf = {
+          fuzzy = true, -- false will only do exact matching
+          override_generic_sorter = true, -- override the generic sorter
+          override_file_sorter = true, -- override the file sorter
+          case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
+          -- the default case_mode is "smart_case"
+        },
       },
     }
 
     pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'noice')
     pcall(require('telescope').load_extension, 'jsonfly')
+    pcall(require('telescope').load_extension, 'fzf')
 
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })

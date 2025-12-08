@@ -26,40 +26,6 @@ vim.diagnostic.config {
   } or {},
 }
 
-local function jump_to_lsp_location(method, fallback)
-  local params = vim.lsp.util.make_position_params(0, 'utf-8')
-  vim.lsp.buf_request(0, method, params, function(err, result)
-    if err or not result or vim.tbl_isempty(result) then
-      if fallback then
-        fallback()
-      end
-      return
-    end
-    local loc = result[1]
-    local uri = loc.uri or loc.targetUri
-    local range = loc.range or loc.targetSelectionRange
-    local filename = vim.uri_to_fname(uri)
-
-    -- Find window with the file open
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      if vim.api.nvim_buf_get_name(buf) == filename then
-        vim.api.nvim_set_current_win(win)
-        vim.api.nvim_win_set_cursor(win, { range.start.line + 1, range.start.character })
-        return
-      end
-    end
-
-    -- Fallback: use provided fallback function
-    if fallback then
-      fallback()
-    else
-      vim.cmd('edit ' .. filename)
-      vim.api.nvim_win_set_cursor(0, { range.start.line + 1, range.start.character })
-    end
-  end)
-end
-
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
   callback = function(event)
@@ -68,24 +34,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
     end
 
+    local telescope_builtin = require 'telescope.builtin'
     map('gd', function()
-      jump_to_lsp_location('textDocument/definition', require('telescope.builtin').lsp_definitions)
+      telescope_builtin.lsp_definitions { reuse_win = true }
     end, '[G]oto [D]efinition')
 
     map('gr', function()
-      jump_to_lsp_location('textDocument/references', require('telescope.builtin').lsp_references)
+      telescope_builtin.lsp_references { reuse_win = true }
     end, '[G]oto [R]eferences')
 
     map('gI', function()
-      jump_to_lsp_location('textDocument/implementation', require('telescope.builtin').lsp_implementations)
+      telescope_builtin.lsp_implementations { reuse_win = true }
     end, '[G]oto [I]mplementation')
 
     map('gy', function()
-      jump_to_lsp_location('textDocument/typeDefinition', require('telescope.builtin').lsp_type_definitions)
+      telescope_builtin.lsp_type_definitions { reuse_win = true }
     end, '[G]oto t[y]pe [D]efinition')
 
     map('gD', function()
-      jump_to_lsp_location('textDocument/declaration', vim.lsp.buf.declaration)
+      vim.lsp.buf.declaration()
     end, '[G]oto [D]eclaration')
 
     map('<leader>cr', vim.lsp.buf.rename, '[R]ename')
@@ -101,7 +68,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end,
       }, function(choice)
         if choice then
-          choice.stop()
+          choice.stop { force = false }
           print("LSP '" .. choice.name .. "' wurde gestoppt. Es wird beim nächsten Öffnen eines passenden Buffers neu gestartet.")
           -- Optionally, manually re-attach to all buffers:
           for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
