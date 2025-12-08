@@ -42,6 +42,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('v', '<A-j>', ':m .+1<CR>==gv', { desc = 'Move selected line down' })
 vim.keymap.set('v', '<A-k>', ':m .-2<CR>==gv', { desc = 'Move selected line up' })
 
+-- NOTE  move current line up or down in normal mode
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move current line down' })
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move current line up' })
+
 -- NOTE: preserve selection when indenting
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')

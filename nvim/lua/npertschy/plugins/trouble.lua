@@ -19,5 +19,10 @@ return {
       '<cmd>Trouble diagnostics toggle<cr>',
       desc = 'Diagnostics list (Trouble)',
     },
+    {
+      '<leader>X',
+      '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+      desc = 'Diagnostics list for current buffer(Trouble)',
+    },
   },
 }
