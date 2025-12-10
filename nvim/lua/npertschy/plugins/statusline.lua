@@ -1,7 +1,7 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'echasnovski/mini.icons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       local lualine = require 'lualine'
       local lazy_status = require 'lazy.status'

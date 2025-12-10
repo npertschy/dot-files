@@ -4,6 +4,7 @@ return {
     'rafamadriz/friendly-snippets',
     'ribru17/blink-cmp-spell',
   },
+  event = { 'InsertEnter', 'CmdlineEnter' },
   version = '*',
 
   ---@module 'blink.cmp'

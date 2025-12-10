@@ -130,6 +130,9 @@ local config = {
       references = {
         includeDecompiledSources = true,
       },
+      symbols = {
+        includeSourceMethodDeclarations = true,
+      },
       completion = {
         favoriteStaticMembers = {
           'org.hamcrest.Matchers.*',
