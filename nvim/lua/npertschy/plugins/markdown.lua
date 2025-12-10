@@ -2,7 +2,7 @@ return {
   'MeanderingProgrammer/render-markdown.nvim',
   event = 'VeryLazy',
   filetype = { 'markdown', 'mdx', 'codecompanion' },
-  dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' },
+  dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
   ---@module 'render-markdown'
   ---@type render.md.UserConfig
   opts = {

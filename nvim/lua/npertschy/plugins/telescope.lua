@@ -5,7 +5,7 @@ return {
   dependencies = {
     'nvim-lua/plenary.nvim',
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'echasnovski/mini.icons', enabled = vim.g.have_nerd_font },
+    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     { 'Myzel394/jsonfly.nvim' },
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   },
@@ -54,6 +54,27 @@ return {
         lsp_definitions = {
           trim_text = true,
           fname_width = 120,
+          layout_strategy = 'vertical',
+          layout_config = {
+            prompt_position = 'top',
+            mirror = true,
+          },
+        },
+        lsp_document_symbols = {
+          fname_width = 120,
+          symbol_width = 120,
+          symbol_type_width = 20,
+          layout_strategy = 'vertical',
+          layout_config = {
+            prompt_position = 'top',
+            mirror = true,
+          },
+        },
+        lsp_dynamic_workspace_symbols = {
+          file_ignore_patterns = { 'node_modules', '.git/', 'dist/', 'build/', '^jdt://' },
+          fname_width = 120,
+          symbol_width = 120,
+          symbol_type_width = 20,
           layout_strategy = 'vertical',
           layout_config = {
             prompt_position = 'top',

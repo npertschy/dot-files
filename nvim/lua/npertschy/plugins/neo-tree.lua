@@ -6,7 +6,7 @@ return {
   version = '*',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'echasnovski/mini.icons',
+    'nvim-tree/nvim-web-devicons',
     'MunifTanjim/nui.nvim',
   },
   cmd = 'Neotree',
@@ -17,6 +17,7 @@ return {
   opts = {
     filesystem = {
       group_empty_dirs = true,
+      use_libuv_file_watcher = true,
       window = {
         mappings = {
           ['<M-1>'] = 'close_window',
