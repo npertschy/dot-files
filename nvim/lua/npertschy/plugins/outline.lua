@@ -17,8 +17,9 @@ return {
         end
 
         -- Try to read the line from the buffer and check for access keywords
-        if symbol and symbol.range and symbol.range.start and symbol.range.start.line then
-          local line = vim.api.nvim_buf_get_lines(bufnr, symbol.range.start.line, symbol.range.start.line + 1, false)[1] or ''
+        if symbol and symbol.selectionRange and symbol.selectionRange.start and symbol.selectionRange.start.line then
+          local line = vim.api.nvim_buf_get_lines(bufnr, symbol.selectionRange.start.line, symbol.selectionRange.start.line + 1, false)[1] or ''
+          vim.notify(line)
           for access, acc_icon in pairs(access_icons) do
             if line:find(access) then
               return acc_icon .. ' ' .. icon
