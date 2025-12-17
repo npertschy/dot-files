@@ -2,7 +2,7 @@ return {
   'saghen/blink.cmp',
   dependencies = {
     'rafamadriz/friendly-snippets',
-    'ribru17/blink-cmp-spell',
+    'mikavilpas/blink-ripgrep.nvim',
   },
   event = { 'InsertEnter', 'CmdlineEnter' },
   version = '*',
@@ -84,46 +84,21 @@ return {
     },
 
     sources = {
-      default = { 'i18n', 'lsp', 'path', 'snippets', 'buffer', 'spell', 'markdown' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'i18n', 'markdown', 'ripgrep' },
       providers = {
         markdown = {
           name = 'RenderMarkdown',
           module = 'render-markdown.integ.blink',
           fallbacks = { 'lsp' },
         },
-        spell = {
-          name = 'Spell',
-          module = 'blink-cmp-spell',
-          opts = {
-            -- EXAMPLE: Only enable source in `@spell` captures, and disable it
-            -- in `@nospell` captures.
-            enable_in_context = function()
-              local curpos = vim.api.nvim_win_get_cursor(0)
-              local captures = vim.treesitter.get_captures_at_pos(0, curpos[1] - 1, curpos[2] - 1)
-              local in_spell_capture = false
-              for _, cap in ipairs(captures) do
-                if cap.capture == 'spell' then
-                  in_spell_capture = true
-                elseif cap.capture == 'nospell' then
-                  return false
-                end
-              end
-              return in_spell_capture
-            end,
-          },
-        },
-        buffer = {
-          opts = {
-            get_bufnrs = function()
-              return vim.tbl_filter(function(bufnr)
-                return vim.bo[bufnr].buftype == ''
-              end, vim.api.nvim_list_bufs())
-            end,
-          },
-        },
         i18n = {
           name = 'i18n',
           module = 'i18n.integration.blink_source',
+        },
+        ripgrep = {
+          module = 'blink-ripgrep',
+          name = 'Ripgrep',
+          opts = {},
         },
       },
       per_filetype = {

@@ -5,6 +5,7 @@ vim.lsp.enable {
   'lua_ls',
   'pyright',
   'ruff',
+  'sqls',
   'vtsls',
   'yamlls',
 }

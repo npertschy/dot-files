@@ -13,6 +13,7 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
 
 # fnm
 FNM_PATH="$HOME/.local/share/fnm"

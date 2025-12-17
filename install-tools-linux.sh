@@ -20,3 +20,5 @@ sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
 apt install openjdk-21-jdk
 apt install openjdk-21-source
+
+apt install golang-go
