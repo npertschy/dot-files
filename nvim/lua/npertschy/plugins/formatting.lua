@@ -25,6 +25,7 @@ return {
       vue = { 'prettier' },
       css = { 'prettier' },
       html = { 'prettier' },
+      sql = { 'sql-formatter' },
       typescript = { 'prettier' },
       markdown = { 'prettier' },
       xml = { 'xmlformatter' },
@@ -36,6 +37,10 @@ return {
             typescript = 'typescript',
           },
         },
+      },
+      ['sql-formatter'] = {
+        command = 'sql-formatter',
+        args = { '--config', '{ "language": "sql", "tabWidth": 4, "expressionWidth": 200 }' },
       },
     },
   },

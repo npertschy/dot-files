@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Setting up Unix environment"
 
 echo "Setup WezTerm config"
