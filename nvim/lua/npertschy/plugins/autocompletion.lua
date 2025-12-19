@@ -98,7 +98,12 @@ return {
         ripgrep = {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
-          opts = {},
+          opts = {
+            backend = {
+              use = 'gitgrep-or-ripgrep',
+            },
+          },
+          score_offset = -1,
         },
       },
       per_filetype = {

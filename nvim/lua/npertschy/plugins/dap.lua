@@ -179,14 +179,6 @@ return {
         highlight_new_as_changed = true,
       }
 
-      local dapview = require 'dap-view'
-      dap.listeners.before.attach.dapui_config = function()
-        dapview.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        dapview.open()
-      end
-
       vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
 
       vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
@@ -207,5 +199,18 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      require('dap-view').setup(opts)
+
+      local dapview = require 'dap-view'
+      local dap = require 'dap'
+
+      dap.listeners.before.attach.dapui_config = function()
+        dapview.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapview.open()
+      end
+    end,
   },
 }
