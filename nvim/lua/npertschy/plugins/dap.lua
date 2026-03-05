@@ -195,7 +195,6 @@ return {
       windows = {
         terminal = {
           position = 'right',
-          start_hidden = false,
         },
       },
     },
