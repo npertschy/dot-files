@@ -1,5 +1,30 @@
+local ensure_installed = {
+  'bash',
+  'css',
+  'dap_repl',
+  'diff',
+  'gitignore',
+  'gitattributes',
+  'html',
+  'java',
+  'javascript',
+  'typescript',
+  'json',
+  'lua',
+  'luadoc',
+  'markdown',
+  'markdown_inline',
+  'properties',
+  'tsx',
+  'vim',
+  'vimdoc',
+  'vue',
+  'yaml',
+}
+
 -- on main branch, treesitter isn't started automatically
 vim.api.nvim_create_autocmd({ 'Filetype' }, {
+  pattern = ensure_installed,
   callback = function(event)
     -- make sure nvim-treesitter is loaded
     local ok, nvim_treesitter = pcall(require, 'nvim-treesitter')
@@ -19,6 +44,7 @@ vim.api.nvim_create_autocmd({ 'Filetype' }, {
 
       pcall(vim.treesitter.start, event.buf)
       vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      -- vim.wo.foldmethod = 'expr'
       vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
     end)
   end,
@@ -35,32 +61,6 @@ return {
     },
     opts = {},
     config = function(_, opts)
-      local ensure_installed = {
-        'bash',
-        'css',
-        'dap_repl',
-        'diff',
-        'gitignore',
-        'gitattributes',
-        'html',
-        'java',
-        'javascript',
-        'typescript',
-        'json',
-        'jsonc',
-        'lua',
-        'luadoc',
-        'markdown',
-        'markdown_inline',
-        'mdx',
-        'properties',
-        'tsx',
-        'vim',
-        'vimdoc',
-        'vue',
-        'yaml',
-      }
-
       -- make sure nvim-treesitter can load
       local ok, nvim_treesitter = pcall(require, 'nvim-treesitter')
 
