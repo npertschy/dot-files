@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 local config = {}
 -- Styling
 config.color_scheme = "OneDark (base16)"
-config.font = wezterm.font("JetBrains Mono")
+config.font = wezterm.font("JetBrains Mono", { weight = "SemiBold" })
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.font_size = 9
 	config.default_prog = { "pwsh", "-l" }
