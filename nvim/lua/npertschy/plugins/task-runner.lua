@@ -1,12 +1,17 @@
 return {
   'stevearc/overseer.nvim',
-  version = '1.6.0',
   opts = {
     task_list = {
-      bindings = {
-        ['s'] = '<cmd>OverseerQuickAction start<cr>',
-        ['t'] = 'Stop',
-        ['r'] = '<cmd>OverseerQuickAction restart<cr>',
+      keymaps = {
+        ['s'] = 'keymap.run_action',
+        ['t'] = { 'keymap.run_action', opts = { action = 'stop' }, desc = 'Stop task' },
+        ['r'] = { 'keymap.run_action', opts = { action = 'restart' }, desc = 'Restart task' },
+      },
+    },
+    component_aliases = {
+      default = {
+        'on_exit_set_status',
+        'on_complete_notify',
       },
     },
   },
@@ -28,23 +33,8 @@ return {
     },
     {
       '<leader>ra',
-      '<cmd>OverseerQuickAction<cr>',
-      desc = 'Run quick action for last task',
-    },
-    {
-      '<leader>rs',
-      '<cmd>OverseerSaveBundle<cr>',
-      desc = 'Save task bundle',
-    },
-    {
-      '<leader>rl',
-      '<cmd>OverseerLoadBundle!<cr>',
-      desc = 'Load task bundle',
-    },
-    {
-      '<leader>rd',
-      '<cmd>OverseerDeleteBundle<cr>',
-      desc = 'Delete task bundle',
+      '<cmd>OverseerTaskAction<cr>',
+      desc = 'Run action on selected task',
     },
   },
 }
