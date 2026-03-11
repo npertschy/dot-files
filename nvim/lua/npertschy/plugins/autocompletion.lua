@@ -84,13 +84,8 @@ return {
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'i18n', 'markdown', 'ripgrep' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'i18n', 'ripgrep' },
       providers = {
-        markdown = {
-          name = 'RenderMarkdown',
-          module = 'render-markdown.integ.blink',
-          fallbacks = { 'lsp' },
-        },
         i18n = {
           name = 'i18n',
           module = 'i18n.integration.blink_source',
