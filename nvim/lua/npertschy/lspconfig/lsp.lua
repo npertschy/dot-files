@@ -1,5 +1,6 @@
 vim.lsp.enable {
   'eslint',
+  'gh_actions_ls',
   'groovyls',
   'jsonls',
   'lua_ls',

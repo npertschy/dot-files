@@ -22,6 +22,11 @@ return {
       desc = 'Run command',
     },
     {
+      '<leader>rs',
+      '<cmd>OverseerShell<cr>',
+      desc = 'Run shell command',
+    },
+    {
       '<leader>rp',
       '<cmd>OverseerTaskAction<cr>',
       desc = 'Select task to run',
