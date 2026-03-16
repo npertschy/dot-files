@@ -16,6 +16,9 @@ return {
   },
   opts = {
     filesystem = {
+      filtered_items = {
+        visible = true,
+      },
       group_empty_dirs = true,
       use_libuv_file_watcher = true,
       window = {
