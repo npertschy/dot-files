@@ -26,3 +26,35 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end
   end,
 })
+
+-- list continuation for markdown files
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    vim.keymap.set('i', '<CR>', function()
+      local line = vim.api.nvim_get_current_line()
+
+      -- Capture indentation, marker, and trailing content
+      local bullet, rest = line:match '^%s*([-*+]%s)(.*)'
+      local num, sep, num_rest = line:match '^%s*(%d+)([%.%)])%s(.*)'
+
+      -- Empty bullet item -> exit the list
+      if (bullet and rest == '') or (num and num_rest == '') then
+        return '<C-u><CR>'
+      end
+
+      -- Numbered list (e.g. 1. or 1))
+      if num then
+        local next_num = tostring(tonumber(num) + 1)
+        return '<CR>' .. next_num .. sep .. ' '
+      end
+
+      -- Unordered list (-, *, +), respecting indentation
+      if bullet then
+        return '<CR>' .. bullet
+      end
+
+      return '<CR>'
+    end, { buffer = true, expr = true })
+  end,
+})
