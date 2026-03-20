@@ -4,7 +4,13 @@ return {
   cmd = { 'vtsls', '--stdio' },
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
   root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
-  on_attach = function(_, bufnr)
+  on_attach = function(client, bufnr)
+    local existing_capabilities = client.server_capabilities
+    if vim.bo.filetype == 'vue' then
+      existing_capabilities.semanticTokensProvider.full = false
+    else
+      existing_capabilities.semanticTokensProvider.full = true
+    end
     vim.keymap.set('n', '<leader>co', '<CMD>VtsExec organize_imports<CR>', { buffer = bufnr, desc = '[O]rganize Imports' })
   end,
   settings = {
