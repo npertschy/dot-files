@@ -1,6 +1,9 @@
 return {
   'stevearc/overseer.nvim',
   opts = {
+    disable_template_modules = {
+      'overseer.template.npm',
+    },
     task_list = {
       keymaps = {
         ['s'] = 'keymap.run_action',
@@ -42,4 +45,30 @@ return {
       desc = 'Run action on selected task',
     },
   },
+  config = function(_, opts)
+    local overseer = require 'overseer'
+    overseer.setup(opts)
+
+    local npm = require 'overseer.template.npm'
+    local root = vim.fn.getcwd()
+
+    for _, pkg_path in ipairs { root .. '/package.json', root .. '/frontend/package.json' } do
+      if vim.fn.filereadable(pkg_path) == 1 then
+        local dir = vim.fn.fnamemodify(pkg_path, ':h')
+        local label = vim.fn.fnamemodify(dir, ':t')
+
+        overseer.register_template {
+          name = 'npm: ' .. label,
+          generator = function(opts, cb)
+            npm.generator(vim.tbl_extend('force', opts, { dir = dir }), cb)
+          end,
+          condition = {
+            callback = function()
+              return true
+            end,
+          },
+        }
+      end
+    end
+  end,
 }
