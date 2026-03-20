@@ -8,6 +8,7 @@ vim.lsp.enable {
   'ruff',
   'sqls',
   'vtsls',
+  'vue_ls',
   'yamlls',
 }
 

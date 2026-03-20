@@ -110,6 +110,13 @@ local config = {
   root_dir = root_dir,
   settings = {
     java = {
+      autobuild = {
+        enabled = true,
+      },
+      maxConcurrentBuilds = 1,
+      configuration = {
+        updateBuildConfiguration = 'automatic',
+      },
       inlayHints = {
         parameterNames = {
           enabled = 'all',
@@ -121,10 +128,9 @@ local config = {
       maven = {
         downloadSources = true,
       },
-      implementationsCodeLens = {
-        enabled = true,
-      },
+      implementationsCodeLens = 'all',
       referencesCodeLens = {
+        includeAccessors = true,
         enabled = true,
       },
       references = {
@@ -138,6 +144,7 @@ local config = {
           'org.hamcrest.Matchers.*',
           'org.junit.jupiter.api.Assertions.*',
           'org.mockito.Mockito.*',
+          'org.mockito.ArgumentMatchers.*',
         },
         importOrder = {
           'com',
@@ -145,6 +152,10 @@ local config = {
           'javax',
           'java',
         },
+        chain = {
+          enabled = true,
+        },
+        guessMethodArguments = 'insertParameterNames',
       },
     },
   },
