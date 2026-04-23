@@ -17,6 +17,7 @@ return {
       local result = npm.generator(vim.tbl_extend('force', opts, { dir = dir }), function() end)
       if type(result) == 'table' then
         for _, t in ipairs(result) do
+          t.components = { 'default' }
           table.insert(tasks, t)
         end
       end
