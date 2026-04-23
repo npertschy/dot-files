@@ -1,7 +1,7 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'nvim-mini/mini.icons' },
     config = function()
       local lualine = require 'lualine'
       local lazy_status = require 'lazy.status'
@@ -42,14 +42,14 @@ return {
   {
     'b0o/incline.nvim',
     config = function()
-      local devicons = require 'nvim-web-devicons'
+      local mini_icons = require 'mini.icons'
       require('incline').setup {
         render = function(props)
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
           if filename == '' then
             filename = '[No Name]'
           end
-          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          local ft_icon, ft_color = mini_icons.get('file', filename)
 
           local function get_diagnostic_label()
             local icons = { error = '󰅚 ', warn = '󰀪 ', info = '󰋽 ', hint = '󰌶 ' }
@@ -65,7 +65,7 @@ return {
           end
 
           return {
-            { (ft_icon or '') .. ' ', guifg = ft_color, guibg = 'none' },
+            { (ft_icon or '') .. ' ', group = ft_color, guibg = 'none' },
             { filename .. ' ', gui = vim.bo[props.buf].modified and 'bold,italic' or 'bold' },
             { get_diagnostic_label() },
           }
