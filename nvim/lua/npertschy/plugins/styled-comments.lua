@@ -11,8 +11,8 @@ return {
   keys = {
     {
       '<leader>so',
-      '<cmd>TodoTelescope<CR>',
-      desc = '[S]earch t[o]dos and other comments',
+      '<cmd>TodoFzf<CR>',
+      desc = '[S]earch t[o]dos and other comments (fzf-lua)',
     },
   },
 }

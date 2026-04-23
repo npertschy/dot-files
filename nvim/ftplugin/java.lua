@@ -68,15 +68,15 @@ local config = {
       vim.keymap.set('n', '<leader>tp', jdtls.pick_test, { desc = 'Pick and run Test', buffer = bufnr })
       vim.keymap.set('n', '<leader>tg', require('jdtls.tests').goto_subjects, { desc = 'Goto subject', buffer = bufnr })
 
-      local builtin = require 'telescope.builtin'
+      local fzf_lua = require 'fzf-lua'
       vim.keymap.set('n', '<leader>sc', function()
-        builtin.find_files {
+        fzf_lua.files {
           cwd = vim.fn.expand(root_dir .. '/src/main/java'),
         }
       end, { desc = '[S]earch [c]lasses' })
 
       vim.keymap.set('n', '<leader>st', function()
-        builtin.find_files {
+        fzf_lua.files {
           cwd = vim.fn.expand(root_dir .. '/src/test/java'),
         }
       end, { desc = '[S]earch [t]ests' })
@@ -97,22 +97,11 @@ local config = {
       vim.keymap.set('n', '<leader>ji', '<cmd>JdtCompile incremental<cr>', { desc = 'Complile incremental' })
     end
 
-    vim.lsp.codelens.refresh()
-
-    -- Setup a function that automatically runs every time a java file is saved to refresh the code lens
-    vim.api.nvim_create_autocmd('BufWritePost', {
-      pattern = { '*.java' },
-      callback = function()
-        local _, _ = pcall(vim.lsp.codelens.refresh)
-      end,
-    })
+    vim.lsp.codelens.enable(true, { bufnr = bufnr })
   end,
   root_dir = root_dir,
   settings = {
     java = {
-      autobuild = {
-        enabled = true,
-      },
       maxConcurrentBuilds = 1,
       configuration = {
         updateBuildConfiguration = 'automatic',
@@ -128,7 +117,9 @@ local config = {
       maven = {
         downloadSources = true,
       },
-      implementationsCodeLens = 'all',
+      implementationsCodeLens = {
+        enabled = true,
+      },
       referencesCodeLens = {
         includeAccessors = true,
         enabled = true,

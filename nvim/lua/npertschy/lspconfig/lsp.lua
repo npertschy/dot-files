@@ -37,21 +37,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
     end
 
-    local telescope_builtin = require 'telescope.builtin'
+    local fzf_lua = require 'fzf-lua'
     map('gd', function()
-      telescope_builtin.lsp_definitions { reuse_win = true }
+      fzf_lua.lsp_definitions { reuse_win = true }
     end, '[G]oto [D]efinition')
 
     map('gr', function()
-      telescope_builtin.lsp_references { reuse_win = true }
+      fzf_lua.lsp_references { reuse_win = true }
     end, '[G]oto [R]eferences')
 
     map('gI', function()
-      telescope_builtin.lsp_implementations { reuse_win = true }
+      fzf_lua.lsp_implementations { reuse_win = true }
     end, '[G]oto [I]mplementation')
 
     map('gy', function()
-      telescope_builtin.lsp_type_definitions { reuse_win = true }
+      fzf_lua.lsp_typedefs { reuse_win = true }
     end, '[G]oto t[y]pe [D]efinition')
 
     map('gD', function()
@@ -75,14 +75,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     }
 
     map('<leader>ss', function()
-      telescope_builtin.lsp_document_symbols {
+      fzf_lua.lsp_document_symbols {
         symbols = symbol_filter,
         reuse_win = true,
       }
     end, '[S]earch [s]ymbols in document')
 
     map('<leader>sS', function()
-      telescope_builtin.lsp_dynamic_workspace_symbols {
+      fzf_lua.lsp_workspace_symbols {
         symbols = symbol_filter,
         reuse_win = true,
       }

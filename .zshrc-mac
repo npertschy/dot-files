@@ -14,6 +14,7 @@ eval "$(starship init zsh)"
 
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 export PATH="/usr/local/go/bin:$PATH"
+export PATH="/opt/delta-0.19.2-x86_64-unknown-linux-gnu:$PATH"
 
 # fnm
 FNM_PATH="$HOME/.local/share/fnm"
@@ -21,3 +22,5 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="$HOME/.local/share/fnm:$PATH"
   eval "$(fnm env --use-on-cd --shell zsh)"
 fi
+
+alias bat="batcat"
