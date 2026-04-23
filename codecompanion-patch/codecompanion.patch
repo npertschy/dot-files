@@ -1,0 +1,213 @@
+diff --git forkSrcPrefix/lua/codecompanion/adapters/http/copilot/init.lua forkDstPrefix/lua/codecompanion/adapters/http/copilot/init.lua
+index a9cdf80383e6c42859633f8c94960c4ad326b265..1824d7969b08db32f585b2a8659439cc4746acaf 100644
+--- forkSrcPrefix/lua/codecompanion/adapters/http/copilot/init.lua
++++ forkDstPrefix/lua/codecompanion/adapters/http/copilot/init.lua
+@@ -35,7 +35,8 @@ end
+ local function handlers(adapter)
+   local model_opts = resolve_model_opts(adapter)
+   if model_opts.endpoint == "responses" then
+-    adapter.url = "https://api.githubcopilot.com/responses"
++    local base_url = adapter.url:gsub("/chat/completions$", ""):gsub("/responses$", "")
++    adapter.url = base_url .. "/responses"
+ 
+     local responses = require("codecompanion.adapters.http.openai_responses")
+ 
+@@ -74,7 +75,8 @@ local function handlers(adapter)
+     return responses.handlers
+   end
+ 
+-  adapter.url = "https://api.githubcopilot.com/chat/completions"
++  local base_url = adapter.url:gsub("/chat/completions$", ""):gsub("/responses$", "")
++  adapter.url = base_url .. "/chat/completions"
+   return require("codecompanion.adapters.http.openai").handlers
+ end
+ 
+@@ -99,9 +101,13 @@ return {
+   url = "https://api.githubcopilot.com/chat/completions",
+   env = {
+     ---@return string
+-    api_key = function()
+-      return token.fetch({ force = true }).copilot_token
++    api_key = function(adapter)
++      return token.fetch({ force = true, adapter = adapter }).copilot_token
+     end,
++    --- Optional: set to your GitHub Enterprise hostname to use GHE Copilot
++    --- e.g. "ghe.mycompany.com" or "https://ghe.mycompany.com"
++    --- Falls back to the GH_HOST environment variable, then public github.com
++    github_enterprise_url = nil,
+   },
+   headers = {
+     Authorization = "Bearer ${api_key}",
+@@ -126,7 +132,7 @@ return {
+       vim.schedule(function()
+         pcall(function()
+           -- Only fetch models if we already have a token cached, otherwise skip
+-          local cached_token = token.fetch()
++          local cached_token = token.fetch({ adapter = self })
+           if cached_token and cached_token.copilot_token then
+             get_models.choices(self, { token = cached_token, async = true })
+           end
+@@ -141,7 +147,7 @@ return {
+     setup = function(self)
+       -- Ensure models are fetched synchronously before checking capabilities
+       -- This prevents features from being disabled due to missing model info
+-      local fetched_token = token.fetch({ force = true })
++      local fetched_token = token.fetch({ force = true, adapter = self })
+       if fetched_token and fetched_token.copilot_token then
+         -- Force synchronous model fetch to ensure we have model capabilities
+         get_models.choices(self, { token = fetched_token, async = false })
+@@ -368,7 +374,7 @@ return {
+         -- Force token initialization for synchronous requests (user-initiated model selection)
+         -- Don't force for async requests (background operations)
+         local force = opts.async == false
+-        local fetched = token.fetch({ force = force })
++        local fetched = token.fetch({ force = force, adapter = self })
+         if not fetched or not fetched.copilot_token then
+           return { ["gpt-4.1"] = { opts = {} } }
+         end
+diff --git forkSrcPrefix/lua/codecompanion/adapters/http/copilot/stats.lua forkDstPrefix/lua/codecompanion/adapters/http/copilot/stats.lua
+index 26cb834d5bf0293c699615715044fd8b15914412..b00bc7d956fff3e9e7e19089dc934bab1494c42c 100644
+--- forkSrcPrefix/lua/codecompanion/adapters/http/copilot/stats.lua
++++ forkDstPrefix/lua/codecompanion/adapters/http/copilot/stats.lua
+@@ -27,8 +27,9 @@ local function get_statistics()
+ 
+   local oauth_token = token.fetch({ force = true }).oauth_token
+ 
++  local token_endpoint = token.resolve_endpoints(token._adapter)
+   local ok, response = pcall(function()
+-    return Curl.get("https://api.github.com/copilot_internal/user", {
++    return Curl.get(token_endpoint, {
+       sync = true,
+       headers = {
+         Authorization = "Bearer " .. oauth_token,
+diff --git forkSrcPrefix/lua/codecompanion/adapters/http/copilot/token.lua forkDstPrefix/lua/codecompanion/adapters/http/copilot/token.lua
+index 2f69b4334974990dc9911c07c6c963eedcb05547..789d85de3ec004bdbd928cbb2a3eef0168622e87 100644
+--- forkSrcPrefix/lua/codecompanion/adapters/http/copilot/token.lua
++++ forkDstPrefix/lua/codecompanion/adapters/http/copilot/token.lua
+@@ -36,11 +36,34 @@ M._oauth_token = nil
+ ---@type CopilotToken|nil
+ M._copilot_token = nil
+ 
++---@type CodeCompanion.HTTPAdapter|nil
++M._adapter = nil
++
+ -- Lock to prevent concurrent token requests
+ local _token_fetch_in_progress = false
+ local _token_wait_timeout = 5000 -- ms
+ local _token_wait_interval = 50 -- ms
+ 
++---Resolve the Copilot token endpoint URL from the adapter config, environment, or default
++---@param adapter? CodeCompanion.HTTPAdapter
++---@return string token_endpoint, string auth_hostname, string stats_endpoint
++function M.resolve_endpoints(adapter)
++  local enterprise_url = adapter and adapter.env and adapter.env.github_enterprise_url
++  local host = enterprise_url or vim.env.GH_HOST
++
++  if not host or host == "github.com" then
++    return "https://api.github.com/copilot_internal/v2/token",
++      "github.com",
++      "https://api.github.com/copilot_internal/user"
++  end
++
++  -- Strip any trailing slash and protocol so we can build clean URLs
++  local hostname = host:gsub("^https?://", ""):gsub("/+$", "")
++  local token_endpoint = string.format("https://%s/api/v3/copilot_internal/v2/token", hostname)
++
++  return token_endpoint, hostname
++end
++
+ ---Finds the configuration path
+ ---@return string|nil
+ local function find_config_path()
+@@ -68,8 +91,9 @@ end
+ ---The function first attempts to load the token from the environment variables,
+ ---specifically for GitHub Codespaces. If not found, it then attempts to load
+ ---the token from configuration files located in the user's configuration path.
++---@param adapter? CodeCompanion.HTTPAdapter
+ ---@return CopilotOAuthToken
+-local function get_oauth_token()
++local function get_oauth_token(adapter)
+   if M._oauth_token then
+     return M._oauth_token
+   end
+@@ -103,8 +127,9 @@ local function get_oauth_token()
+       end
+ 
+       userdata = vim.json.decode(userdata)
++      local _, auth_hostname = M.resolve_endpoints(adapter)
+       for key, value in pairs(userdata) do
+-        if string.find(key, "github.com") then
++        if string.find(key, auth_hostname, 1, true) then
+           return value.oauth_token
+         end
+       end
+@@ -115,8 +140,9 @@ local function get_oauth_token()
+ end
+ 
+ ---Get a GitHub Copilot token using the OAuth token
++---@param adapter? CodeCompanion.HTTPAdapter
+ ---@return CopilotToken|nil
+-local function get_copilot_token()
++local function get_copilot_token(adapter)
+   if M._copilot_token and M._copilot_token.expires_at and M._copilot_token.expires_at > os.time() then
+     log:trace("Copilot Adapter: Reusing GitHub Copilot token")
+     return M._copilot_token
+@@ -136,8 +162,9 @@ local function get_copilot_token()
+   _token_fetch_in_progress = true
+   log:trace("Authorizing GitHub Copilot token")
+ 
++  local token_endpoint, _ = M.resolve_endpoints(adapter)
+   local ok, request = pcall(function()
+-    return Curl.get("https://api.github.com/copilot_internal/v2/token", {
++    return Curl.get(token_endpoint, {
+       headers = {
+         Authorization = "Bearer " .. (M._oauth_token or ""),
+         Accept = "application/json",
+@@ -174,13 +201,14 @@ end
+ ---@param adapter? CodeCompanion.HTTPAdapter
+ ---@return boolean success
+ function M.init(adapter)
+-  M._oauth_token = get_oauth_token()
++  M._adapter = adapter
++  M._oauth_token = get_oauth_token(adapter)
+   if not M._oauth_token then
+     log:error("Copilot Adapter: No token found. Please refer to https://github.com/github/copilot.vim")
+     return false
+   end
+ 
+-  M._copilot_token = get_copilot_token()
++  M._copilot_token = get_copilot_token(adapter)
+   if not M._copilot_token or vim.tbl_isempty(M._copilot_token) then
+     log:error("Copilot Adapter: Could not authorize your GitHub Copilot token")
+     return false
+@@ -194,14 +222,14 @@ function M.init(adapter)
+ end
+ 
+ ---Return the Copilot tokens without initializing them
+----@param opts? { force: boolean }
++---@param opts? { force: boolean, adapter: CodeCompanion.HTTPAdapter }
+ ---@return { oauth_token: CopilotOAuthToken, copilot_token: CopilotToken|nil }
+ function M.fetch(opts)
+   opts = opts or {}
+ 
+   -- Only initialize tokens if explicitly requested or if we already have an oauth token cached
+   if opts.force or M._oauth_token then
+-    pcall(M.init)
++    pcall(M.init, opts.adapter)
+   end
+ 
+   return {
+diff --git forkSrcPrefix/tests/adapters/http/copilot/test_stats.lua forkDstPrefix/tests/adapters/http/copilot/test_stats.lua
+index 41d6d84d1a2f93e68ef59d3045d4063aa9204e2d..f896833ebcef77be02579a230ac2953f35b77754 100644
+--- forkSrcPrefix/tests/adapters/http/copilot/test_stats.lua
++++ forkDstPrefix/tests/adapters/http/copilot/test_stats.lua
+@@ -49,7 +49,9 @@ local T = new_set({
+         }
+ 
+         package.loaded["codecompanion.adapters.http.copilot.token"] = {
++          _adapter = nil,
+           fetch = function() return { oauth_token = "dummy" } end,
++          resolve_endpoints = function() return "https://api.github.com/copilot_internal/v2/token", "github.com" end,
+         }
+ 
+         package.loaded["codecompanion.config"] = {
