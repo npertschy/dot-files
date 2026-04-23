@@ -84,12 +84,8 @@ return {
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'i18n', 'ripgrep' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'ripgrep' },
       providers = {
-        i18n = {
-          name = 'i18n',
-          module = 'i18n.integration.blink_source',
-        },
         ripgrep = {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
