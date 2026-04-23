@@ -50,7 +50,7 @@ return {
     'MunifTanjim/nui.nvim',
   },
   config = function(_, opts)
-    require('telescope').load_extension 'noice'
+    -- require('telescope').load_extension 'noice' -- removed for fzf-lua migration
     require('noice').setup(opts)
   end,
 }

@@ -18,3 +18,6 @@ ln -s ~/Projects/dot-files/starship.toml ~/.config/starship.toml
 echo "Setup Neovim"
 rm -rf ~/.config/nvim
 cp -rsf ~/Projects/dot-files/nvim/ ~/.config/nvim/
+
+ln -s ~/Projects/.gitconfig-mac ~/.gitconfig
+
