@@ -3,9 +3,9 @@ local wezterm = require("wezterm")
 local config = {}
 -- Styling
 config.color_scheme = "OneDark (base16)"
-config.font = wezterm.font("JetBrains Mono", { weight = "SemiBold" })
+config.font = wezterm.font("JetBrains Mono", { weight = "Medium" })
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-	config.font_size = 9
+	config.font_size = 10
 	config.default_prog = { "pwsh", "-l" }
 else
 	config.font_size = 12
@@ -151,7 +151,8 @@ wezterm.on("update-status", function(window, pane)
 	end
 
 	-- Current working directory
-	local cwd = pane:get_current_working_dir().file_path
+	local cwd = pane:get_current_working_dir()
+	cwd = cwd and cwd.file_path or ""
 	cwd = cwd and basenameWorkingDir(cwd) or ""
 
 	-- Current command
@@ -186,12 +187,18 @@ wezterm.on("update-status", function(window, pane)
 end)
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	-- This is used to format the tab title
-	local current_tab = tabs[tab.tab_index + 1]
+	-- Show custom tab title if set, otherwise show default (cwd or process)
+	local index = tab.tab_index + 1
+	local current_tab = tabs[index]
+	if current_tab.tab_title and #current_tab.tab_title > 0 then
+		return {
+			{ Text = " " .. index(" - ") .. current_tab.tab_title .. " " },
+		}
+	end
 	local pane = current_tab.active_pane
 	local cwd = basename(pane.foreground_process_name)
 	return {
-		{ Text = " " .. cwd .. " " },
+		{ Text = " " .. index(" - ") .. cwd .. " " },
 	}
 end)
 return config
