@@ -7,6 +7,7 @@ config.font = wezterm.font("JetBrains Mono", { weight = "Medium" })
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.font_size = 10
 	config.default_prog = { "pwsh", "-l" }
+	config.default_domain = "WSL:Ubuntu-24.04"
 else
 	config.font_size = 12
 end

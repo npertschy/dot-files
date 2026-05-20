@@ -18,7 +18,7 @@ apt install fd-find
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
-# install delta 
+# install delta
 curl -LO https://github.com/dandavison/delta/releases/latest/download/delta-0.19.2-x86_64-unknown-linux-gnu.tar.gz
 sudo tar -C /opt -xzf delta-0.19.2-x86_64-unknown-linux-gnu.tar.gz
 
@@ -32,3 +32,5 @@ apt install openjdk-21-source
 apt install golang-go
 
 npm i -g tree-sitter-cli
+
+curl -fsSL https://opencode.ai/install | bash
