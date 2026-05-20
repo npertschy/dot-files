@@ -1,13 +1,13 @@
 echo "Setting up Windows environment"
 echo "Setup WezTerm config"
-mklink /H C:\Users\npertschy\.wezterm.lua wezterm.lua
+cmd /c mklink C:\Users\npertschy\.wezterm.lua C:\Users\npertschy\Projects\dot-files\.wezterm.lua
 
 echo "Setup powershell profile"
-mkling /H C:\Users\npertschy\pwsh-keymap.json pwsh-keymap.json
-mklink /H C:\Users\npertschy\pwsh-profile.ps1 pwsh-profile.ps1
+cmd /c mklink C:\Users\npertschy\pwsh-keymap.json C:\Users\npertschy\Projects\dot-files\pwsh-keymap.json
+cmd /c mklink C:\Users\npertschy\pwsh-profile.ps1 C:\Users\npertschy\Projects\dot-files\pwsh-profile.ps1
 
 echo "Setup starship config"
 if not exist C:\Users\npertschy\.config\ (
-	mkdir C:\Users\npertschy\.config\
+	cmd /c mkdir C:\Users\npertschy\.config\
 )
-mklink /H C:\Users\npertschy\.config\starship.toml starship.toml
+cmd /c mklink C:\Users\npertschy\.config\starship.toml C:\Users\npertschy\Projects\dot-files\starship.toml
