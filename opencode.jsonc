@@ -1,0 +1,15 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "theme": "one-dark",
+    "model": "github-copilot/claude-sonnet-4.6",
+    "mcp": {
+        "Mercedes-Benz GHE Cloud MCP": {
+            "type": "remote",
+            "url": "https://copilot-api.mercedes-benz.ghe.com/mcp",
+        },
+        "Atlassian MCP Server": {
+            "type": "remote",
+            "url": "https://mcp.atlassian.com/v1/mcp",
+        }
+    }
+}
