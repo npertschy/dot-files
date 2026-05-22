@@ -39,19 +39,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     local fzf_lua = require 'fzf-lua'
     map('gd', function()
-      fzf_lua.lsp_definitions { reuse_win = true }
+      fzf_lua.lsp_definitions { reuse_win = true, ignore_current_line = true, jump1 = true }
     end, '[G]oto [D]efinition')
 
     map('gr', function()
-      fzf_lua.lsp_references { reuse_win = true }
+      fzf_lua.lsp_references { reuse_win = true, ignore_current_line = true, jump1 = true }
     end, '[G]oto [R]eferences')
 
     map('gI', function()
-      fzf_lua.lsp_implementations { reuse_win = true }
+      fzf_lua.lsp_implementations { reuse_win = true, ignore_current_line = true, jump1 = true }
     end, '[G]oto [I]mplementation')
 
     map('gy', function()
-      fzf_lua.lsp_typedefs { reuse_win = true }
+      fzf_lua.lsp_typedefs { reuse_win = true, ignore_current_line = true, jump1 = true }
     end, '[G]oto t[y]pe [D]efinition')
 
     map('gD', function()

@@ -42,6 +42,7 @@ return {
         ['--height'] = '100%',
         ['--ansi'] = '',
         ['--prompt'] = '> ',
+        ['--cycle'] = true,
       },
       files = {
         prompt = '[Files]> ',
@@ -72,7 +73,7 @@ return {
       buffers = {
         prompt = '[Buffers]> ',
         sort_lastused = true,
-        show_unlisted = true,
+        show_unlisted = false,
         cwd_only = true,
         formatter = 'path.filename_first',
         winopts = {
