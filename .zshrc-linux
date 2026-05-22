@@ -10,22 +10,16 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 
-export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 export PATH="/opt/gitleaks-8.27.2:$PATH"
-export PATH="/usr/local/go/bin:$PATH"
-export PATH="/opt/delta-0.19.2-x86_64-unknown-linux-gnu:$PATH"
 
 export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64/"
 
-# fnm
-FNM_PATH="/home/npertschy/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="/home/npertschy/.local/share/fnm:$PATH"
-  eval "$(fnm env --use-on-cd --shell zsh)"
-fi
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 alias bat="batcat"
+
 
 cd ~

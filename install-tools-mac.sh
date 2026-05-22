@@ -1,7 +1,6 @@
+#/bin/sh
+
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo >> /Users/Lina/.zprofile
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/Lina/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -9,11 +8,9 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 
 brew install starship
 
-brew install node@22
-
-brew install npm 
-
 brew install fnm
+
+fnm install 22
 
 brew install fd
 
@@ -35,4 +32,4 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 npm i -g tree-sitter-cli
 
-curl -fsSL https://opencode.ai/install | bash
+brew install opencode
