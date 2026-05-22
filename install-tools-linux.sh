@@ -1,36 +1,30 @@
 #/bin/sh
 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-apt install starship
+brew install starship
 
-curl -fsSL https://fnm.vercel.app/install | bash
+brew install fnm
 
 fnm install 24
 
-apt install npm
+brew install fd
 
-apt install fd-find
+brew install neovim
 
-# install neovim
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+brew install git-delta
 
-# install delta
-curl -LO https://github.com/dandavison/delta/releases/latest/download/delta-0.19.2-x86_64-unknown-linux-gnu.tar.gz
-sudo tar -C /opt -xzf delta-0.19.2-x86_64-unknown-linux-gnu.tar.gz
+brew install bat
 
-apt install bat
+brew install fzf
 
-apt install fzf
+brew install openjdk-21
 
-apt install openjdk-21-jdk
-apt install openjdk-21-source
+brew install go
 
-apt install golang-go
+brew install tree-sitter-cli
 
-npm i -g tree-sitter-cli
-
-curl -fsSL https://opencode.ai/install | bash
