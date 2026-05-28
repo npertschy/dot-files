@@ -1,6 +1,6 @@
 return {
   cmd = { 'vscode-json-language-server', '--stdio' },
-  filetypes = { 'json', 'jsonc' },
+  filetypes = { 'json', 'json5' },
   init_options = { provideFormatter = true },
   root_markers = { '.git' },
   settings = {
