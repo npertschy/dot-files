@@ -26,8 +26,6 @@ brew install git-delta
 
 brew install bat
 
-brew install fzf
-
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 npm i -g tree-sitter-cli
