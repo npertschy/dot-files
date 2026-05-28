@@ -21,33 +21,15 @@ return {
         SpellCap = { fg = 'NONE', sp = colors.cyan, undercurl = true },
         SpellLocal = { fg = 'NONE', sp = colors.cyan, undercurl = true },
         SpellRare = { fg = 'NONE', sp = colors.cyan, undercurl = true },
+
+        TelescopeTitle = { fg = colors.purple, bold = true },
+        TelescopeSelection = { fg = 'NONE' },
+        TelescopePromptCounter = { fg = colors.orange, bold = true },
       },
       options = {
         cursorline = true,
       },
     }
     vim.cmd 'colorscheme onedark'
-
-    -- Set fzf-lua highlight groups to match onedarkpro
-    local function set_fzf_lua_highlights()
-      local groups = {
-        FzfLuaNormal = { fg = colors.fg, bg = colors.bg },
-        FzfLuaBorder = { fg = colors.fg, bg = colors.bg },
-        FzfLuaTitle = { fg = colors.green, bold = true },
-        FzfLuaPrompt = { fg = colors.purple, bold = true },
-        FzfLuaPointer = { fg = colors.red },
-        FzfLuaMarker = { fg = colors.red },
-        FzfLuaSpinner = { fg = colors.yellow },
-        FzfLuaHeader = { fg = colors.green },
-        FzfLuaInfo = { fg = colors.cyan },
-        FzfLuaPreviewNormal = { fg = colors.fg, bg = colors.cursorline },
-        FzfLuaPreviewBorder = { fg = colors.fg, bg = colors.cursorline },
-        FzfLuaPreviewTitle = { fg = colors.blue, bold = true },
-      }
-      for group, opts in pairs(groups) do
-        vim.api.nvim_set_hl(0, group, opts)
-      end
-    end
-    set_fzf_lua_highlights()
   end,
 }

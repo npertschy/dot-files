@@ -20,8 +20,6 @@ brew install git-delta
 
 brew install bat
 
-brew install fzf
-
 brew install openjdk-21
 
 brew install go

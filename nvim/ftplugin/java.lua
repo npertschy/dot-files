@@ -68,15 +68,15 @@ local config = {
       vim.keymap.set('n', '<leader>tp', jdtls.pick_test, { desc = 'Pick and run Test', buffer = bufnr })
       vim.keymap.set('n', '<leader>tg', require('jdtls.tests').goto_subjects, { desc = 'Goto subject', buffer = bufnr })
 
-      local fzf_lua = require 'fzf-lua'
+      local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sc', function()
-        fzf_lua.files {
+        builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/main/java'),
         }
       end, { desc = '[S]earch [c]lasses' })
 
       vim.keymap.set('n', '<leader>st', function()
-        fzf_lua.files {
+        builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/test/java'),
         }
       end, { desc = '[S]earch [t]ests' })

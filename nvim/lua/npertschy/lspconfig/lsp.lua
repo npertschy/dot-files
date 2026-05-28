@@ -37,22 +37,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
     end
 
-    local fzf_lua = require 'fzf-lua'
-    map('gd', function()
-      fzf_lua.lsp_definitions { reuse_win = true, ignore_current_line = true, jump1 = true }
-    end, '[G]oto [D]efinition')
-
-    map('gr', function()
-      fzf_lua.lsp_references { reuse_win = true, ignore_current_line = true, jump1 = true }
-    end, '[G]oto [R]eferences')
-
-    map('gI', function()
-      fzf_lua.lsp_implementations { reuse_win = true, ignore_current_line = true, jump1 = true }
-    end, '[G]oto [I]mplementation')
-
-    map('gy', function()
-      fzf_lua.lsp_typedefs { reuse_win = true, ignore_current_line = true, jump1 = true }
-    end, '[G]oto t[y]pe [D]efinition')
+    local builtin = require 'telescope.builtin'
+    map('gd', builtin.lsp_definitions, '[G]oto [D]efinition')
+    map('gr', builtin.lsp_references, '[G]oto [R]eferences')
+    map('gI', builtin.lsp_implementations, '[G]oto [I]mplementation')
+    map('gy', builtin.lsp_type_definitions, '[G]oto t[y]pe [D]efinition')
 
     map('gD', function()
       vim.lsp.buf.declaration()
@@ -75,17 +64,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     }
 
     map('<leader>ss', function()
-      fzf_lua.lsp_document_symbols {
-        symbols = symbol_filter,
-        reuse_win = true,
-      }
+      builtin.lsp_document_symbols { symbols = symbol_filter }
     end, '[S]earch [s]ymbols in document')
 
     map('<leader>sS', function()
-      fzf_lua.lsp_workspace_symbols {
-        symbols = symbol_filter,
-        reuse_win = true,
-      }
+      builtin.lsp_dynamic_workspace_symbols { symbols = symbol_filter }
     end, '[S]earch [S]ymbols in Workspace')
 
     map('<leader>cr', vim.lsp.buf.rename, '[R]ename')
