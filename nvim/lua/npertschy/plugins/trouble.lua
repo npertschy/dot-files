@@ -11,6 +11,9 @@ return {
           size = 0.6,
         },
       },
+      qflist = {
+        auto_jump = false,
+      },
       lsp_document_symbols = {
         format = '{access} {kind_icon}{symbol.name} {symbol.detail:Comment}',
       },

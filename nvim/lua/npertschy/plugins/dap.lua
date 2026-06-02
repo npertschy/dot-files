@@ -165,12 +165,12 @@ return {
         },
       }
 
-      require('nvim-dap-virtual-text').setup {
-        commented = true,
-        enabled = true,
-        highlight_changed_variables = true,
-        highlight_new_as_changed = true,
-      }
+      dap.listeners.before['event_exited']['clear_qflist'] = function(_, body)
+        if body and body.exitCode == 0 then
+          vim.fn.setqflist({}, 'r', { title = 'Test Results', items = {} })
+          require('trouble').close()
+        end
+      end
 
       vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
 
@@ -183,26 +183,18 @@ return {
     ---@type dapview.Config
     opts = {
       winbar = {
-        default_section = 'repl',
+        sections = { 'watches', 'scopes', 'exceptions', 'breakpoints', 'threads', 'repl', 'console' },
+        default_section = 'console',
       },
       windows = {
         terminal = {
           position = 'right',
         },
       },
+      auto_toggle = true,
+      virtual_text = {
+        enabled = true,
+      },
     },
-    config = function(_, opts)
-      require('dap-view').setup(opts)
-
-      local dapview = require 'dap-view'
-      local dap = require 'dap'
-
-      dap.listeners.before.attach.dapui_config = function()
-        dapview.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        dapview.open()
-      end
-    end,
   },
 }

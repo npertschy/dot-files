@@ -58,3 +58,30 @@ vim.api.nvim_create_autocmd('FileType', {
     end, { buffer = true, expr = true })
   end,
 })
+
+-- nvim-jdtls populates test failures via vim.diagnostic.set() (junit/testng namespace)
+-- and vim.fn.setqflist(). QuickFixCmdPost does NOT fire for setqflist(), so we
+-- listen to DiagnosticChanged and open Trouble when jdtls test errors appear.
+vim.api.nvim_create_autocmd('DiagnosticChanged', {
+  desc = 'Open Trouble qflist when jdtls test diagnostics report failures',
+  callback = function(args)
+    local junit_ns = vim.api.nvim_get_namespaces()['junit']
+    local testng_ns = vim.api.nvim_get_namespaces()['testng']
+    local has_test_errors = false
+    for _, ns in ipairs { junit_ns, testng_ns } do
+      if ns then
+        local diags = vim.diagnostic.get(args.buf, { namespace = ns, severity = vim.diagnostic.severity.ERROR })
+        if #diags > 0 then
+          has_test_errors = true
+          break
+        end
+      end
+    end
+    if has_test_errors then
+      -- Use schedule to let the qflist settle before opening Trouble
+      vim.schedule(function()
+        require('trouble').open { mode = 'qflist', focus = false }
+      end)
+    end
+  end,
+})
