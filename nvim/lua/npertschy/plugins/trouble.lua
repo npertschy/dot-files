@@ -45,19 +45,19 @@ return {
   cmd = 'Trouble',
   keys = {
     {
-      '<leader>x',
+      '<M-x>',
       '<cmd>Trouble diagnostics toggle<cr>',
-      desc = 'Diagnostics list (Trouble)',
+      desc = 'Diagnostics (Trouble)',
     },
     {
-      '<leader>X',
-      '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-      desc = 'Diagnostics list for current buffer(Trouble)',
-    },
-    {
-      '<leader>o',
+      '<M-o>',
       '<cmd>Trouble lsp_document_symbols toggle win.position=right win.size=60<cr>',
-      desc = 'Document symbols (Trouble)',
+      desc = 'Document [s]ymbols (Trouble)',
+    },
+    {
+      '<M-q>',
+      '<cmd>Trouble qflist toggle<cr>',
+      desc = '[Q]uickfix list (Trouble)',
     },
   },
 }
