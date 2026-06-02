@@ -8,117 +8,110 @@ return {
         function()
           require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
         end,
-        desc = 'Breakpoint Condition',
+        desc = '[B]reakpoint [C]ondition',
       },
       {
         '<leader>db',
         function()
           require('dap').toggle_breakpoint()
         end,
-        desc = 'Toggle Breakpoint',
+        desc = 'Toggle [b]reakpoint',
       },
       {
         '<leader>dc',
         function()
           require('dap').continue()
         end,
-        desc = 'Run/Continue',
-      },
-      {
-        '<leader>da',
-        function()
-          require('dap').continue { before = get_args }
-        end,
-        desc = 'Run with Args',
+        desc = '[C]ontinue / Run',
       },
       {
         '<leader>dC',
         function()
           require('dap').run_to_cursor()
         end,
-        desc = 'Run to Cursor',
+        desc = 'Run to [C]ursor',
       },
       {
         '<leader>dg',
         function()
           require('dap').goto_()
         end,
-        desc = 'Go to Line (No Execute)',
+        desc = '[G]oto Line (No Execute)',
       },
       {
-        '<M-i>',
+        '<M-Down>',
         function()
           require('dap').step_into()
         end,
-        desc = 'Step Into',
+        desc = 'Step Into (↓)',
       },
       {
         '<leader>dj',
         function()
           require('dap').down()
         end,
-        desc = 'Down',
+        desc = '[j] Stack Down',
       },
       {
         '<leader>dk',
         function()
           require('dap').up()
         end,
-        desc = 'Up',
+        desc = '[k] Stack Up',
       },
       {
         '<leader>dl',
         function()
           require('dap').run_last()
         end,
-        desc = 'Run Last',
+        desc = 'Run [L]ast',
       },
       {
-        '<M-o>',
+        '<M-Up>',
         function()
           require('dap').step_out()
         end,
-        desc = 'Step Out',
+        desc = 'Step Out (↑)',
       },
       {
-        '<M-p>',
+        '<M-Right>',
         function()
           require('dap').step_over()
         end,
-        desc = 'Step Over',
+        desc = 'Step Over (→)',
       },
       {
         '<leader>dP',
         function()
           require('dap').pause()
         end,
-        desc = 'Pause',
+        desc = '[P]ause',
       },
       {
         '<leader>dS',
         function()
           require('dap').session()
         end,
-        desc = 'Session',
+        desc = '[S]ession',
       },
       {
         '<leader>dt',
         function()
           require('dap').terminate()
         end,
-        desc = 'Terminate',
+        desc = '[T]erminate',
       },
       {
         '<leader>dw',
         function()
           require('dap.ui.widgets').hover()
         end,
-        desc = 'Widgets',
+        desc = '[W]idgets',
       },
       {
-        '<leader>du',
+        '<M-d>',
         '<cmd>DapViewToggle!<cr>',
-        desc = 'Dap UI',
+        desc = '[D]AP view toggle',
       },
     },
     config = function()
@@ -146,10 +139,16 @@ return {
               request = 'attach',
               name = 'Attach',
               processId = require('dap.utils').pick_process,
-              cwd = vim.fn.getcwd() .. '/src',
+              cwd = function()
+                return vim.fn.getcwd() .. '/src'
+              end,
               sourceMaps = true,
-              resolveSourceMapLocations = { vim.fn.getcwd() .. '/**', '!**/node_modules/**' },
-              skipFiles = { vim.fn.getcwd() .. '/node_modules/**/*.js' },
+              resolveSourceMapLocations = function()
+                return { vim.fn.getcwd() .. '/**', '!**/node_modules/**' }
+              end,
+              skipFiles = function()
+                return { vim.fn.getcwd() .. '/node_modules/**/*.js' }
+              end,
             },
           }
         end

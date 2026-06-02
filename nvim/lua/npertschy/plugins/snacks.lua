@@ -60,7 +60,15 @@ return {
       desc = 'Delete Buffer',
     },
     {
-      ']]',
+      '<M-t>',
+      function()
+        Snacks.terminal()
+      end,
+      desc = 'Toggle [T]erminal',
+      mode = { 'n', 't' },
+    },
+    {
+      '}}',
       function()
         Snacks.words.jump(vim.v.count1)
       end,
@@ -68,7 +76,7 @@ return {
       mode = { 'n', 't' },
     },
     {
-      '[[',
+      '{{',
       function()
         Snacks.words.jump(-vim.v.count1)
       end,
