@@ -22,4 +22,3 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 alias bat="batcat"
 
 
-cd ~
