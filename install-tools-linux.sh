@@ -26,3 +26,6 @@ brew install go
 
 brew install tree-sitter-cli
 
+brew install uv
+
+CC=gcc CXX=g++ uv tool install "vectorcode<1.0.0"

@@ -98,7 +98,7 @@ return {
         },
       },
       per_filetype = {
-        codecompanion = { 'codecompanion' },
+        codecompanion = { 'codecompanion', 'buffer', 'ripgrep' },
       },
     },
 
