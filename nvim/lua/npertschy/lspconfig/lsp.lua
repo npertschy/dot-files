@@ -12,10 +12,6 @@ vim.lsp.enable {
   'yamlls',
 }
 
-vim.lsp.config('*', {
-  capabilities = require('blink.cmp').get_lsp_capabilities(),
-})
-
 vim.diagnostic.config {
   severity_sort = true,
   underline = true,
