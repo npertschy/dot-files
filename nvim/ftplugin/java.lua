@@ -17,7 +17,7 @@ vim.list_extend(bundles, all_test_jars)
 vim.list_extend(bundles, require('spring_boot').java_extensions())
 
 local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
-local root_dir = vim.fs.root(0, { 'pom.xml', 'mvnw', 'build.gradle', 'gradlew' })
+local root_dir = vim.fs.root(0, { 'mvnw', 'gradlew' })
 local workspace_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local function get_config_dir()
   if vim.fn.has 'linux' == 1 then
@@ -105,6 +105,11 @@ local config = {
       maxConcurrentBuilds = 1,
       configuration = {
         updateBuildConfiguration = 'automatic',
+      },
+      compile = {
+        nullAnalysis = {
+          mode = 'interactive',
+        },
       },
       inlayHints = {
         parameterNames = {
