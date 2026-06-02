@@ -22,14 +22,25 @@ return {
         SpellLocal = { fg = 'NONE', sp = colors.cyan, undercurl = true },
         SpellRare = { fg = 'NONE', sp = colors.cyan, undercurl = true },
 
-        TelescopeTitle = { fg = colors.purple, bold = true },
+        TelescopePromptTitle = { fg = colors.bg, bg = colors.orange, bold = true },
+        TelescopeResultsTitle = { fg = colors.bg, bg = colors.blue, bold = true },
+        TelescopePreviewTitle = { fg = colors.bg, bg = colors.green, bold = true },
+        TelescopePromptBorder = { fg = colors.orange },
+        TelescopeResultsBorder = { fg = colors.blue },
+        TelescopePreviewBorder = { fg = colors.green },
         TelescopeSelection = { fg = 'NONE' },
+        TelescopeSelectionCaret = { fg = colors.yellow, bold = true },
+        TelescopeMatching = { fg = colors.yellow, bold = true },
         TelescopePromptCounter = { fg = colors.orange, bold = true },
+        TelescopePromptPrefix = { fg = colors.orange, bold = true },
+        TelescopeResultsFunction = { fg = colors.blue },
+        TelescopeResultsMethod = { fg = colors.cyan },
+        TelescopeResultsClass = { fg = colors.green },
       },
       options = {
         cursorline = true,
       },
     }
-    vim.cmd 'colorscheme onedark'
+    vim.cmd 'colorscheme onedark_vivid'
   end,
 }
