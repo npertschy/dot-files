@@ -125,6 +125,10 @@ config.key_tables = {
 -- I don't like the look of "fancy" tab bar
 config.status_update_interval = 1000
 config.tab_bar_at_bottom = false
+config.window_frame = {
+	font = wezterm.font("JetBrains Mono", { weight = "Medium" }),
+	font_size = 9,
+}
 
 local basename = function(s)
 	-- Nothing a little regex can't fix
