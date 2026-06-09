@@ -34,6 +34,9 @@ return {
           { 'fileformat' },
           { 'filetype' },
         },
+        lualine_y = {
+          'lsp_status',
+        },
       },
     }
   end,
