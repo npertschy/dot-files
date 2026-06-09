@@ -13,6 +13,12 @@ return {
       },
       qflist = {
         auto_jump = false,
+        preview = {
+          type = 'split',
+          relative = 'win',
+          position = 'right',
+          size = 0.6,
+        },
       },
       lsp_document_symbols = {
         format = '{access} {kind_icon}{symbol.name} {symbol.detail:Comment}',
