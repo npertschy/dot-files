@@ -14,6 +14,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
 
 export PATH="/opt/gitleaks-8.27.2:$PATH"
+export PATH="/home/npertschy/.local/bin:$PATH"
 
 export JAVA_HOME="/home/linuxbrew/.linuxbrew/Cellar/openjdk@21/21.0.11/libexec"
 
