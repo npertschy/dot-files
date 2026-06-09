@@ -64,3 +64,15 @@ vim.keymap.set('n', '<C-M-j>', '<cmd>horizontal resize -2<cr>', { desc = 'Decrea
 
 -- NOTE: Paste over currently selected text without yanking it
 vim.keymap.set('x', 'p', '"0p', { desc = 'Paste without overwriting the yank register' })
+
+-- NOTE: Toggle diffs for buffers in a split
+vim.keymap.set('n', '<leader>td', function()
+  if vim.opt.diff:get() then
+    vim.cmd 'diffoff'
+  else
+    vim.cmd 'windo diffthis'
+  end
+end, { desc = 'Toggle diff for all windows' })
+
+vim.keymap.set('n', ']n', ']c', { desc = 'Next diff change' })
+vim.keymap.set('n', '[n', '[c', { desc = 'Prev diff change' })
