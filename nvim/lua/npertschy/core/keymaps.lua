@@ -61,3 +61,6 @@ vim.keymap.set('n', '<C-M-l>', '<cmd>vertical resize +2<cr>', { desc = 'Increase
 vim.keymap.set('n', '<C-M-h>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window size vertically' })
 vim.keymap.set('n', '<C-M-k>', '<cmd>horizontal resize +2<cr>', { desc = 'Increase window size horizontally' })
 vim.keymap.set('n', '<C-M-j>', '<cmd>horizontal resize -2<cr>', { desc = 'Decrease window size horizontally' })
+
+-- NOTE: Paste over currently selected text without yanking it
+vim.keymap.set('x', 'p', '"0p', { desc = 'Paste without overwriting the yank register' })
