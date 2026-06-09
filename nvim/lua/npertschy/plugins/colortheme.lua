@@ -33,6 +33,14 @@ return {
         TelescopeMatching = { fg = colors.yellow, bold = true },
         TelescopePromptCounter = { fg = colors.orange, bold = true },
         TelescopePromptPrefix = { fg = colors.orange, bold = true },
+
+        TelescopeNormal = { bg = colors.bg },
+        TelescopePromptNormal = { bg = colors.bg },
+        TelescopeResultsNormal = { bg = colors.bg },
+        TelescopePreviewNormal = { bg = colors.bg },
+
+        TroubleNormal = { bg = colors.bg },
+        TroubleNormalNC = { bg = colors.bg },
         TelescopeResultsFunction = { fg = colors.blue },
         TelescopeResultsMethod = { fg = colors.cyan },
         TelescopeResultsClass = { fg = colors.green },
