@@ -24,55 +24,49 @@ local ensure_installed = {
   'yaml',
 }
 
--- on main branch, treesitter isn't started automatically
-vim.api.nvim_create_autocmd({ 'Filetype' }, {
-  pattern = ensure_installed,
-  callback = function(event)
-    -- make sure nvim-treesitter is loaded
-    local ok, nvim_treesitter = pcall(require, 'nvim-treesitter')
-
-    -- no nvim-treesitter, maybe fresh install
-    if not ok then
-      return
-    end
-
-    local ft = vim.bo[event.buf].ft
-    local lang = vim.treesitter.language.get_lang(ft)
-    nvim_treesitter.install({ lang }):await(function(err)
-      if err then
-        vim.notify('Treesitter install error for ft: ' .. ft .. ' err: ' .. err)
-        return
-      end
-
-      pcall(vim.treesitter.start, event.buf)
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-      -- vim.wo.foldmethod = 'expr'
-      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-    end)
-  end,
-})
-
 return {
   {
-    'nvim-treesitter/nvim-treesitter',
+    'neovim-treesitter/nvim-treesitter',
     lazy = false,
-    branch = 'main',
     build = ':TSUpdate',
     dependencies = {
+      'neovim-treesitter/treesitter-parser-registry',
       'LiadOz/nvim-dap-repl-highlights',
     },
-    opts = {},
-    config = function(_, opts)
-      -- make sure nvim-treesitter can load
-      local ok, nvim_treesitter = pcall(require, 'nvim-treesitter')
+    config = function()
+      require('nvim-dap-repl-highlights').setup()
 
-      -- no nvim-treesitter, maybe fresh install
-      if not ok then
-        return
+      -- ── 1. Parser → Filetype Registrierung ──────────────
+      -- Nur nötig wo Parser-Name ≠ Filetype
+      vim.treesitter.language.register('bash', { 'sh', 'bash', 'zsh' })
+      vim.treesitter.language.register('tsx', { 'typescriptreact' })
+      vim.treesitter.language.register('javascript', { 'javascriptreact' })
+      vim.treesitter.language.register('vimdoc', { 'help' })
+      vim.treesitter.language.register('git_config', { 'gitconfig' })
+      vim.treesitter.language.register('dap_repl', { 'dap-repl' })
+
+      -- ── 2. Parser installieren ──────────────────────────
+      require('nvim-treesitter').install(ensure_installed)
+
+      -- ── 3. Filetypes dynamisch aus Parsern ableiten ─────
+      local patterns = {}
+      for _, parser in ipairs(ensure_installed) do
+        for _, ft in ipairs(vim.treesitter.language.get_filetypes(parser)) do
+          patterns[ft] = true
+        end
       end
 
-      require('nvim-dap-repl-highlights').setup()
-      nvim_treesitter.install(ensure_installed)
+      -- ── 4. AutoCommand mit korrekten Filetypes ─────────
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = vim.tbl_keys(patterns),
+        callback = function(event)
+          -- Injection-Parser (luadoc, markdown_inline) werden
+          -- automatisch mit gestartet – kein separates Handling nötig
+          pcall(vim.treesitter.start, event.buf)
+          vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        end,
+      })
     end,
   },
   {

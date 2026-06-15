@@ -159,9 +159,8 @@ return {
       vim.keymap.set('n', '<leader>sm', '<cmd>Telescope noice<cr>', { desc = '[S]earch recent [m]essages' })
       vim.keymap.set('n', '<leader>sz', builtin.spell_suggest, { desc = '[S]earch spell suggestions' })
       vim.keymap.set('n', '<leader>sj', '<cmd>Telescope jsonfly<cr>', { desc = '[S]earch [J]son file' })
-      vim.keymap.set('n', '<leader>sC', builtin.git_status, { desc = '[S]earch git [C]hanges' })
+      vim.keymap.set('n', '<leader>sc', builtin.git_status, { desc = '[S]earch git [c]hanges' })
       vim.keymap.set('n', '<leader>sl', builtin.resume, { desc = '[S]earch with [L]ast picker' })
-      vim.keymap.set({ 'n', 'v' }, '<leader>sr', builtin.registers, { desc = '[S]earch [R]egisters' })
 
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.

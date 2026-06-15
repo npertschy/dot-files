@@ -69,29 +69,29 @@ local config = {
       vim.keymap.set('n', '<leader>tg', require('jdtls.tests').goto_subjects, { desc = 'Goto subject', buffer = bufnr })
 
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sc', function()
+      vim.keymap.set('n', '<leader>jc', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/main/java'),
         }
-      end, { desc = '[S]earch [c]lasses' })
+      end, { desc = '[J]ava [c]lasses' })
 
-      vim.keymap.set('n', '<leader>st', function()
+      vim.keymap.set('n', '<leader>jt', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/test/java'),
         }
-      end, { desc = '[S]earch [t]ests' })
+      end, { desc = '[J]ava [t]ests' })
 
-      vim.keymap.set('n', '<leader>sr', function()
+      vim.keymap.set('n', '<leader>jr', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/main/resources'),
         }
-      end, { desc = '[S]earch [r]esources' })
+      end, { desc = '[J]ava [r]esources' })
 
       vim.keymap.set('n', '<leader>sR', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/test/resources'),
         }
-      end, { desc = '[S]earch Tests [R]esources' })
+      end, { desc = '[J]ava Tests [R]esources' })
 
       vim.keymap.set('n', '<leader>jf', '<cmd>JdtCompile full<cr>', { desc = 'Compile full project' })
       vim.keymap.set('n', '<leader>ji', '<cmd>JdtCompile incremental<cr>', { desc = 'Complile incremental' })
