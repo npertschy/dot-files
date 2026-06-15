@@ -32,7 +32,7 @@ return {
         local mason_action = {
           icon = ' ',
           desc = 'Mason',
-          key = 'm',
+          key = 'M',
           action = ':Mason',
         }
         table.insert(opts.preset.keys, 6, mason_action)

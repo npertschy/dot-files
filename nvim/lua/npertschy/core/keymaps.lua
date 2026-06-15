@@ -63,10 +63,10 @@ vim.keymap.set('n', '<C-M-k>', '<cmd>horizontal resize +2<cr>', { desc = 'Increa
 vim.keymap.set('n', '<C-M-j>', '<cmd>horizontal resize -2<cr>', { desc = 'Decrease window size horizontally' })
 
 -- NOTE: Paste over currently selected text without yanking it
-vim.keymap.set('x', 'p', '"0p', { desc = 'Paste without overwriting the yank register' })
+vim.keymap.set('x', 'p', '"_dP', { desc = 'Paste over selection (repeatable)' })
 
 -- NOTE: Toggle diffs for buffers in a split
-vim.keymap.set('n', '<leader>td', function()
+vim.keymap.set('n', '<leader>tD', function()
   if vim.opt.diff:get() then
     vim.cmd 'diffoff'
   else
