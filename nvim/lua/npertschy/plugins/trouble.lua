@@ -51,17 +51,17 @@ return {
   cmd = 'Trouble',
   keys = {
     {
-      '<M-x>',
+      '<leader>tx',
       '<cmd>Trouble diagnostics toggle<cr>',
       desc = 'Diagnostics (Trouble)',
     },
     {
-      '<M-o>',
+      '<leader>to',
       '<cmd>Trouble lsp_document_symbols toggle win.position=right win.size=60<cr>',
       desc = 'Document [s]ymbols (Trouble)',
     },
     {
-      '<M-q>',
+      '<leader>tq',
       '<cmd>Trouble qflist toggle<cr>',
       desc = '[Q]uickfix list (Trouble)',
     },

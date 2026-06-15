@@ -1,23 +1,48 @@
 return {
-  'olimorris/codecompanion.nvim',
-  opts = {},
-  opts = {
-    adapters = {
-      acp = {
-        opencode = 'opencode',
-      },
+  {
+    'npertschy/copilot-ghe.nvim',
+    -- dir = vim.fn.expand '~/Projects/copilot-ghe.nvim',
+    dependencies = {
+      'olimorris/codecompanion.nvim',
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+      github_enterprise_url = 'mercedes-benz.ghe.com',
     },
   },
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-    'nvim-treesitter/nvim-treesitter',
-  },
-  keys = {
-    {
-      '<M-g>',
-      '<cmd>CodeCompanionChat Toggle<cr>',
-      desc = 'Copilot Chat',
-      mode = { 'n', 'v' },
+  {
+    'olimorris/codecompanion.nvim',
+    opts = {
+      adapters = {
+        http = {
+          copilot_ghe = function()
+            return require('copilot-ghe').adapter()
+          end,
+        },
+        acp = {
+          opencode = 'opencode',
+        },
+      },
+      interactions = {
+        chat = {
+          adapter = {
+            name = 'copilot_ghe',
+            model = 'claude-sonnet-4.6',
+          },
+        },
+        inline = {
+          adapter = {
+            name = 'copilot_ghe',
+            model = 'claude-sonnet-4.6',
+          },
+        },
+        cmd = {
+          adapter = {
+            name = 'copilot_ghe',
+            model = 'claude-sonnet-4.6',
+          },
+        },
+      },
       extensions = {
         history = {
           enabled = true,
@@ -103,11 +128,6 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'ravitemer/codecompanion-history.nvim',
     },
-    {
-      '<M-a>',
-      '<cmd>CodeCompanionActions<cr>',
-      desc = 'Copilot Chat Actions',
-      mode = { 'n', 'v' },
     keys = {
       {
         '<M-g>',

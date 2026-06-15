@@ -4,6 +4,7 @@ return {
     cmd = 'Copilot',
     event = 'BufReadPost',
     opts = {
+      auth_provider_url = 'https://mercedes-benz.ghe.com/',
       suggestion = {
         auto_trigger = true,
         keymap = {

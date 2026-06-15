@@ -10,7 +10,7 @@ return {
       callback = buftrack.track_buffer,
     })
 
-    vim.keymap.set('n', '[b', buftrack.prev_buffer)
-    vim.keymap.set('n', ']b', buftrack.next_buffer)
+    vim.keymap.set('n', '<M-B>', buftrack.prev_buffer)
+    vim.keymap.set('n', '<M-b>', buftrack.next_buffer)
   end,
 }

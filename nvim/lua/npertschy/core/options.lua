@@ -81,3 +81,11 @@ vim.opt.completeopt = 'menu,menuone,noselect,popup'
 
 -- global statusline
 vim.opt.laststatus = 3
+
+-- map files of type typescriptreact as tsx
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '*.tsx' },
+  callback = function()
+    vim.bo.filetype = 'tsx'
+  end,
+})

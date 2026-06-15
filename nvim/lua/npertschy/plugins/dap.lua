@@ -109,7 +109,7 @@ return {
         desc = '[W]idgets',
       },
       {
-        '<M-d>',
+        '<leader>td',
         '<cmd>DapViewToggle!<cr>',
         desc = '[D]AP view toggle',
       },

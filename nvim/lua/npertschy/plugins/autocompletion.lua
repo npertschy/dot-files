@@ -94,7 +94,7 @@ return {
               use = 'gitgrep-or-ripgrep',
             },
           },
-          score_offset = -1,
+          score_offset = -5,
         },
       },
       per_filetype = {

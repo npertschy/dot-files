@@ -30,7 +30,7 @@ return {
       desc = 'Run shell command',
     },
     {
-      '<M-r>',
+      '<leader>tr',
       '<cmd>OverseerToggle<cr>',
       desc = '[R]un task overview',
     },
