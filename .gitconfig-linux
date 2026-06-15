@@ -5,6 +5,9 @@
 [fetch]
     prune = true
 
+[pull]
+    rebase = false
+
 [interactive]
     diffFilter = delta --color-only
 

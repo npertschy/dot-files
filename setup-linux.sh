@@ -2,6 +2,9 @@
 
 echo "Setting up Unix environment"
 
+echo "Setup shell sequence handling for wezterm"
+ln -s ~/Projects/dot-files/shell-sequences-setup.sh ~/shell-sequences-setup.sh
+
 echo "Setup zsh"
 ln -s ~/Projects/dot-files/.zshrc-linux ~/.zshrc
 
