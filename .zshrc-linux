@@ -1,25 +1,48 @@
-export ZSH="$HOME/.oh-my-zsh"
-
-ENABLE_CORRECTION="true"
-
-plugins=(
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
-
-source $ZSH/oh-my-zsh.sh
-
+# ==============================================================================
+# Homebrew
+# ==============================================================================
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# ==============================================================================
+# Completion
+# ==============================================================================
+autoload -Uz compinit
+
+# Nur einmal täglich neu initialisieren
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# ==============================================================================
+# Tools
+# ==============================================================================
 eval "$(starship init zsh)"
-
-export PATH="/opt/gitleaks-8.27.2:$PATH"
-export PATH="/home/npertschy/.local/bin:$PATH"
-
-export JAVA_HOME="/home/linuxbrew/.linuxbrew/Cellar/openjdk@21/21.0.11/libexec"
-
+eval "$(zoxide init zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
 
-alias bat="batcat"
+# ==============================================================================
+# Plugins
+# ==============================================================================
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# ==============================================================================
+# Aliase
+# ==============================================================================
+alias ls="eza -lhg --git"
+alias la="eza -lhga --git"
+compdef eza=ls
+
+# ==============================================================================
+# PATH
+# ==============================================================================
+export PATH="/opt/gitleaks-8.27.2:$PATH"
+export PATH="/home/npertschy/.local/bin:$PATH"
+export JAVA_HOME="/home/linuxbrew/.linuxbrew/Cellar/openjdk@21/21.0.11/libexec"
 
 
