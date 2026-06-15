@@ -122,11 +122,10 @@ config.key_tables = {
 }
 
 -- Tab bar
--- I don't like the look of "fancy" tab bar
 config.status_update_interval = 1000
 config.tab_bar_at_bottom = false
 config.window_frame = {
-	font = wezterm.font("JetBrains Mono", { weight = "Medium" }),
+	font = wezterm.font("JetBrains Mono", { weight = "Bold" }),
 	font_size = 9,
 }
 
@@ -197,13 +196,13 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	local current_tab = tabs[index]
 	if current_tab.tab_title and #current_tab.tab_title > 0 then
 		return {
-			{ Text = " " .. index(" - ") .. current_tab.tab_title .. " " },
+			{ Text = " " .. index .. " - " .. current_tab.tab_title .. " " },
 		}
 	end
 	local pane = current_tab.active_pane
 	local cwd = basename(pane.foreground_process_name)
 	return {
-		{ Text = " " .. index(" - ") .. cwd .. " " },
+		{ Text = " " .. index .. " - " .. cwd .. " " },
 	}
 end)
 return config
