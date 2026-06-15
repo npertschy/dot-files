@@ -36,3 +36,4 @@ CC=gcc CXX=g++ uv tool install "vectorcode<1.0.0"
 
 brew install zsh-syntax-highlighting
 brew install zsh-autosuggestions
+brew install zsh-completions
