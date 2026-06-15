@@ -5,22 +5,22 @@ vim.g.maplocalleader = ' '
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- NOTE: navigate to the next specific diagnostic message
-vim.keymap.set('n', '[d', function()
+vim.keymap.set('n', '<M-D>', function()
   vim.diagnostic.jump { count = -1 }
 end, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', function()
+vim.keymap.set('n', '<M-d>', function()
   vim.diagnostic.jump { count = 1 }
 end, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '[e', function()
+vim.keymap.set('n', '<M-E>', function()
   vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
 end, { desc = 'Go to previous [E]rror message' })
-vim.keymap.set('n', ']e', function()
+vim.keymap.set('n', '<M-e>', function()
   vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
 end, { desc = 'Go to next [E]rror message' })
-vim.keymap.set('n', '[w', function()
+vim.keymap.set('n', '<M-W>', function()
   vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.WARN }
 end, { desc = 'Go to previous [W]arn message' })
-vim.keymap.set('n', ']w', function()
+vim.keymap.set('n', '<M-w>', function()
   vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.WARN }
 end, { desc = 'Go to next [W]arn message' })
 
@@ -74,5 +74,5 @@ vim.keymap.set('n', '<leader>td', function()
   end
 end, { desc = 'Toggle diff for all windows' })
 
-vim.keymap.set('n', ']n', ']c', { desc = 'Next diff change' })
-vim.keymap.set('n', '[n', '[c', { desc = 'Prev diff change' })
+vim.keymap.set('n', '<M-n>', ']c', { desc = 'Next diff change' })
+vim.keymap.set('n', '<M-N>', '[c', { desc = 'Prev diff change' })
