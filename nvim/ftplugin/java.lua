@@ -16,7 +16,6 @@ vim.list_extend(bundles, all_test_jars)
 
 vim.list_extend(bundles, require('spring_boot').java_extensions())
 
-local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
 local root_dir = vim.fs.root(0, { 'mvnw', 'gradlew' })
 local workspace_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local function get_config_dir()
@@ -34,7 +33,6 @@ local extendedClientCapabilities = jdtls.extendedClientCapabilities or {}
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local config = {
-  capabilities = blink_capabilities,
   cmd = {
     'java',
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
@@ -63,41 +61,39 @@ local config = {
   on_attach = function(client, bufnr)
     if root_dir ~= '' then
       vim.keymap.set('n', '<leader>co', jdtls.organize_imports, { desc = 'Organize imports', buffer = bufnr })
-      vim.keymap.set('n', '<leader>tc', jdtls.test_class, { desc = 'Test class', buffer = bufnr })
-      vim.keymap.set('n', '<leader>tm', jdtls.test_nearest_method, { desc = 'Test method', buffer = bufnr })
-      vim.keymap.set('n', '<leader>tp', jdtls.pick_test, { desc = 'Pick and run Test', buffer = bufnr })
-      vim.keymap.set('n', '<leader>tg', require('jdtls.tests').goto_subjects, { desc = 'Goto subject', buffer = bufnr })
+      vim.keymap.set('n', '<leader>jtc', jdtls.test_class, { desc = 'Test class', buffer = bufnr })
+      vim.keymap.set('n', '<leader>jtm', jdtls.test_nearest_method, { desc = 'Test method', buffer = bufnr })
+      vim.keymap.set('n', '<leader>jtp', jdtls.pick_test, { desc = 'Pick and run Test', buffer = bufnr })
+      vim.keymap.set('n', '<leader>jtg', require('jdtls.tests').goto_subjects, { desc = 'Goto subject', buffer = bufnr })
 
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>jc', function()
+      vim.keymap.set('n', '<leader>jsc', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/main/java'),
         }
-      end, { desc = '[J]ava [c]lasses' })
+      end, { desc = '[J]ava [s]earch [c]lasses' })
 
-      vim.keymap.set('n', '<leader>jt', function()
+      vim.keymap.set('n', '<leader>jst', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/test/java'),
         }
-      end, { desc = '[J]ava [t]ests' })
+      end, { desc = '[J]ava [s]earch [t]ests' })
 
-      vim.keymap.set('n', '<leader>jr', function()
+      vim.keymap.set('n', '<leader>jsr', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/main/resources'),
         }
-      end, { desc = '[J]ava [r]esources' })
+      end, { desc = '[J]ava [s]earch [r]esources' })
 
-      vim.keymap.set('n', '<leader>sR', function()
+      vim.keymap.set('n', '<leader>jsR', function()
         builtin.find_files {
           cwd = vim.fn.expand(root_dir .. '/src/test/resources'),
         }
-      end, { desc = '[J]ava Tests [R]esources' })
+      end, { desc = '[J]ava [s]earch Tests [R]esources' })
 
       vim.keymap.set('n', '<leader>jf', '<cmd>JdtCompile full<cr>', { desc = 'Compile full project' })
       vim.keymap.set('n', '<leader>ji', '<cmd>JdtCompile incremental<cr>', { desc = 'Complile incremental' })
     end
-
-    vim.lsp.codelens.enable(true, { bufnr = bufnr })
   end,
   root_dir = root_dir,
   settings = {
@@ -121,13 +117,6 @@ local config = {
       },
       maven = {
         downloadSources = true,
-      },
-      implementationsCodeLens = {
-        enabled = true,
-      },
-      referencesCodeLens = {
-        includeAccessors = true,
-        enabled = true,
       },
       references = {
         includeDecompiledSources = true,

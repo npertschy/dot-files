@@ -26,6 +26,14 @@ end, { desc = 'Go to next [W]arn message' })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- NOTE: better movement in wrapped text
+vim.keymap.set('n', 'j', function()
+  return vim.v.count == 0 and 'gj' or 'j'
+end, { expr = true, silent = true, desc = 'Down (wrap-aware)' })
+vim.keymap.set('n', 'k', function()
+  return vim.v.count == 0 and 'gk' or 'k'
+end, { expr = true, silent = true, desc = 'Up (wrap-aware)' })
+
 -- NOTE disable arrow keys
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
@@ -38,13 +46,13 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- NOTE  move selected line up or down in visual mode
-vim.keymap.set('v', '<A-j>', ':m .+1<CR>==gv', { desc = 'Move selected line down' })
-vim.keymap.set('v', '<A-k>', ':m .-2<CR>==gv', { desc = 'Move selected line up' })
+-- NOTE: move lines up or down
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down' })
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up' })
 
--- NOTE  move current line up or down in normal mode
-vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move current line down' })
-vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move current line up' })
+-- NOTE: move selection up or down
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
 
 -- NOTE: preserve selection when indenting
 vim.keymap.set('v', '<', '<gv')
@@ -76,3 +84,5 @@ end, { desc = 'Toggle diff for all windows' })
 
 vim.keymap.set('n', '<M-n>', ']c', { desc = 'Next diff change' })
 vim.keymap.set('n', '<M-N>', '[c', { desc = 'Prev diff change' })
+
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
