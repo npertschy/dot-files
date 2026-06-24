@@ -29,8 +29,8 @@ return {
         TelescopeResultsBorder = { fg = colors.blue },
         TelescopePreviewBorder = { fg = colors.green },
         TelescopeSelection = { fg = 'NONE' },
-        TelescopeSelectionCaret = { fg = colors.yellow, bold = true },
-        TelescopeMatching = { fg = colors.yellow, bold = true },
+        TelescopeSelectionCaret = { fg = colors.purple, bold = true },
+        TelescopeMatching = { fg = colors.purple, bold = true },
         TelescopePromptCounter = { fg = colors.orange, bold = true },
         TelescopePromptPrefix = { fg = colors.orange, bold = true },
 
