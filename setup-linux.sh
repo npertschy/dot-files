@@ -24,3 +24,4 @@ sudo ln -s /opt/k9s /usr/local/bin/k9s
 
 ln -s ~/Projects/dot-files/.gitconfig-linux ~/.gitconfig
 
+ln -s ~/Projects/dot-files/lazygit.yml ~/.config/lazygit/config.yml

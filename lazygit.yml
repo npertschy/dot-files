@@ -1,0 +1,50 @@
+git:
+  pagers:
+    - pager: delta --dark --paging=never
+gui:
+  nerdFontsVersion: "3"
+  theme:
+    optionsTextColor:
+      - "#61afef"
+    inactiveBorderColor:
+      - "#5c6370"
+    defaultFgColor:
+      - "#abb2bf"
+    cherryPickedCommitFgColor:
+      - "#61afef"
+    cherryPickedCommitBgColor:
+      - "#ef596f"
+    activeBorderColor:
+      - "#2bbac5"
+      - "bold"
+    unstagedChangesColor:
+      - "#ef596f"
+    selectedLineBgColor:
+      - "#3a404c"
+    searchingActiveBorderColor:
+      - "#2bbac5"
+      - "bold"
+customCommands:
+  - key: 'n'
+    prompts:
+      - type: 'menu'
+        title: 'What kind of branch is it? (from {{ index .SelectedLocalBranch.Name }})'
+        options:
+          - name: 'bugfix'
+            value: 'bugfix'
+            description: 'Regular bugfixes that are not critical and can be handled in the next release cycle.'
+          - name: 'feature'
+            value: 'feature'
+            description: 'New features that are not critical and can be handled in the next release cycle.'
+          - name: 'hotfix'
+            value: 'hotfix'
+            description: 'If there is a need to fix a blocker, do a temporary patch, apply a critical framework or configuration change that should be handled immediately.'
+          - name: 'release'
+            value: 'release'
+            description: 'When you are ready to cut a release branch, use this type. It will be merged into master and develop when the release is finished.'
+      - type: 'input'
+        title: 'What is the {{index .PromptResponses 0}} name?'
+        initialValue: ''
+    command: "git checkout -b {{index .PromptResponses 0}}/{{index .PromptResponses 1}}"
+    context: 'localBranches'
+    loadingText: 'creating branch'
