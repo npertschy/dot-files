@@ -3,6 +3,7 @@ git:
     - pager: delta --dark --paging=never
 gui:
   nerdFontsVersion: "3"
+  sidePanelWidth: 0.2
   theme:
     optionsTextColor:
       - "#61afef"
