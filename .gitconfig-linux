@@ -26,7 +26,18 @@
     line-numbers-minus-style = "#e06c75"
     line-numbers-plus-style  = "#98c379"
     line-numbers-zero-style  = "#4b5263"
+
+    features = decorations
+
+[delta "decorations"]
+    file-decoration-style = blue ol ul
+    file-style = bold purple
+    file-modified-label = "modified:"
+    hunk-header-style = omit
+
 [merge]
     conflictStyle = zdiff3
+
 [credential]
 	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+
