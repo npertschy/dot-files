@@ -1,23 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo "Setting up Unix environment"
+DOTFILES_DIR="${HOME}/Projects/dot-files"
+source "${DOTFILES_DIR}/symlinker.sh"
 
-echo "Setup WezTerm config"
-ln -s ~/Projects/dot-files/.wezterm.lua ~/.wezterm.lua
+declare -A FILE_LINKS=(
+    ["${DOTFILES_DIR}/lazygit.yml"]="${HOME}/.config/lazygit/config.yml"
+    ["${DOTFILES_DIR}/shell-sequences-setup.sh"]="${HOME}/shell-sequences-setup.sh"
+    ["${DOTFILES_DIR}/mac/.gitconfig"]="${HOME}/.gitconfig"
+    ["${DOTFILES_DIR}/mac/.zshrc"]="${HOME}/.zshrc"
+    ["${DOTFILES_DIR}/starship.toml"]="${HOME}/.config/starship.toml"
+)
 
-echo "Setup zsh"
-ln -s ~/Projects/dot-files/.zshrc-mac ~/.zshrc
+declare -A DIR_LINKS=(
+    ["${DOTFILES_DIR}/nvim"]="${HOME}/.config/nvim"
+)
 
-echo "Setup starship config"
-if [ ! -d "$HOME/.config/" ]; then
-	mkdir "$HOME/.config/"
-fi
+for src in "${!FILE_LINKS[@]}"; do
+    link_target "$src" "${FILE_LINKS[$src]}"
+done
 
-ln -s ~/Projects/dot-files/starship.toml ~/.config/starship.toml
-
-echo "Setup Neovim"
-rm -rf ~/.config/nvim
-cp -rsf ~/Projects/dot-files/nvim/ ~/.config/nvim/
-
-ln -s ~/Projects/.gitconfig-mac ~/.gitconfig
-
+for src in "${!DIR_LINKS[@]}"; do
+    link_target "$src" "${DIR_LINKS[$src]}"
+done

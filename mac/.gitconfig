@@ -2,12 +2,6 @@
 	autocrlf = input
     pager = delta
 
-[fetch]
-    prune = true
-
-[pull]
-    rebase = false
-
 [interactive]
     diffFilter = delta --color-only
 
@@ -32,12 +26,12 @@
 [delta "decorations"]
     file-decoration-style = blue ol ul
     file-style = bold purple
-    file-modified-label = "modified:"
+    file-added-label = "  +"
+    file-modified-label = "  ~"
+    file-removed-label = "  -"
+    file-renamed-label = "  →"
+    file-copied-label = "  ="    
     hunk-header-style = omit
 
 [merge]
     conflictStyle = zdiff3
-
-[credential]
-	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
-

@@ -1,4 +1,5 @@
 vim.lsp.enable {
+  'bashls',
   'eslint',
   'gh_actions_ls',
   'groovyls',
