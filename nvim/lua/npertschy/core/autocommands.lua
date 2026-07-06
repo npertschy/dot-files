@@ -97,3 +97,11 @@ vim.api.nvim_create_autocmd('BufRead', {
     end
   end,
 })
+
+-- Check if file changed when its window is focus
+vim.api.nvim_create_autocmd({
+  "FocusGained",
+  "BufEnter",
+}, {
+  command = "checktime",
+})
