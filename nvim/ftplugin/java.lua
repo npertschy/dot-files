@@ -33,6 +33,7 @@ local extendedClientCapabilities = jdtls.extendedClientCapabilities or {}
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local config = {
+  capabilities = require('blink.cmp').get_lsp_capabilities(),
   cmd = {
     'java',
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
@@ -104,12 +105,19 @@ local config = {
       },
       compile = {
         nullAnalysis = {
-          mode = 'interactive',
+          mode = 'automatic',
         },
       },
+      contentProvider = { preferred = 'fernflower' },
       inlayHints = {
         parameterNames = {
           enabled = 'all',
+        },
+      },
+      signatureHelp = {
+        enabled = true,
+        description = {
+          enabled = true,
         },
       },
       eclipse = {
@@ -125,9 +133,11 @@ local config = {
         includeSourceMethodDeclarations = true,
       },
       completion = {
+        enabled = true,
+        guessMethodArguments = 'auto',
         favoriteStaticMembers = {
-          'org.hamcrest.Matchers.*',
           'org.junit.jupiter.api.Assertions.*',
+          'org.assertj.core.api.Assertions.*',
           'org.mockito.Mockito.*',
           'org.mockito.ArgumentMatchers.*',
         },
@@ -136,11 +146,28 @@ local config = {
           'org',
           'javax',
           'java',
+          '',
         },
         chain = {
           enabled = true,
         },
-        guessMethodArguments = 'insertParameterNames',
+        postfix = {
+          enabled = true,
+        },
+      },
+      cleanup = {
+        actionsOnSave = {
+          'qualifyMembers',
+          'qualifyStaticMembers',
+          'addOverride',
+          'addDeprecated',
+          'stringConcatToTextBlock',
+          'invertEquals',
+          'addFinalModifier',
+          'instanceofPatternMatch',
+          'lambdaExpression',
+          'switchExpression',
+        },
       },
     },
   },

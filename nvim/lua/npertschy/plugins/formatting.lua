@@ -13,14 +13,10 @@ return {
   },
   opts = {
     notify_on_error = false,
-    format_on_save = function(bufnr)
-      local disable_filetypes = { c = true, cpp = true, java = true }
-      return {
-        timeout_ms = 2500,
-        lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-      }
-    end,
     formatters_by_ft = {
+      bash = { 'shfmt' },
+      zsh = { 'shfmt' },
+      sh = { 'shfmt' },
       lua = { 'stylua' },
       vue = { 'prettier' },
       css = { 'prettier' },
@@ -41,6 +37,10 @@ return {
       ['sql-formatter'] = {
         command = 'sql-formatter',
         args = { '--config', '{ "language": "sql", "tabWidth": 4, "expressionWidth": 200 }' },
+      },
+      xmlformatter = {
+        command = 'xmlformat',
+        args = { '--indent', '4', '-' },
       },
     },
   },
