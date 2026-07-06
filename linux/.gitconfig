@@ -48,3 +48,6 @@
 [user]
 	email = nikolas.pertschy@dataciders.com
 	name = Nikolas Pertschy
+
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+    path = ~/.gitconfig-github
