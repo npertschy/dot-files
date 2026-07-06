@@ -40,6 +40,11 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
 
+# fzf
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
+source "$BREW_PREFIX/opt/fzf/shell/completion.zsh"
+
 # Plugins
 source $BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -49,7 +54,6 @@ alias ls="eza --icons"
 alias ll="eza -lhg --git"
 alias la="eza -lhga --git"
 compdef eza=ls
-
 
 # Setup wezterm shell integration
 source ~/shell-sequences-setup.sh
