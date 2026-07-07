@@ -45,6 +45,11 @@ return {
         TelescopeResultsFunction = { fg = colors.blue },
         TelescopeResultsMethod = { fg = colors.cyan },
         TelescopeResultsClass = { fg = colors.green },
+
+        NeotestDir = { fg = colors.cyan },
+        NeotestFile = { fg = colors.blue },
+        NeotestNamespace = { fg = colors.green },
+        NeotestTest = { fg = colors.white },
       },
       options = {
         cursorline = true,

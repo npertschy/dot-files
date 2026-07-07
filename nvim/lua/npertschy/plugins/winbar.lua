@@ -22,6 +22,7 @@ return {
       'dap-view-term',
       'dap-view-help',
       'dap-view-hover',
+      'neotest-summary',
     }
 
     _G.MyWinbar = function()
