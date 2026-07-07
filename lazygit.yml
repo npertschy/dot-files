@@ -4,6 +4,8 @@ git:
 gui:
   nerdFontsVersion: "3"
   sidePanelWidth: 0.2
+  shrinkSidePanelsToContent: true
+  enlargedSideViewLocation: top
   theme:
     optionsTextColor:
       - "#61afef"
