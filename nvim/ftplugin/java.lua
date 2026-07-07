@@ -11,8 +11,17 @@ local java_test_path = mason_share .. '/java-test'
 local bundles = {
   java_debug,
 }
+
 local all_test_jars = vim.split(vim.fn.glob(java_test_path .. '/*.jar', true), '\n')
-vim.list_extend(bundles, all_test_jars)
+local osgi_test_jars = {}
+for _, jar in ipairs(all_test_jars) do
+  if not jar:match("runner%-jar%-with%-dependencies") and
+        not jar:match("jacocoagent") then
+    table.insert(osgi_test_jars, jar)
+    end
+end
+
+vim.list_extend(bundles, osgi_test_jars)
 
 vim.list_extend(bundles, require('spring_boot').java_extensions())
 

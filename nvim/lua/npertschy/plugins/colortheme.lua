@@ -10,6 +10,7 @@ return {
       highlights = {
         ['@attribute.java'] = { fg = colors.cyan },
         ['@lsp.type.modifier.java'] = { fg = colors.purple },
+        ['@lsp.type.decorator.java'] = { fg = colors.cyan },
         ['@lsp.type.interface.java'] = { fg = colors.green, italic = true },
 
         DiagnosticUnderlineError = { fg = 'NONE', sp = colors.red, undercurl = true },
