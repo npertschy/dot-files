@@ -11,8 +11,8 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '<leader>te', '<cmd>Neotree filesystem reveal<CR>', desc = 'NeoTree reveal [e]xplorer' },
-    { '<leader>tb', '<cmd>Neotree buffers reveal<CR>', desc = 'NeoTree reveal [b]uffers' },
+    { '<M-1>', '<cmd>Neotree filesystem reveal<CR>', desc = 'NeoTree reveal [e]xplorer' },
+    { '<M-2>', '<cmd>Neotree buffers reveal<CR>', desc = 'NeoTree reveal [b]uffers' },
   },
   opts = {
     filesystem = {
@@ -23,14 +23,14 @@ return {
       use_libuv_file_watcher = true,
       window = {
         mappings = {
-          ['<leader>te'] = 'close_window',
+          ['<M-1>'] = 'close_window',
         },
       },
     },
     buffers = {
       window = {
         mappings = {
-          ['<leader>tb'] = 'close_window',
+          ['<M-2>'] = 'close_window',
         },
       },
     },

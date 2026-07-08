@@ -80,7 +80,7 @@ vim.keymap.set('n', '<leader>tD', function()
   else
     vim.cmd 'windo diffthis'
   end
-end, { desc = 'Toggle diff for all windows' })
+end, { desc = '[T]oggle [D]iff for all windows' })
 
 vim.keymap.set('n', '<M-n>', ']c', { desc = 'Next diff change' })
 vim.keymap.set('n', '<M-N>', '[c', { desc = 'Prev diff change' })

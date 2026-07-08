@@ -130,7 +130,7 @@ return {
     },
     keys = {
       {
-        '<M-g>',
+        '<M-c>',
         '<cmd>CodeCompanionChat Toggle<cr>',
         desc = 'Copilot Chat',
         mode = { 'n', 'v' },

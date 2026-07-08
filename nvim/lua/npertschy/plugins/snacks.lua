@@ -65,7 +65,7 @@ return {
       desc = 'Delete Buffer',
     },
     {
-      '<leader>tt',
+      '<M-t>',
       function()
         Snacks.terminal()
       end,
@@ -73,7 +73,7 @@ return {
       mode = { 'n', 't' },
     },
     {
-      '<leader>tg',
+      '<M-g>',
       function()
         Snacks.lazygit()
       end,

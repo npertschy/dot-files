@@ -89,18 +89,18 @@ return {
         desc = '[R]un [l]ast test (neotest)',
       },
       {
-        '<leader>ts',
+        '<M-9>',
         function()
           require('neotest').summary.toggle()
         end,
-        desc = '[T]oggle test [s]ummary (neotest)',
+        desc = 'Toggle test summary (neotest)',
       },
       {
-        '<leader>tp',
+        '<M-0>',
         function()
           require('neotest').output_panel.toggle()
         end,
-        desc = '[T]oggle test [o]utput (neotest)',
+        desc = 'Toggle test output (neotest)',
       },
     },
   },
