@@ -1,12 +1,12 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
+    cmd = 'Telescope',
     version = '*',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { 'nvim-telescope/telescope-ui-select.nvim' },
-      { 'nvim-mini/mini.icons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
       { 'Myzel394/jsonfly.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },

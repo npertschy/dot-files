@@ -51,6 +51,5 @@ return {
   },
   config = function(_, opts)
     require('noice').setup(opts)
-    require('telescope').load_extension 'noice'
   end,
 }

@@ -5,9 +5,6 @@ return {
     local lint = require 'lint'
     lint.linters_by_ft = {
       markdown = { 'markdownlint' },
-      javascript = { 'eslint' },
-      typescript = { 'eslint' },
-      vue = { 'eslint' },
     }
 
     -- Create autocommand which carries out the actual linting

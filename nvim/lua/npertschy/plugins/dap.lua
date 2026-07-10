@@ -154,16 +154,6 @@ return {
         end
       end
 
-      dap.configurations['java'] = {
-        {
-          type = 'java',
-          request = 'attach',
-          name = 'Debug (Attach) - Remote',
-          hostName = '127.0.0.1',
-          port = 5005,
-        },
-      }
-
       dap.listeners.before['event_exited']['clear_qflist'] = function(_, body)
         if body and body.exitCode == 0 then
           vim.fn.setqflist({}, 'r', { title = 'Test Results', items = {} })

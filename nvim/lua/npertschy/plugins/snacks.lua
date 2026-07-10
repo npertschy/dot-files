@@ -47,7 +47,6 @@ return {
     quickfile = { enabled = true },
     rename = { enabled = true },
     statuscolumn = { enabled = true },
-    words = { enabled = true },
   },
   keys = {
     {
@@ -78,22 +77,6 @@ return {
         Snacks.lazygit()
       end,
       desc = '[T]oggle [L]azygit',
-    },
-    {
-      '}}',
-      function()
-        Snacks.words.jump(vim.v.count1)
-      end,
-      desc = 'Next Reference',
-      mode = { 'n', 't' },
-    },
-    {
-      '{{',
-      function()
-        Snacks.words.jump(-vim.v.count1)
-      end,
-      desc = 'Prev Reference',
-      mode = { 'n', 't' },
     },
   },
 }

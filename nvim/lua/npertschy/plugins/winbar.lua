@@ -3,7 +3,7 @@ return {
   dir = vim.fn.stdpath 'config',
   lazy = false,
   config = function()
-    local mini_icons = require 'mini.icons'
+    local icons = require 'nvim-web-devicons'
 
     local exclude_ft = {
       'neo-tree',
@@ -44,13 +44,13 @@ return {
         display_path = string.format('%%#Comment#%s/%%*%s', relpath, filename)
       end
 
-      local ft_icon, ft_hl = mini_icons.get('file', filename)
+      local ft_icon, ft_hl = icons.get_icon(filename, vim.bo[bufnr].filetype, { default = true })
       local modified = vim.bo[bufnr].modified and '  ●' or ''
 
       -- diagnostics
-      local icons = { error = '󰅚 ', warn = '󰀪 ', info = '󰋽 ', hint = '󰌶 ' }
+      local diagnostics_icons = { error = '󰅚 ', warn = '󰀪 ', info = '󰋽 ', hint = '󰌶 ' }
       local diag_parts = {}
-      for severity, icon in pairs(icons) do
+      for severity, icon in pairs(diagnostics_icons) do
         local n = #vim.diagnostic.get(bufnr, {
           severity = vim.diagnostic.severity[string.upper(severity)],
         })

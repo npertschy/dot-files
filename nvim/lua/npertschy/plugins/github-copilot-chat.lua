@@ -19,9 +19,6 @@ return {
             return require('copilot-ghe').adapter()
           end,
         },
-        acp = {
-          opencode = 'opencode',
-        },
       },
       interactions = {
         chat = {

@@ -15,10 +15,9 @@ local bundles = {
 local all_test_jars = vim.split(vim.fn.glob(java_test_path .. '/*.jar', true), '\n')
 local osgi_test_jars = {}
 for _, jar in ipairs(all_test_jars) do
-  if not jar:match("runner%-jar%-with%-dependencies") and
-        not jar:match("jacocoagent") then
+  if not jar:match 'runner%-jar%-with%-dependencies' and not jar:match 'jacocoagent' then
     table.insert(osgi_test_jars, jar)
-    end
+  end
 end
 
 vim.list_extend(bundles, osgi_test_jars)
@@ -49,8 +48,9 @@ local config = {
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
     '-Dlog.protocol=true',
-    '-Dlog.level=ALL',
+    '-Dlog.level=WARN',
     '-Xmx4G',
+    '-Xms512m',
     '-javaagent:' .. lombok_path,
     '--add-modules=ALL-SYSTEM',
     '--add-opens',
@@ -110,12 +110,7 @@ local config = {
     java = {
       maxConcurrentBuilds = 1,
       configuration = {
-        updateBuildConfiguration = 'automatic',
-      },
-      compile = {
-        nullAnalysis = {
-          mode = 'automatic',
-        },
+        updateBuildConfiguration = 'interactive',
       },
       contentProvider = { preferred = 'fernflower' },
       inlayHints = {

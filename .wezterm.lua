@@ -3,7 +3,11 @@ local wezterm = require("wezterm")
 local config = {}
 -- Styling
 config.color_scheme = "OneDark (base16)"
-config.font = wezterm.font("JetBrains Mono", { weight = "Medium" })
+config.font = wezterm.font_with_fallback({
+	{ family = "JetBrains Mono", weight = "Medium" },
+	{ family = "Symbols Nerd Font Mono" },
+})
+
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.font_size = 10
 	config.default_prog = { "pwsh", "-l" }
@@ -15,6 +19,8 @@ config.line_height = 1.2
 config.window_decorations = "RESIZE"
 config.initial_rows = 48
 config.initial_cols = 240
+
+config.max_fps = 120
 
 -- Dim inactive panes
 config.inactive_pane_hsb = {
