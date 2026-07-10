@@ -49,7 +49,7 @@ return {
             auto_save = true,
             -- Number of days after which chats are automatically deleted (0 to disable)
             expiration_days = 0,
-            picker = 'telescope', --- ("telescope", "snacks", "fzf-lua", or "default")
+            picker = 'fzf-lua', --- ("telescope", "snacks", "fzf-lua", or "default")
             ---Optional filter function to control which chats are shown when browsing
             chat_filter = nil, -- function(chat_data) return boolean end
             picker_keymaps = {
