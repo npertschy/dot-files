@@ -193,7 +193,7 @@ return {
         desc = 'Next method/function def start',
       },
       {
-        ']C',
+        ']o',
         function()
           move.goto_next_start('@class_name', 'textobjects')
         end,
@@ -228,7 +228,7 @@ return {
         desc = 'Prev method/function def start',
       },
       {
-        '[C',
+        '[o',
         function()
           move.goto_previous_start('@class_name', 'textobjects')
         end,
@@ -263,7 +263,7 @@ return {
         desc = 'Next method/function def end',
       },
       {
-        ']C',
+        ']O',
         function()
           move.goto_next_end('@class.outer', 'textobjects')
         end,
@@ -298,7 +298,7 @@ return {
         desc = 'Prev method/function def end',
       },
       {
-        '[C',
+        '[O',
         function()
           move.goto_previous_end('@class.outer', 'textobjects')
         end,

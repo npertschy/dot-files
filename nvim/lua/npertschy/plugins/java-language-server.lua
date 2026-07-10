@@ -10,7 +10,7 @@ return {
     ft = { 'java', 'yaml', 'jproperties' },
     dependencies = {
       'mfussenegger/nvim-jdtls',
-      'nvim-telescope/telescope.nvim',
+      'ibhagwan/fzf-lua',
     },
     -- ...existing code...
     config = function()

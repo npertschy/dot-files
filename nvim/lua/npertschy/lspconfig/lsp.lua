@@ -38,38 +38,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
     end
 
-    local builtin = require 'telescope.builtin'
-    map('gd', builtin.lsp_definitions, '[G]oto [D]efinition')
-    map('gr', builtin.lsp_references, '[G]oto [R]eferences')
-    map('gI', builtin.lsp_implementations, '[G]oto [I]mplementation')
-    map('gy', builtin.lsp_type_definitions, '[G]oto t[y]pe [D]efinition')
+    local fzf = require 'fzf-lua'
+    map('gd', fzf.lsp_definitions, '[G]oto [D]efinition')
+    map('gr', fzf.lsp_references, '[G]oto [R]eferences')
+    map('gI', fzf.lsp_implementations, '[G]oto [I]mplementation')
+    map('gy', fzf.lsp_typedefs, '[G]oto t[y]pe [D]efinition')
 
     map('gD', function()
       vim.lsp.buf.declaration()
     end, '[G]oto [D]eclaration')
 
-    local symbol_filter = {
-      'Class',
-      'Constant',
-      'Constructor',
-      'Enum',
-      'Field',
-      'Function',
-      'Interface',
-      'Method',
-      'Module',
-      'Namespace',
-      'Property',
-      'Struct',
-      'Trait',
-    }
+    local symbol_regex = 'Class|Constant|Constructor|Enum|Field|Function|Interface|Method|Module|Namespace|Property|Struct|Trait'
 
     map('<leader>ss', function()
-      builtin.lsp_document_symbols { symbols = symbol_filter }
+      fzf.lsp_document_symbols { regex_filter = symbol_regex }
     end, '[S]earch [s]ymbols in document')
 
     map('<leader>sS', function()
-      builtin.lsp_dynamic_workspace_symbols { symbols = symbol_filter }
+      fzf.lsp_workspace_symbols { regex_filter = symbol_regex }
     end, '[S]earch [S]ymbols in Workspace')
 
     map('<leader>cr', vim.lsp.buf.rename, '[R]ename')
