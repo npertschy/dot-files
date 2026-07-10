@@ -48,9 +48,9 @@ return {
       local modified = vim.bo[bufnr].modified and '  ●' or ''
 
       -- diagnostics
-      local icons = { error = '󰅚 ', warn = '󰀪 ', info = '󰋽 ', hint = '󰌶 ' }
+      local diagnostics_icons = { error = '󰅚 ', warn = '󰀪 ', info = '󰋽 ', hint = '󰌶 ' }
       local diag_parts = {}
-      for severity, icon in pairs(icons) do
+      for severity, icon in pairs(diagnostics_icons) do
         local n = #vim.diagnostic.get(bufnr, {
           severity = vim.diagnostic.severity[string.upper(severity)],
         })

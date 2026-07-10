@@ -44,6 +44,7 @@ return {
       vim.treesitter.language.register('vimdoc', { 'help' })
       vim.treesitter.language.register('git_config', { 'gitconfig' })
       vim.treesitter.language.register('dap_repl', { 'dap-repl' })
+      vim.treesitter.language.register('json', { 'jsonc' })
 
       -- ── 2. Parser installieren ──────────────────────────
       require('nvim-treesitter').install(ensure_installed)
@@ -65,6 +66,8 @@ return {
           pcall(vim.treesitter.start, event.buf)
           vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
           vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+          vim.wo.foldmethod = 'expr'
+          vim.wo.foldlevel = 99
         end,
       })
     end,

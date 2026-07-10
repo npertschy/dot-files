@@ -1,3 +1,7 @@
+vim.lsp.config('*', {
+  capabilities = require('blink.cmp').get_lsp_capabilities(),
+})
+
 vim.lsp.enable {
   'bashls',
   'eslint',
@@ -81,14 +85,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end,
       }, function(choice)
         if choice then
-          choice.stop { force = false }
+          local filetypes = choice.config.filetypes or {}
+          choice:stop()
           print("LSP '" .. choice.name .. "' wurde gestoppt. Es wird beim nächsten Öffnen eines passenden Buffers neu gestartet.")
-          -- Optionally, manually re-attach to all buffers:
-          for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.bo[bufnr].filetype == choice.config.filetype then
-              vim.lsp.buf_attach_client(bufnr, choice.id)
+          vim.defer_fn(function()
+            for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+              if vim.api.nvim_buf_is_loaded(bufnr) then
+                local ft = vim.bo[bufnr].filetype
+                if vim.tbl_contains(filetypes, ft) then
+                  vim.api.nvim_buf_call(bufnr, function()
+                    vim.cmd 'edit'
+                  end)
+                end
+              end
             end
-          end
+          end, 100)
         else
           print 'Kein LSP-Server ausgewählt.'
         end

@@ -30,6 +30,9 @@ return {
     },
 
     completion = {
+      trigger = {
+        prefetch_on_insert = true,
+      },
       list = {
         selection = {
           auto_insert = true,
@@ -67,10 +70,11 @@ return {
       },
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 200,
+        auto_show_delay_ms = 0,
       },
       ghost_text = {
         enabled = true,
+        show_with_menu = true,
       },
     },
 
@@ -82,10 +86,26 @@ return {
       use_nvim_cmp_as_default = false,
       nerd_font_variant = 'mono',
     },
+    fuzzy = {
+      implementation = 'prefer_rust_with_warning',
+      sorts = { 'exact', 'score', 'sort_text' },
+    },
 
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer', 'ripgrep' },
       providers = {
+        lsp = {
+          score_offset = 90,
+        },
+        path = {
+          score_offset = 20,
+        },
+        snippets = {
+          score_offset = 10,
+        },
+        buffer = {
+          score_offset = -10,
+        },
         ripgrep = {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
@@ -94,7 +114,7 @@ return {
               use = 'gitgrep-or-ripgrep',
             },
           },
-          score_offset = -5,
+          score_offset = -30,
         },
       },
       per_filetype = {
@@ -102,7 +122,7 @@ return {
       },
     },
 
-    signature = { enabled = true },
+    signature = { enabled = true, window = { border = 'rounded' } },
   },
   opts_extend = {
     'sources.default',

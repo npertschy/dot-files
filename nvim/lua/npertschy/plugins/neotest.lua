@@ -11,7 +11,6 @@ return {
     'nvim-neotest/neotest',
     dependencies = {
       'nvim-neotest/nvim-nio',
-      'antoinemadec/FixCursorHold.nvim',
       'neovim-treesitter/nvim-treesitter',
       'marilari88/neotest-vitest',
       'nvim-neotest/neotest-python',
@@ -68,8 +67,9 @@ return {
     end,
     keys = {
       {
-        '<leader>rt',
+        '<leader>rm',
         function()
+          require('neotest').output_panel.clear()
           require('neotest').run.run()
         end,
         desc = '[R]un nearest [t]est (neotest)',
@@ -77,6 +77,7 @@ return {
       {
         '<leader>rf',
         function()
+          require('neotest').output_panel.clear()
           require('neotest').run.run(vim.fn.expand '%')
         end,
         desc = '[R]un tests in [f]ile (neotest)',
@@ -84,9 +85,17 @@ return {
       {
         '<leader>rl',
         function()
+          require('neotest').output_panel.clear()
           require('neotest').run.run_last()
         end,
         desc = '[R]un [l]ast test (neotest)',
+      },
+      {
+        '<leader>rd',
+        function()
+          require('neotest').run.run { strategy = 'dap' }
+        end,
+        desc = '[R]un test with [d]ebug (neotest)',
       },
       {
         '<M-9>',

@@ -15,6 +15,10 @@ return {
       hl_group = 'lualine_c_normal',
     }
 
+    local color = require 'onedarkpro.helpers'
+
+    local colors = color.get_colors()
+
     lualine.setup {
       options = {
         theme = 'onedark',
@@ -28,7 +32,7 @@ return {
           {
             lazy_status.updates,
             cond = lazy_status.has_updates,
-            color = { fg = '#ff9e64' },
+            color = { fg = colors.orange, gui = 'bold' },
           },
           { 'encoding' },
           { 'fileformat' },

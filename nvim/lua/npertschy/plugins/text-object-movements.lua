@@ -193,7 +193,7 @@ return {
         desc = 'Next method/function def start',
       },
       {
-        ']c',
+        ']C',
         function()
           move.goto_next_start('@class_name', 'textobjects')
         end,
@@ -228,7 +228,7 @@ return {
         desc = 'Prev method/function def start',
       },
       {
-        '[c',
+        '[C',
         function()
           move.goto_previous_start('@class_name', 'textobjects')
         end,

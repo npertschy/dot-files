@@ -29,7 +29,6 @@ return {
   {
     'alessio-vivaldelli/java-creator-nvim',
     ft = 'java',
-    event = 'VeryLazy',
     opts = {
       -- Default configuration
       keymaps = {

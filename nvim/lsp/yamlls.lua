@@ -5,7 +5,7 @@ return {
   -- `root_dir` ensures that the LSP does attach to all yaml files not in workflows
   root_dir = function(bufnr, on_dir)
     local parent = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
-    if not string.find(parent, '/.github') then
+    if not (string.find(parent, '/.github/workflows') or string.find(parent, '/.github/actions')) then
       on_dir(parent)
     end
   end,
