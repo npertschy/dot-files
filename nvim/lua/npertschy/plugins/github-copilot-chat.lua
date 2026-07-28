@@ -22,22 +22,13 @@ return {
       },
       interactions = {
         chat = {
-          adapter = {
-            name = 'copilot_ghe',
-            model = 'claude-sonnet-4.6',
-          },
+          adapter = 'copilot_ghe',
         },
         inline = {
-          adapter = {
-            name = 'copilot_ghe',
-            model = 'claude-sonnet-4.6',
-          },
+          adapter = 'copilot_ghe',
         },
         cmd = {
-          adapter = {
-            name = 'copilot_ghe',
-            model = 'claude-sonnet-4.6',
-          },
+          adapter = 'copilot_ghe',
         },
       },
       extensions = {
