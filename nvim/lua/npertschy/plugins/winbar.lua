@@ -119,7 +119,8 @@ return {
         display_path = string.format('%%#Comment#%s/%%*%s', relpath, filename)
       end
 
-      local ft_icon, ft_hl = icons.get_icon(filename, vim.bo[bufnr].filetype, { default = true })
+      local filetype = vim.bo[bufnr].filetype == 'typescriptreact' and 'tsx' or vim.bo[bufnr].filetype
+      local ft_icon, ft_hl = icons.get_icon(filename, filetype, { default = true })
       local modified = vim.bo[bufnr].modified and '  ●' or ''
 
       -- diagnostics
@@ -136,7 +137,7 @@ return {
 
       local diag_str = table.concat(diag_parts)
 
-      return string.format('%%=%%#%s#%s%%* %s%s %s%%=', ft_hl, ft_icon or '', display_path, modified, diag_str)
+      return string.format('%%=%%#%s# %s %%* %s%s %s%%=', ft_hl, ft_icon or '', display_path, modified, diag_str)
     end
 
     vim.api.nvim_create_autocmd({ 'BufWinEnter', 'BufEnter' }, {
@@ -156,4 +157,3 @@ return {
     })
   end,
 }
-
