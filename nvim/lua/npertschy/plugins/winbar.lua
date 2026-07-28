@@ -137,7 +137,7 @@ return {
 
       local diag_str = table.concat(diag_parts)
 
-      return string.format('%%=%%#%s# %s %%* %s%s %s%%=', ft_hl, ft_icon or '', display_path, modified, diag_str)
+      return string.format('%%=%%#%s#%s %%*%s%s %s%%=', ft_hl, ft_icon or '', display_path, modified, diag_str)
     end
 
     vim.api.nvim_create_autocmd({ 'BufWinEnter', 'BufEnter' }, {
