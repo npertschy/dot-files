@@ -15,7 +15,6 @@ setopt APPEND_HISTORY
 typeset -U PATH
 
 export PATH="$HOME/.local/bin:$PATH"
-export JAVA_HOME="$BREW_PREFIX/opt/openjdk@21/libexec"
 
 # Editor
 export EDITOR="nvim"
@@ -49,3 +48,4 @@ alias ll="eza -lhg --git"
 alias la="eza -lhga --git"
 compdef eza=ls
 
+source "$HOME/.sdkman/bin/sdkman-init.sh"

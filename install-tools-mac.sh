@@ -8,11 +8,13 @@ brew install fnm
 
 fnm install 22
 
+brew install zip
+
+curl -s "https://get.sdkman.io" | zsh
+
 brew install fd
 
 brew install ripgrep
-
-brew install openjdk@21
 
 brew install golang-go
 

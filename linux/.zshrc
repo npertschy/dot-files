@@ -16,7 +16,6 @@ typeset -U PATH
 
 export PATH="/opt/gitleaks-8.27.2:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export JAVA_HOME="$BREW_PREFIX/opt/openjdk@21/libexec"
 
 # Editor
 export EDITOR="nvim"
@@ -64,3 +63,4 @@ bindkey '^[[1;5C' forward-word
 # Ctrl+Left -> move backward one word (^[[1;5D is the terminal escape code)
 bindkey '^[[1;5D' backward-word
 
+source "$HOME/.sdkman/bin/sdkman-init.sh"

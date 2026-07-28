@@ -8,6 +8,10 @@ brew install fnm
 
 fnm install 24
 
+brew install zip
+
+curl -s "https://get.sdkman.io" | zsh
+
 brew install fd
 
 brew install ripgrep
@@ -19,10 +23,8 @@ brew install git-delta
 brew install eza
 
 brew install zoxide
-# for zoxide auto-completion
-brew install fzf
 
-brew install openjdk@21
+brew install fzf
 
 brew install go
 
