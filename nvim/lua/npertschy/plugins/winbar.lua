@@ -25,6 +25,13 @@ return {
       'neotest-summary',
     }
 
+    local function decode_url(url)
+      url = url:gsub('%%(%x%x)', function(hex)
+        return string.char(tonumber(hex, 16))
+      end)
+      return url:gsub('[<>]', ''):gsub('[(]', '.') -- Remove unwanted characters
+    end
+
     -- Collect full paths of buffers currently shown in visible windows
     -- (across all tabpages, so splits/tabs both count for disambiguation).
     local function get_visible_paths()
@@ -46,7 +53,7 @@ return {
     -- unique, or the minimal parent-dir suffix needed to disambiguate it.
     local function get_display_parts(full_path, all_paths)
       local parts = vim.split(full_path, '/', { trimempty = true })
-      local filename = parts[#parts]
+      local filename = decode_url(parts[#parts])
 
       local others = {}
       for _, p in ipairs(all_paths) do
@@ -97,7 +104,9 @@ return {
       return filename, relpath
     end
 
-    _G.MyWinbar = function()
+    local winbar_cache = {}
+
+    local function compute_winbar()
       if vim.tbl_contains(exclude_ft, vim.bo.filetype) then
         return ''
       end
@@ -137,10 +146,20 @@ return {
 
       local diag_str = table.concat(diag_parts)
 
-      return string.format('%%=%%#%s#%s %%*%s%s %s%%=', ft_hl, ft_icon or '', display_path, modified, diag_str)
+      return string.format('%%=%%#%s#%s %%* %s%s %s%%=', ft_hl, ft_icon or '', display_path, modified, diag_str)
     end
 
-    vim.api.nvim_create_autocmd({ 'BufWinEnter', 'BufEnter' }, {
+    _G.MyWinbar = function()
+      local win = vim.api.nvim_get_current_win()
+      return winbar_cache[win] or ''
+    end
+
+    local function refresh_winbar()
+      local win = vim.api.nvim_get_current_win()
+      winbar_cache[win] = compute_winbar()
+    end
+
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'BufLeave', 'DiagnosticChanged', 'BufModifiedSet' }, {
       callback = function()
         local win = vim.api.nvim_get_current_win()
         local config = vim.api.nvim_win_get_config(win)
@@ -153,7 +172,18 @@ return {
         end
 
         vim.wo.winbar = '%{%v:lua.MyWinbar()%}'
+        refresh_winbar()
+      end,
+    })
+
+    vim.api.nvim_create_autocmd('WinClosed', {
+      callback = function(args)
+        local win = tonumber(args.match)
+        if win then
+          winbar_cache[win] = nil
+        end
       end,
     })
   end,
 }
+
