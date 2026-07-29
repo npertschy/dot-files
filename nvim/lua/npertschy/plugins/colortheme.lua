@@ -27,13 +27,7 @@ return {
         FzfLuaBorder = { fg = colors.blue },
         FzfLuaPreviewTitle = { fg = colors.bg, bg = colors.green, bold = true },
         FzfLuaPreviewBorder = { fg = colors.green },
-        FzfLuaCursorLine = { fg = 'NONE' },
-        FzfLuaCursorLineNr = { fg = colors.purple, bold = true },
-        FzfLuaFzfMatch = { fg = colors.purple, bold = true },
-        FzfLuaFzfPrompt = { fg = colors.orange, bold = true },
         FzfLuaFzfInfo = { fg = colors.orange, bold = true },
-        FzfLuaNormal = { bg = colors.bg },
-        FzfLuaPreviewNormal = { bg = colors.bg },
 
         TroubleNormal = { bg = colors.bg },
         TroubleNormalNC = { bg = colors.bg },

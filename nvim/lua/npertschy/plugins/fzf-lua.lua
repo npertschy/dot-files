@@ -61,6 +61,9 @@ return {
             layout = 'horizontal',
           },
         },
+        fzf_colors = {
+          true,
+        },
         files = {
           fd_opts = '--type f --hidden --exclude .git --exclude node_modules --exclude dist --exclude build',
         },
