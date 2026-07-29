@@ -45,6 +45,8 @@ return {
           buffers = {
             ['enter'] = actions.buf_edit,
             ['ctrl-x'] = { fn = actions.buf_del, reload = true },
+            ['ctrl-s'] = actions.file_split,
+            ['ctrl-v'] = actions.file_vsplit,
             ['ctrl-y'] = { fn = copy_selected, exec_silent = true },
           },
         },
