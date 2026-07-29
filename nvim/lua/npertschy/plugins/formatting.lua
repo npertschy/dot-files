@@ -38,10 +38,6 @@ return {
         command = 'sql-formatter',
         args = { '--config', '{ "language": "sql", "tabWidth": 4, "expressionWidth": 200 }' },
       },
-      xmlformatter = {
-        command = 'xmlformat',
-        args = { '--indent', '4', '-' },
-      },
     },
   },
 }
