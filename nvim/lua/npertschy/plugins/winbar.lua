@@ -107,10 +107,6 @@ return {
     local winbar_cache = {}
 
     local function compute_winbar()
-      if vim.tbl_contains(exclude_ft, vim.bo.filetype) then
-        return ''
-      end
-
       local bufnr = vim.api.nvim_get_current_buf()
       local full_path = vim.api.nvim_buf_get_name(bufnr)
 
@@ -168,11 +164,11 @@ return {
         end
 
         if vim.tbl_contains(exclude_ft, vim.bo.filetype) then
-          return
+          vim.wo.winbar = nil
+        else
+          vim.wo.winbar = '%{%v:lua.MyWinbar()%}'
+          refresh_winbar()
         end
-
-        vim.wo.winbar = '%{%v:lua.MyWinbar()%}'
-        refresh_winbar()
       end,
     })
 
@@ -186,4 +182,3 @@ return {
     })
   end,
 }
-
