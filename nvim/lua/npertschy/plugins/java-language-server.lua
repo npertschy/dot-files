@@ -27,19 +27,10 @@ return {
     end,
   },
   {
-    'alessio-vivaldelli/java-creator-nvim',
-    ft = 'java',
+    'artur-shaik/jc.nvim',
+    ft = { 'java' },
     opts = {
-      -- Default configuration
-      keymaps = {
-        java_new = '<leader>jn',
-      },
-      options = {
-        auto_open = true, -- Open file after creation
-        java_version = 21, -- Minimum Java version
-        project_markers = { 'pom.xml', 'build.gradle', 'build.gradle.kts', 'settings.gradle', 'settings.gradle.kts', '.project', 'backend/' },
-      },
-      default_imports = {},
+      keys_prefix = '<leader>j',
     },
   },
 }

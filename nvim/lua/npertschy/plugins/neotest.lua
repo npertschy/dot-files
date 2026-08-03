@@ -1,7 +1,6 @@
 return {
   {
     'rcasia/neotest-java',
-    -- ft = 'java',
     dependencies = {
       'mfussenegger/nvim-jdtls',
       'mfussenegger/nvim-dap',
