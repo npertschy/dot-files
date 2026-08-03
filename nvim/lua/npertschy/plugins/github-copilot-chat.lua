@@ -23,6 +23,12 @@ return {
       interactions = {
         chat = {
           adapter = 'copilot_ghe',
+          roles = {
+            llm = function(adapter)
+              return adapter.formatted_name .. ' - ' .. adapter.model.info.formatted_name
+            end,
+            user = 'npertschy',
+          },
         },
         inline = {
           adapter = 'copilot_ghe',
