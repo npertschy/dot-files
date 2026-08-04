@@ -17,6 +17,34 @@ return {
         end
       end
 
+      local function toggle_path_match(_, opts)
+        opts = opts or {}
+
+        if opts.__default_fzf_opts == nil then
+          opts.__default_fzf_opts = vim.deepcopy(opts.fzf_opts or {})
+        end
+
+        if opts.__match_full_path == nil then
+          opts.__match_full_path = true
+        end
+
+        local match_full_path = not opts.__match_full_path
+        opts.__match_full_path = match_full_path
+
+        if match_full_path then
+          opts.fzf_opts = vim.deepcopy(opts.__default_fzf_opts)
+        else
+          opts.fzf_opts = vim.tbl_extend('force', vim.deepcopy(opts.__default_fzf_opts), {
+            ['--delimiter'] = '\t',
+            ['--nth'] = '1',
+          })
+        end
+
+        opts.query = fzf.get_last_query()
+
+        fzf.git_files(opts)
+      end
+
       fzf.setup {
         'default-title',
         fzf_opts = {
@@ -69,6 +97,13 @@ return {
         },
         grep = {
           rg_opts = '--column --line-number --no-heading --color=always --smart-case --hidden -g "!node_modules" -g "!.git/" -g "!dist/" -g "!build/"',
+        },
+        git = {
+          files = {
+            actions = {
+              ['ctrl-p'] = toggle_path_match,
+            },
+          },
         },
         lsp = {
           includeDeclaration = false,
