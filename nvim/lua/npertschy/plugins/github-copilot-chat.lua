@@ -25,7 +25,11 @@ return {
           adapter = 'copilot_ghe',
           roles = {
             llm = function(adapter)
-              return adapter.formatted_name .. ' - ' .. adapter.model.info.formatted_name
+              if adapter.model and adapter.model.info and adapter.model.info.formatted_name then
+                return adapter.formatted_name .. ' - ' .. adapter.model.info.formatted_name
+              else
+                return adapter.formatted_name
+              end
             end,
             user = 'npertschy',
           },

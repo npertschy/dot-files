@@ -101,7 +101,7 @@ return {
         git = {
           files = {
             actions = {
-              ['ctrl-p'] = toggle_path_match,
+              ['ctrl-g'] = toggle_path_match,
             },
           },
         },

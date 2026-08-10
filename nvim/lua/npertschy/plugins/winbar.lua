@@ -104,6 +104,16 @@ return {
       return filename, relpath
     end
 
+    local function get_extension(filename)
+      if filename:sub(1, 1) == '.' then
+        -- treat leading dot as part of the name, look at the rest
+        local rest = filename:sub(2)
+        local ext = rest:match '%.(.+)$'
+        return ext
+      end
+      return filename:match '^[^.]+%.(.+)$'
+    end
+
     local winbar_cache = {}
 
     local function compute_winbar()
@@ -124,8 +134,8 @@ return {
         display_path = string.format('%%#Comment#%s/%%*%s', relpath, filename)
       end
 
-      local filetype = vim.bo[bufnr].filetype == 'typescriptreact' and 'tsx' or vim.bo[bufnr].filetype
-      local ft_icon, ft_hl = icons.get_icon(filename, filetype, { default = true })
+      local extension = get_extension(filename)
+      local ft_icon, ft_hl = icons.get_icon(filename, extension, { default = true })
       local modified = vim.bo[bufnr].modified and '  ●' or ''
 
       -- diagnostics
