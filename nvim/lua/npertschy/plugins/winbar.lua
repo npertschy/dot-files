@@ -161,8 +161,23 @@ return {
     end
 
     local function refresh_winbar()
-      local win = vim.api.nvim_get_current_win()
-      winbar_cache[win] = compute_winbar()
+      -- Recompute winbar for every visible window, since disambiguation
+      -- depends on the full set of visible paths, not just the current one.
+      local current_win = vim.api.nvim_get_current_win()
+      for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+          local ok, result = pcall(function()
+            return vim.api.nvim_win_call(win, compute_winbar)
+          end)
+          if ok then
+            winbar_cache[win] = result
+          end
+        end
+      end
+      -- restore focus in case nvim_win_call changed it (it shouldn't, but be safe)
+      if vim.api.nvim_get_current_win() ~= current_win and vim.api.nvim_win_is_valid(current_win) then
+        vim.api.nvim_set_current_win(current_win)
+      end
     end
 
     vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'BufLeave', 'DiagnosticChanged', 'BufModifiedSet' }, {
