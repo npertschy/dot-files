@@ -13,14 +13,31 @@ return {
     end
 
     local tasks = {}
+    local frontend_dir = ''
     for _, dir in ipairs(candidates) do
-      local result = npm.generator(vim.tbl_extend('force', opts, { dir = dir }), function() end)
+      local result = npm.generator(vim.tbl_extend('force', opts, { dir = dir }))
       if type(result) == 'table' then
         for _, t in ipairs(result) do
           t.components = { 'default' }
           table.insert(tasks, t)
         end
+
+        if frontend_dir == '' then
+          frontend_dir = dir
+        end
       end
+    end
+
+    if #tasks > 0 then
+      table.insert(tasks, {
+        name = 'npm ci',
+        builder = function()
+          return {
+            cmd = { 'npm', 'ci' },
+            cwd = frontend_dir,
+          }
+        end,
+      })
     end
 
     cb(tasks)
