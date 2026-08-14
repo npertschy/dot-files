@@ -42,9 +42,12 @@
 [merge]
     conflictStyle = zdiff3
 
+[credential]
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+
 [user]
-	email = nikolas.pertschy@gmail.com
+	email = nikolas.pertschy@dataciders.com
 	name = Nikolas Pertschy
 
-[credential]
-	helper = /usr/lib/git-core/git-credential-libsecret
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+    path = ~/.gitconfig-github
