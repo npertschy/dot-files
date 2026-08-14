@@ -9,6 +9,7 @@ vim.lsp.enable {
   'groovyls',
   'jsonls',
   'lua_ls',
+  'oxlint',
   'pyright',
   'ruff',
   'sqls',
