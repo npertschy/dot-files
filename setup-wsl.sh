@@ -7,9 +7,9 @@ source "${DOTFILES_DIR}/symlinker.sh"
 declare -A FILE_LINKS=(
     ["${DOTFILES_DIR}/lazygit.yml"]="${HOME}/.config/lazygit/config.yml"
     ["${DOTFILES_DIR}/shell-sequences-setup.sh"]="${HOME}/shell-sequences-setup.sh"
-    ["${DOTFILES_DIR}/linux/.gitconfig"]="${HOME}/.gitconfig"
-    ["${DOTFILES_DIR}/linux/.gitconfig-github"]="${HOME}/.gitconfig-github"
-    ["${DOTFILES_DIR}/linux/.zshrc"]="${HOME}/.zshrc"
+    ["${DOTFILES_DIR}/wsl/.gitconfig"]="${HOME}/.gitconfig"
+    ["${DOTFILES_DIR}/wsl/.gitconfig-github"]="${HOME}/.gitconfig-github"
+    ["${DOTFILES_DIR}/wsl/.zshrc"]="${HOME}/.zshrc"
     ["${DOTFILES_DIR}/starship.toml"]="${HOME}/.config/starship.toml"
 )
 
