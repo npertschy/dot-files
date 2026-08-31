@@ -11,6 +11,7 @@ declare -A FILE_LINKS=(
     ["${DOTFILES_DIR}/wsl/.gitconfig-github"]="${HOME}/.gitconfig-github"
     ["${DOTFILES_DIR}/wsl/.zshrc"]="${HOME}/.zshrc"
     ["${DOTFILES_DIR}/starship.toml"]="${HOME}/.config/starship.toml"
+    ["${DOTFILES_DIR}/opencode.jsonc"]="${HOME}/.config/opencode/opencode.jsonc"
 )
 
 declare -A DIR_LINKS=(
