@@ -49,14 +49,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.buf.declaration()
     end, '[G]oto [D]eclaration')
 
-    local symbol_regex = 'Class|Constant|Constructor|Enum|Field|Function|Interface|Method|Module|Namespace|Property|Struct|Trait'
-
     map('<leader>ss', function()
-      fzf.lsp_document_symbols { regex_filter = symbol_regex }
+      fzf.lsp_document_symbols()
     end, '[S]earch [s]ymbols in document')
 
     map('<leader>sS', function()
-      fzf.lsp_workspace_symbols { regex_filter = symbol_regex }
+      fzf.lsp_workspace_symbols()
     end, '[S]earch [S]ymbols in Workspace')
 
     map('<leader>cr', vim.lsp.buf.rename, '[R]ename')

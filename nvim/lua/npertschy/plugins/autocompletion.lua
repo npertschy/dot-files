@@ -1,11 +1,14 @@
 return {
   'saghen/blink.cmp',
   dependencies = {
+    'saghen/blink.lib',
     'rafamadriz/friendly-snippets',
     'mikavilpas/blink-ripgrep.nvim',
   },
+  build = function()
+    require('blink.cmp').build():pwait()
+  end,
   event = { 'InsertEnter', 'CmdlineEnter' },
-  version = '*',
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
