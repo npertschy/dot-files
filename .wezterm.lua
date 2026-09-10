@@ -30,17 +30,15 @@ config.inactive_pane_hsb = {
 local mux = wezterm.mux
 
 wezterm.on("gui-startup", function()
-    mux.spawn_window({
-        workspace = "Projects",
-        cwd = "~/Projects/"
-    })
+	mux.spawn_window({
+		workspace = "Projects",
+		cwd = "~/Projects/",
+	})
 
-    local tab, pane, window = mux.spawn_window({
-        workspace = "Dot-files",
-        cwd = "~/Projects/dot-files/"
-    })
-
-    pane:send_text("nvim\n")
+	mux.spawn_window({
+		workspace = "Dot-files",
+		cwd = "~/Projects/dot-files/",
+	})
 end)
 
 local act = wezterm.action
@@ -124,6 +122,18 @@ for i = 1, 9 do
 	})
 end
 
+-- next or previous workspace
+table.insert(config.keys, {
+	key = "RightArrow",
+	mods = "LEADER",
+	action = act.SwitchWorkspaceRelative(1),
+})
+table.insert(config.keys, {
+	key = "LeftArrow",
+	mods = "LEADER",
+	action = act.SwitchWorkspaceRelative(-1),
+})
+
 config.key_tables = {
 	resize_pane = {
 		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
@@ -162,19 +172,80 @@ local basenameWorkingDir = function(s)
 end
 
 wezterm.on("update-status", function(window, pane)
-	-- Workspace name
-	local stat = window:active_workspace()
-	local stat_color = "#f7768e"
-	-- It's a little silly to have workspace name all the time
-	-- Utilize this to display LDR or current key table name
+	local mode = nil
+	local mode_color = nil
+
+	local left_status_text = {}
+
 	if window:active_key_table() then
-		stat = window:active_key_table()
-		stat_color = "#7dcfff"
+		mode = window:active_key_table()
+		mode_color = "#61afef"
+	elseif window:leader_is_active() then
+		mode = "LDR"
+		mode_color = "#e06c75"
 	end
-	if window:leader_is_active() then
-		stat = "LDR"
-		stat_color = "#bb9af7"
+
+	if mode then
+		table.insert(left_status_text, {
+			Background = {
+				Color = mode_color,
+			},
+		})
+
+		table.insert(left_status_text, {
+			Foreground = {
+				Color = "#1a1b26",
+			},
+		})
+
+		table.insert(left_status_text, {
+			Text = " " .. wezterm.nerdfonts.md_keyboard .. " " .. mode .. " ",
+		})
+
+		table.insert(left_status_text, "ResetAttributes")
+
+		table.insert(left_status_text, {
+			Foreground = {
+				Color = "#565f89",
+			},
+		})
+
+		table.insert(left_status_text, {
+			Text = " | ",
+		})
 	end
+
+	local active_workspace = window:active_workspace()
+	local workspace_names = wezterm.mux.get_workspace_names()
+
+	for _, name in ipairs(workspace_names) do
+		local active = name == active_workspace
+
+		table.insert(left_status_text, {
+			Background = {
+				Color = active and "#98c379" or "#545862",
+			},
+		})
+
+		table.insert(left_status_text, {
+			Foreground = {
+				Color = active and "#282c34" or "#c8ccd4",
+			},
+		})
+
+		table.insert(left_status_text, {
+			Text = " " .. name .. " ",
+		})
+
+		table.insert(left_status_text, {
+			Background = {
+				Color = "none",
+			},
+		})
+	end
+
+	-- Left status (left of the tab line)
+	window:set_left_status(wezterm.format(left_status_text))
 
 	-- Current working directory
 	local cwd = pane:get_current_working_dir()
@@ -189,21 +260,15 @@ wezterm.on("update-status", function(window, pane)
 	-- Time
 	local time = wezterm.strftime("%H:%M")
 
-	-- Left status (left of the tab line)
-	window:set_left_status(wezterm.format({
-		{ Foreground = { Color = stat_color } },
-		{ Text = "  " },
-		{ Text = wezterm.nerdfonts.oct_table .. "  " .. stat },
-		{ Text = " |" },
-	}))
-
 	-- Right status
 	window:set_right_status(wezterm.format({
 		-- Wezterm has a built-in nerd fonts
 		-- https://wezfurlong.org/wezterm/config/lua/wezterm/nerdfonts.html
+		{ Foreground = { Color = "#c678dd" } },
 		{ Text = wezterm.nerdfonts.md_folder .. "  " .. cwd },
+		"ResetAttributes",
 		{ Text = " | " },
-		{ Foreground = { Color = "#e0af68" } },
+		{ Foreground = { Color = "#e5c07b" } },
 		{ Text = wezterm.nerdfonts.fa_code .. "  " .. cmd },
 		"ResetAttributes",
 		{ Text = " | " },
