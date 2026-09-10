@@ -27,6 +27,22 @@ config.inactive_pane_hsb = {
 	brightness = 0.5,
 }
 
+local mux = wezterm.mux
+
+wezterm.on("gui-startup", function()
+    mux.spawn_window({
+        workspace = "Projects",
+        cwd = "~/Projects/"
+    })
+
+    local tab, pane, window = mux.spawn_window({
+        workspace = "Dot-files",
+        cwd = "~/Projects/dot-files/"
+    })
+
+    pane:send_text("nvim\n")
+end)
+
 local act = wezterm.action
 config.leader = { key = "ö", mods = "CTRL", timeout_milliseconds = 1500 }
 config.keys = {
@@ -93,7 +109,7 @@ config.keys = {
 			}),
 			action = wezterm.action_callback(function(window, pane, line)
 				if line then
-					wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
+					mux.rename_workspace(mux.get_active_workspace(), line)
 				end
 			end),
 		}),

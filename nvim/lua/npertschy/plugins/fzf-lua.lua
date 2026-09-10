@@ -112,7 +112,7 @@ return {
           winopts = {
             preview = {
               layout = 'horizontal',
-              horizontal = 'down:60%',
+              horizontal = 'down:70%',
             },
           },
           code_actions = {
