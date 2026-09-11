@@ -172,10 +172,55 @@ local basenameWorkingDir = function(s)
 end
 
 wezterm.on("update-status", function(window, pane)
+	local left_status_text = {}
+
+	local active_workspace = window:active_workspace()
+	local workspace_names = wezterm.mux.get_workspace_names()
+
+	for _, name in ipairs(workspace_names) do
+		local active = name == active_workspace
+
+		table.insert(left_status_text, {
+			Foreground = {
+				Color = active and "#e06c75" or "#545862",
+			},
+		})
+
+		table.insert(left_status_text, {
+			Text = active and " [" or "",
+		})
+
+		table.insert(left_status_text, {
+			Text = " " .. name .. " ",
+		})
+
+		table.insert(left_status_text, {
+			Text = active and "] " or "",
+		})
+
+		table.insert(left_status_text, {
+			Background = {
+				Color = "none",
+			},
+		})
+	end
+
+	table.insert(left_status_text, {
+		Foreground = {
+			Color = "#e5c07b",
+		},
+	})
+	table.insert(left_status_text, {
+		Text = " | ",
+	})
+
+	-- Left status (left of the tab line)
+	window:set_left_status(wezterm.format(left_status_text))
+
 	local mode = nil
 	local mode_color = nil
 
-	local left_status_text = {}
+	local right_status_text = {}
 
 	if window:active_key_table() then
 		mode = window:active_key_table()
@@ -186,95 +231,45 @@ wezterm.on("update-status", function(window, pane)
 	end
 
 	if mode then
-		table.insert(left_status_text, {
-			Background = {
+		table.insert(right_status_text, {
+			Foreground = {
 				Color = mode_color,
 			},
 		})
 
-		table.insert(left_status_text, {
-			Foreground = {
-				Color = "#1a1b26",
-			},
-		})
-
-		table.insert(left_status_text, {
+		table.insert(right_status_text, {
 			Text = " " .. wezterm.nerdfonts.md_keyboard .. " " .. mode .. " ",
 		})
 
-		table.insert(left_status_text, "ResetAttributes")
+		table.insert(right_status_text, "ResetAttributes")
 
-		table.insert(left_status_text, {
-			Foreground = {
-				Color = "#565f89",
-			},
-		})
-
-		table.insert(left_status_text, {
-			Text = " | ",
-		})
+		table.insert(right_status_text, { Text = " | " })
 	end
-
-	local active_workspace = window:active_workspace()
-	local workspace_names = wezterm.mux.get_workspace_names()
-
-	for _, name in ipairs(workspace_names) do
-		local active = name == active_workspace
-
-		table.insert(left_status_text, {
-			Background = {
-				Color = active and "#e06c75" or "#545862",
-			},
-		})
-
-		table.insert(left_status_text, {
-			Foreground = {
-				Color = active and "#282c34" or "#c8ccd4",
-			},
-		})
-
-		table.insert(left_status_text, {
-			Text = " " .. name .. " ",
-		})
-
-		table.insert(left_status_text, {
-			Background = {
-				Color = "none",
-			},
-		})
-	end
-
-	-- Left status (left of the tab line)
-	window:set_left_status(wezterm.format(left_status_text))
 
 	-- Current working directory
 	local cwd = pane:get_current_working_dir()
 	cwd = cwd and cwd.file_path or ""
 	cwd = cwd and basenameWorkingDir(cwd) or ""
+	table.insert(right_status_text, { Foreground = { Color = "#98c379" } })
+	table.insert(right_status_text, { Text = wezterm.nerdfonts.md_folder .. "  " .. cwd })
+	table.insert(right_status_text, "ResetAttributes")
 
 	-- Current command
 	local cmd = pane:get_foreground_process_name()
 	-- CWD and CMD could be nil (e.g. viewing log using Ctrl-Alt-l)
 	cmd = cmd and basename(cmd) or ""
+	table.insert(right_status_text, { Text = " | " })
+	table.insert(right_status_text, { Foreground = { Color = "#e5c07b" } })
+	table.insert(right_status_text, { Text = wezterm.nerdfonts.fa_code .. "  " .. cmd })
+	table.insert(right_status_text, "ResetAttributes")
 
 	-- Time
 	local time = wezterm.strftime("%H:%M")
-
+	table.insert(right_status_text, { Text = " | " })
+	table.insert(right_status_text, { Text = wezterm.nerdfonts.md_clock .. "  " .. time })
+	table.insert(right_status_text, { Text = "  " })
 	-- Right status
-	window:set_right_status(wezterm.format({
-		-- Wezterm has a built-in nerd fonts
-		-- https://wezfurlong.org/wezterm/config/lua/wezterm/nerdfonts.html
-		{ Foreground = { Color = "#98c379" } },
-		{ Text = wezterm.nerdfonts.md_folder .. "  " .. cwd },
-		"ResetAttributes",
-		{ Text = " | " },
-		{ Foreground = { Color = "#e5c07b" } },
-		{ Text = wezterm.nerdfonts.fa_code .. "  " .. cmd },
-		"ResetAttributes",
-		{ Text = " | " },
-		{ Text = wezterm.nerdfonts.md_clock .. "  " .. time },
-		{ Text = "  " },
-	}))
+	window:set_right_status(wezterm.format(right_status_text))
 end)
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)

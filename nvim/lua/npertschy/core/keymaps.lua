@@ -85,4 +85,9 @@ end, { desc = '[T]oggle [D]iff for all windows' })
 vim.keymap.set('n', '<M-n>', ']c', { desc = 'Next diff change' })
 vim.keymap.set('n', '<M-N>', '[c', { desc = 'Prev diff change' })
 
-vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
+vim.keymap.set('n', 'J', function()
+  local view = vim.fn.winsaveview()
+  vim.cmd.normal({ 'J', bang = true })
+  vim.fn.winrestview(view)
+end, { desc = 'Join lines and keep cursor position' })
+
