@@ -124,12 +124,12 @@ end
 
 -- next or previous workspace
 table.insert(config.keys, {
-	key = "RightArrow",
+	key = "L",
 	mods = "LEADER",
 	action = act.SwitchWorkspaceRelative(1),
 })
 table.insert(config.keys, {
-	key = "LeftArrow",
+	key = "H",
 	mods = "LEADER",
 	action = act.SwitchWorkspaceRelative(-1),
 })
@@ -182,7 +182,7 @@ wezterm.on("update-status", function(window, pane)
 		mode_color = "#61afef"
 	elseif window:leader_is_active() then
 		mode = "LDR"
-		mode_color = "#e06c75"
+		mode_color = "#c678dd"
 	end
 
 	if mode then
@@ -223,7 +223,7 @@ wezterm.on("update-status", function(window, pane)
 
 		table.insert(left_status_text, {
 			Background = {
-				Color = active and "#98c379" or "#545862",
+				Color = active and "#e06c75" or "#545862",
 			},
 		})
 
@@ -264,7 +264,7 @@ wezterm.on("update-status", function(window, pane)
 	window:set_right_status(wezterm.format({
 		-- Wezterm has a built-in nerd fonts
 		-- https://wezfurlong.org/wezterm/config/lua/wezterm/nerdfonts.html
-		{ Foreground = { Color = "#c678dd" } },
+		{ Foreground = { Color = "#98c379" } },
 		{ Text = wezterm.nerdfonts.md_folder .. "  " .. cwd },
 		"ResetAttributes",
 		{ Text = " | " },
@@ -293,3 +293,4 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	}
 end)
 return config
+
