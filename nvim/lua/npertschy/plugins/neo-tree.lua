@@ -19,7 +19,7 @@ return {
       filtered_items = {
         visible = true,
       },
-      group_empty_dirs = true,
+      group_empty_dirs = false,
       use_libuv_file_watcher = true,
       window = {
         mappings = {

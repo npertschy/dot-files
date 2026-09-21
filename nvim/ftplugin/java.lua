@@ -70,7 +70,6 @@ local config = {
   },
   on_attach = function(client, bufnr)
     if root_dir ~= '' then
-      vim.keymap.set('n', '<leader>co', jdtls.organize_imports, { desc = 'Organize imports', buffer = bufnr })
       vim.keymap.set('n', '<leader>jtc', jdtls.test_class, { desc = 'Test class', buffer = bufnr })
       vim.keymap.set('n', '<leader>jtm', jdtls.test_nearest_method, { desc = 'Test method', buffer = bufnr })
       vim.keymap.set('n', '<leader>jtp', jdtls.pick_test, { desc = 'Pick and run Test', buffer = bufnr })

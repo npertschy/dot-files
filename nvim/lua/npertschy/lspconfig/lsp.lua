@@ -57,7 +57,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       fzf.lsp_workspace_symbols()
     end, '[S]earch [S]ymbols in Workspace')
 
-    map('<leader>cr', vim.lsp.buf.rename, '[R]ename')
     map('<M-CR>', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
 

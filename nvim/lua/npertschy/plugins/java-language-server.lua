@@ -30,7 +30,13 @@ return {
     'artur-shaik/jc.nvim',
     ft = { 'java' },
     opts = {
-      keys_prefix = '<leader>j',
+      default_mappings = false,
+      map_gf = false,
+      on_attach = function(client, bufnr)
+        vim.keymap.set('n', '<leader>jo', '<cmd>JCimportsOrganizeNoSort<cr>', { desc = 'Organize imports', buffer = bufnr })
+        vim.keymap.set('n', '<leader>jO', '<cmd>JCimportsOrganizeSmart<cr>', { desc = 'Organize imports (smart)', buffer = bufnr })
+        vim.keymap.set('n', '<leader>jn', '<cmd>JCgenerateClass<cr>', { desc = 'Organize imports (smart)', buffer = bufnr })
+      end,
     },
   },
 }

@@ -27,20 +27,6 @@ config.inactive_pane_hsb = {
 	brightness = 0.5,
 }
 
-local mux = wezterm.mux
-
-wezterm.on("gui-startup", function()
-	mux.spawn_window({
-		workspace = "Projects",
-		cwd = "~/Projects/",
-	})
-
-	mux.spawn_window({
-		workspace = "Dot-files",
-		cwd = "~/Projects/dot-files/",
-	})
-end)
-
 local act = wezterm.action
 config.leader = { key = "ö", mods = "CTRL", timeout_milliseconds = 1500 }
 config.keys = {
@@ -93,25 +79,6 @@ config.keys = {
 	-- Or shortcuts to move tab w/o move_tab table. SHIFT is for when caps lock is on
 	{ key = "{", mods = "LEADER|SHIFT", action = act.MoveTabRelative(-1) },
 	{ key = "}", mods = "LEADER|SHIFT", action = act.MoveTabRelative(1) },
-
-	-- Lastly, workspace
-	{ key = "w", mods = "LEADER", action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
-	{
-		key = "E",
-		mods = "LEADER",
-		action = act.PromptInputLine({
-			description = wezterm.format({
-				{ Attribute = { Intensity = "Bold" } },
-				{ Foreground = { AnsiColor = "Fuchsia" } },
-				{ Text = "Rename workspace:" },
-			}),
-			action = wezterm.action_callback(function(window, pane, line)
-				if line then
-					mux.rename_workspace(mux.get_active_workspace(), line)
-				end
-			end),
-		}),
-	},
 }
 -- I can use the tab navigator (LDR t), but I also want to quickly navigate tabs with index
 for i = 1, 9 do
@@ -121,18 +88,6 @@ for i = 1, 9 do
 		action = act.ActivateTab(i - 1),
 	})
 end
-
--- next or previous workspace
-table.insert(config.keys, {
-	key = "L",
-	mods = "LEADER",
-	action = act.SwitchWorkspaceRelative(1),
-})
-table.insert(config.keys, {
-	key = "H",
-	mods = "LEADER",
-	action = act.SwitchWorkspaceRelative(-1),
-})
 
 config.key_tables = {
 	resize_pane = {
@@ -172,120 +127,59 @@ local basenameWorkingDir = function(s)
 end
 
 wezterm.on("update-status", function(window, pane)
-	local left_status_text = {}
-
-	local active_workspace = window:active_workspace()
-	local workspace_names = wezterm.mux.get_workspace_names()
-
-	for _, name in ipairs(workspace_names) do
-		local active = name == active_workspace
-
-		table.insert(left_status_text, {
-			Foreground = {
-				Color = active and "#e06c75" or "#545862",
-			},
-		})
-
-		table.insert(left_status_text, {
-			Text = active and " [" or "",
-		})
-
-		table.insert(left_status_text, {
-			Text = " " .. name .. " ",
-		})
-
-		table.insert(left_status_text, {
-			Text = active and "] " or "",
-		})
-
-		table.insert(left_status_text, {
-			Background = {
-				Color = "none",
-			},
-		})
-	end
-
-	table.insert(left_status_text, {
-		Foreground = {
-			Color = "#e5c07b",
-		},
-	})
-	table.insert(left_status_text, {
-		Text = " | ",
-	})
-
-	-- Left status (left of the tab line)
-	window:set_left_status(wezterm.format(left_status_text))
-
-	local mode = nil
-	local mode_color = nil
-
-	local right_status_text = {}
-
+	-- Workspace name
+	local stat = window:active_workspace()
+	local stat_color = "#f7768e"
+	-- It's a little silly to have workspace name all the time
+	-- Utilize this to display LDR or current key table name
 	if window:active_key_table() then
-		mode = window:active_key_table()
-		mode_color = "#61afef"
-	elseif window:leader_is_active() then
-		mode = "LDR"
-		mode_color = "#c678dd"
+		stat = window:active_key_table()
+		stat_color = "#7dcfff"
 	end
-
-	if mode then
-		table.insert(right_status_text, {
-			Foreground = {
-				Color = mode_color,
-			},
-		})
-
-		table.insert(right_status_text, {
-			Text = " " .. wezterm.nerdfonts.md_keyboard .. " " .. mode .. " ",
-		})
-
-		table.insert(right_status_text, "ResetAttributes")
-
-		table.insert(right_status_text, { Text = " | " })
+	if window:leader_is_active() then
+		stat = "LDR"
+		stat_color = "#bb9af7"
 	end
-
-	-- Current working directory
-	local cwd = pane:get_current_working_dir()
-	cwd = cwd and cwd.file_path or ""
-	cwd = cwd and basenameWorkingDir(cwd) or ""
-	table.insert(right_status_text, { Foreground = { Color = "#98c379" } })
-	table.insert(right_status_text, { Text = wezterm.nerdfonts.md_folder .. "  " .. cwd })
-	table.insert(right_status_text, "ResetAttributes")
 
 	-- Current command
 	local cmd = pane:get_foreground_process_name()
 	-- CWD and CMD could be nil (e.g. viewing log using Ctrl-Alt-l)
 	cmd = cmd and basename(cmd) or ""
-	table.insert(right_status_text, { Text = " | " })
-	table.insert(right_status_text, { Foreground = { Color = "#e5c07b" } })
-	table.insert(right_status_text, { Text = wezterm.nerdfonts.fa_code .. "  " .. cmd })
-	table.insert(right_status_text, "ResetAttributes")
 
 	-- Time
 	local time = wezterm.strftime("%H:%M")
-	table.insert(right_status_text, { Text = " | " })
-	table.insert(right_status_text, { Text = wezterm.nerdfonts.md_clock .. "  " .. time })
-	table.insert(right_status_text, { Text = "  " })
+
+	-- Left status (left of the tab line)
+	window:set_left_status(wezterm.format({
+		{ Foreground = { Color = stat_color } },
+		{ Text = "  " },
+		{ Text = wezterm.nerdfonts.oct_table .. "  " .. stat },
+		{ Text = " |" },
+	}))
+
 	-- Right status
-	window:set_right_status(wezterm.format(right_status_text))
+	window:set_right_status(wezterm.format({
+		-- Wezterm has a built-in nerd fonts
+		-- https://wezfurlong.org/wezterm/config/lua/wezterm/nerdfonts.html
+		{ Foreground = { Color = "#e0af68" } },
+		{ Text = wezterm.nerdfonts.fa_code .. "  " .. cmd },
+		"ResetAttributes",
+		{ Text = " | " },
+		{ Text = wezterm.nerdfonts.md_clock .. "  " .. time },
+		{ Text = "  " },
+	}))
 end)
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	-- Show custom tab title if set, otherwise show default (cwd or process)
 	local index = tab.tab_index + 1
 	local current_tab = tabs[index]
-	if current_tab.tab_title and #current_tab.tab_title > 0 then
-		return {
-			{ Text = " " .. index .. " - " .. current_tab.tab_title .. " " },
-		}
-	end
 	local pane = current_tab.active_pane
-	local cwd = basename(pane.foreground_process_name)
+	local cwd = pane.current_working_dir
+	cwd = cwd and cwd.file_path or ""
+	cwd = cwd and basenameWorkingDir(cwd) or ""
 	return {
 		{ Text = " " .. index .. " - " .. cwd .. " " },
 	}
 end)
 return config
-
