@@ -9,38 +9,6 @@ return {
     local move = require 'nvim-treesitter-textobjects.move'
     return {
       {
-        'a=',
-        function()
-          select.select_textobject('@assignment.outer', 'textobjects')
-        end,
-        desc = 'Select outer part of an assignment',
-        mode = { 'v', 'o', 'x' },
-      },
-      {
-        'i=',
-        function()
-          select.select_textobject('@assignment.inner', 'textobjects')
-        end,
-        desc = 'Select inner part of an assignment',
-        mode = { 'v', 'o', 'x' },
-      },
-      {
-        'l=',
-        function()
-          select.select_textobject('@assignment.lhs', 'textobjects')
-        end,
-        desc = 'Select left hand side of an assignment',
-        mode = { 'v', 'o', 'x' },
-      },
-      {
-        'r=',
-        function()
-          select.select_textobject('@assignment.rhs', 'textobjects')
-        end,
-        desc = 'Select right hand side of an assignment',
-        mode = { 'v', 'o', 'x' },
-      },
-      {
         'aa',
         function()
           select.select_textobject('@parameter.outer', 'textobjects')

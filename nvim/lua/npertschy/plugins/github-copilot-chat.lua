@@ -123,7 +123,7 @@ return {
     },
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'neovim-treesitter/nvim-treesitter',
+      'nvim-treesitter/nvim-treesitter',
       'ravitemer/codecompanion-history.nvim',
     },
     keys = {
