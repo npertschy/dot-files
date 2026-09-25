@@ -18,7 +18,9 @@ return {
   },
   {
     'smjonas/inc-rename.nvim',
-    opts = {},
+    opts = {
+      save_in_cmdline_history = false,
+    },
     keys = {
       {
         '<leader>cr',
