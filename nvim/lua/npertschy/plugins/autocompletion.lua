@@ -43,6 +43,16 @@ return {
         },
       },
       menu = {
+        border = 'rounded',
+        min_width = 62,
+        cmdline_position = function()
+          if vim.g.ui_cmdline_pos ~= nil then
+            local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+            return { pos[1], pos[2] - 1 }
+          end
+          local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+          return { vim.o.lines - height, 0 }
+        end,
         draw = {
           columns = { { 'kind_icon' }, { 'label' }, { 'label_description', gap = 1 } },
           components = {
@@ -74,6 +84,9 @@ return {
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 0,
+        window = {
+          border = 'rounded',
+        },
       },
       ghost_text = {
         enabled = true,
@@ -125,7 +138,10 @@ return {
       },
     },
 
-    signature = { enabled = true, window = { border = 'rounded' } },
+    signature = {
+      enabled = true,
+      window = { border = 'rounded' },
+    },
   },
   opts_extend = {
     'sources.default',

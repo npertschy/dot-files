@@ -13,6 +13,10 @@ return {
         ['@lsp.type.decorator.java'] = { fg = colors.cyan },
         ['@lsp.type.interface.java'] = { fg = colors.green, italic = true },
 
+        BlinkCmpMenuBorder = { fg = colors.blue },
+        BlinkCmpDocBorder = { fg = colors.blue },
+        BlinkCmpSignatureHelpBorder = { fg = colors.blue },
+
         DiagnosticUnderlineError = { fg = 'NONE', sp = colors.red, undercurl = true },
         DiagnosticUnderlineWarn = { fg = 'NONE', sp = colors.orange, undercurl = true },
         DiagnosticUnderlineInfo = { fg = 'NONE', sp = colors.green, undercurl = true },
